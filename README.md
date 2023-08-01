@@ -8,3 +8,16 @@ JOGO IDEAL:
   Os nossos personagens são dois jovens adultos, acabaram de entrar no mundo do trabalho, irão passar por tudo que for mais tediante possível. Não sabem o porquê de fazerem isso, apenas sobrevivem de segunda a sexta esperando chegar o final de semana. Estilo de vida esse que pode ser visto como um absurdo, mas acredito não ser diferente de grande parte das pessoas
   Nosso objetivo maior é transformar essa parte automática das nossas vidas, a parte mais normal e sem graça, em algo fora no normal. Trazer do tédio uma experiência divertida. 
 
+REFERÊNCIA: 
+  Como referência da tela em que se viaja pelas fases usaremos o Super Mário World, o Crash e o Donkey Kong - 
+
+    https://s2-techtudo.glbimg.com/JkiwHTYFeioCpHrc_3ldg-V-l4s=/0x0:695x390/1000x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2020/E/p/y68LFGRNiQflca56juZQ/super- 
+    mario-world-snes-nintendo-dicas-saidas-secretas.jpg
+    https://static.wikia.nocookie.net/donkey-kong/images/0/02/Kremisf%C3%A9rio_Norte.png/revision/latest?cb=20191204015639&path-prefix=pt
+
+  O jogo será de plataforma - 
+  
+    https://i.pinimg.com/236x/4a/ea/6a/4aea6aeb402b61e37bb6d58efd791e37--arte-pixel-pixel-art.jpg 
+    https://jogosmobilebr.com.br/wp-content/uploads/2021/03/71.jpg
+
+    
