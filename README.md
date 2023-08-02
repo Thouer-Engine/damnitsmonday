@@ -52,8 +52,22 @@ Objetivo do jogo é intreter de uma forma divertiva. Junto à isso instruir os j
 
 Para arrecadar receita para os próximos projetos e para a despesa desse próprio terão anúncios a cada fase passada, a terá a venda do jogo Damn It's Monday e terá uma caixa de doações. 
 
+## Fases 
+### Fase1: 
+Primeira fase, extramamente triste e cinza, música melancólica, apresentação dos personagens, vilão final é o Monstro relatório atrasado. 
 
+### Fase2: 
+Essa fase tem uma progressão pequena na jornada, ambientação minimamente mais colorida, Plínio já terá aprendido já alguns ensinamentos de Beto. Vilão final é um monstro nónibus lotado. 
 
+### Fase 3: 
+Já é possível ver uma certa progressão do personagem principal por conta da áurea do nosso sábio Beto. É possível notar alguns pontos de cor e vida. O vilão principal será um guarda-chuva quebrado. 
+
+### Fase 4: 
+
+A penúltima fase do jogo. É notável a evolução do personagem e de seu mundo. A vida não é algo tão sem sentido e destino. O vilão final dessa fase, será um monstro de Conta atrasada 
+
+### Fase 5: 
+Última fase, a vida do nosso personagem não é mais algo automático e sem cor. Beto, nosso pequeno sábio conseguiu fazer seu novo amigo a progredir no jogo e na vida
 
 
     
