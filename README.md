@@ -39,6 +39,16 @@ Beto - uma criança de 8 anos, extremamente curiosa, possui pouca bagagem de con
 * Deve concluir cada mapa sequencialmente para chegar ao final do jogo
 * 3 vidas
 * Não haverá armas, apenas a mão
+* Cada jogador controla um personagem, sendo dois no máximo
+* de movimentar apenas para direita, esquerca, baixo e cima
+* irá matar os inimigos com golpes com as mãos
+
+
+## Objetivo 
+
+Objetivo do jogo é intreter de uma forma divertiva. Junto à isso instruir os jogadores a fazer reflexões sobre a falta de proveito da vida. 
+
+
 
 
     
