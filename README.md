@@ -38,5 +38,7 @@ Beto - uma criança de 8 anos, extremamente curiosa, possui pouca bagagem de con
 * 7 mapas
 * Deve concluir cada mapa sequencialmente para chegar ao final do jogo
 * 3 vidas
+* Não haverá armas, apenas a mão
+
 
     
