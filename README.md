@@ -35,7 +35,7 @@ Beto - uma criança de 8 anos, extremamente curiosa, possui pouca bagagem de con
 
 ## Regras do Jogo 
 * Câmera fixa no jogador
-* 7 mapas
+* 5 mapas
 * Deve concluir cada mapa sequencialmente para chegar ao final do jogo
 * 3 vidas
 * Não haverá armas, apenas a mão
@@ -47,6 +47,11 @@ Beto - uma criança de 8 anos, extremamente curiosa, possui pouca bagagem de con
 ## Objetivo 
 
 Objetivo do jogo é intreter de uma forma divertiva. Junto à isso instruir os jogadores a fazer reflexões sobre a falta de proveito da vida. 
+
+## Receita 
+
+Para arrecadar receita para os próximos projetos e para a despesa desse próprio terão anúncios a cada fase passada, a terá a venda do jogo Damn It's Monday e terá uma caixa de doações. 
+
 
 
 
