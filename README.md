@@ -70,5 +70,4 @@ A penúltima fase do jogo. É notável a evolução do personagem e de seu mundo
 ### Fase 5: 
 Última fase, a vida do nosso personagem não é mais algo automático e sem cor. Beto, nosso pequeno sábio conseguiu fazer seu novo amigo a progredir no jogo e na vida
 
-
-    
+teste
