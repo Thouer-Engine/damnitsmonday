@@ -51,7 +51,7 @@ Objetivo do jogo é intreter de uma forma divertiva. Junto à isso instruir os j
 ## Receita 
 
 Para arrecadar receita para os próximos projetos e para a despesa desse próprio terão anúncios a cada fase passada, a terá a venda do jogo Damn It's Monday e terá uma caixa de doações. 
-Nossa maior despesa será para a distribuição do nosso jogo. Usaremos de métodos de tráfego pago para conseguir atingir o máximo de pessoas para comprar o nosso jogo. Também teremos despesas com a alocação do servidor na núvem para deixar nosso jogo no ar e o nosso tempo de mão de obra. 
+Nossa maior despesa será para a distribuição do nosso jogo. Usaremos de métodos de tráfego pago para conseguir atingir o máximo de pessoas para comprar o nosso jogo. Teremos despesas com as os anúncios e nossa mão de obra.
 
 ## Fases 
 ### Fase1: 
