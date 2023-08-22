@@ -7,7 +7,7 @@ class Game extends Phaser.Game {
     constructor () {
         super(config)
 
-        this.scene.add('cena0',cena0)
+        this.scene.add('cena0', cena0)
         this.scene.start('cena0')
     }
 }
