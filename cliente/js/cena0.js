@@ -4,7 +4,7 @@ export default class cena0 extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('ifsc-sj-2014', './assets/ifsc-sj-2014.png')
+        this.load.image('ifsc-sj-2014', '../assets/ifsc-sj-2014.png')
     }
 
     create() {
