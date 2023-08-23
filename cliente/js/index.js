@@ -1,4 +1,4 @@
-/*importação dos objeto*/
+/* importação dos objeto */
 
 import cena0 from './cena0.js'
 import config from './config.js'
@@ -15,4 +15,3 @@ class Game extends Phaser.Game {
 window.onload = () => {
     window.game = new Game()
 }
-
