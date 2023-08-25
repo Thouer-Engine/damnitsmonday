@@ -8,7 +8,7 @@ export default class cena0 extends Phaser.Scene {
         this.load.image('ifsc-sj-2014', '../assets/fundo_final.png')
         this.load.spritesheet('derek', '../assets/derek.png',
             {
-                frameWidth: 64,
+                frameWidth: 64,  //plínio - 60x90  beto- 50x55
                 frameHeight: 64
             })
 
