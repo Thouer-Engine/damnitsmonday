@@ -2,13 +2,14 @@
 
 export default {
   type: Phaser.AUTO,
+  pixelArt: true,
   width: 800,
   height: 450,
   parent: 'game-container',
   physics: {
     default: 'arcade',
     arcade: {
-      gravity: { y: 0 },
+      gravity: { y: 1500 },
       debug: true
     }
   },
