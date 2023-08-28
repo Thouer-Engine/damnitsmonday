@@ -5,7 +5,7 @@ export default class cena0 extends Phaser.Scene {
 
     preload() {
 
-        this.load.image('ifsc-sj-2014', '../assets/fundo_final.png')
+        this.load.image('fundofinal', '../assets/fundo_final.png')
         this.load.spritesheet('beto', '../assets/beto_sprite.png',
             {
                 frameWidth: 50,  //plínio - 60x90  beto- 50x55
@@ -19,7 +19,7 @@ export default class cena0 extends Phaser.Scene {
 
     }
     create() {
-        this.add.image(400, 225, 'ifsc-sj-2014')
+        this.add.image(400, 225, 'fundofinal')
         var chao = this.add.rectangle(0, 350, 800, 30, '#3333').setOrigin(0, 0);
         this.physics.add.existing(chao);
         chao.body.allowGravity = false;
