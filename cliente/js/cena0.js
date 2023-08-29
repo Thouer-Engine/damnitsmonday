@@ -68,17 +68,6 @@ export default class cena0 extends Phaser.Scene {
             frameRate: 8,
             repeat: -1
         })
-
-        this.anims.create({
-            key: 'plinio-parado',
-            frames: this.anims.generateFrameNumbers('plinio', {
-                start: 18,
-                end: 24
-            }),
-            frameRate: 2,
-            repeat: -1
-        })
-
         this.anims.create({
             key: 'plinio-esquerda',
             frames: this.anims.generateFrameNumbers('plinio', {
@@ -88,6 +77,26 @@ export default class cena0 extends Phaser.Scene {
             frameRate: 2,
             repeat: -1
         })
+
+        this.anims.create({
+            key: 'plinio-parado-direita',
+            frames: this.anims.generateFrameNumbers('plinio', {
+                start: 18,
+                end: 24
+            }),
+            frameRate: 2,
+            repeat: -1
+        })
+        this.anims.create({
+            key: 'plinio-parado-esquerda',
+            frames: this.anims.generateFrameNumbers('plinio', {
+                start: 26,
+                end: 32
+            }),
+            frameRate: 2,
+            repeat: -1
+        })
+
 
         this.direita = this.add.sprite(150, 350, 'direita')
             .setInteractive()
@@ -99,7 +108,7 @@ export default class cena0 extends Phaser.Scene {
                 .on('pointerup', () => { 
                     this.direita.setFrame(0)
                     this.plinio.setVelocityX(0)
-                    this.plinio.anims.play('plinio-parado', true)
+                    this.plinio.anims.play('plinio-parado-direita', true)
                 })
                 
         
@@ -109,7 +118,13 @@ export default class cena0 extends Phaser.Scene {
                 this.plinio.setVelocityX(-100)
                 this.esquerda.setFrame(1)
                 this.plinio.anims.play('plinio-esquerda', true)
-                })
+            })
+            .on('pointerup', () => {
+                this.esquerda.setFrame(0)
+                this.plinio.setVelocityX(0)
+                this.plinio.anims.play('plinio-parado-esquerda')
+            } )
+            
         /*fazer o mesmo para o beto*/
         
     }
