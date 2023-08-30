@@ -74,7 +74,7 @@ export default class cena0 extends Phaser.Scene {
                 start: 9,
                 end: 17
             }),
-            frameRate: 2,
+            frameRate: 8,
             repeat: -1
         })
 
