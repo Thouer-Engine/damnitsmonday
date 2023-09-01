@@ -5,33 +5,33 @@ export default class cena0 extends Phaser.Scene {
 
     preload() {
 
-        this.load.image('fundofinal', '../assets/startteste.png')
+        this.load.image('fundofinal', '../assets/cenário/startteste.png')
        
-        this.load.spritesheet('beto', '../assets/beto_sprite.png',
+        this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
             {
                 frameWidth: 50,  //plínio - 60x90  beto- 50x55
                 frameHeight: 55
             })
        
-        this.load.spritesheet('plinio', '../assets/plinio_sprite.png',
+        this.load.spritesheet('plinio', '../assets/personagem/plinio_sprite.png',
             {
                 frameWidth: 60,
                 frameHeight:90
             })
         
-        this.load.spritesheet('direita', '../assets/direita.png', {
+        this.load.spritesheet('direita', '../assets/botão/direita.png', {
             frameWidth: 64, 
             frameHeight: 64
         })
-        this.load.spritesheet('esquerda', '../assets/esquerda.png', {
+        this.load.spritesheet('esquerda', '../assets/botão/esquerda.png', {
             frameWidth: 64,
             frameHeight: 64
         })
-        this.load.spritesheet('cima', '../assets/cima.png', {
+        this.load.spritesheet('cima', '../assets/botão/cima.png', {
             frameWidth: 64,
             frameHeight: 64
         })
-        this.load.spritesheet('baixo', '../assets/baixo.png', {
+        this.load.spritesheet('baixo', '../assets/botão/baixo.png', {
             frameWidth: 64,
             frameHeight: 64
         })
@@ -54,6 +54,13 @@ export default class cena0 extends Phaser.Scene {
         
         this.plinio = this.physics.add.sprite(500, 225, 'plinio')
             .setScale(1.5, 1.5)
+       
+       
+       
+        this.plinio.canJump = true
+       
+        
+
 
         this.physics.add.collider(this.beto, chao)
         this.physics.add.collider(this.plinio,chao)
@@ -77,6 +84,16 @@ export default class cena0 extends Phaser.Scene {
             frameRate: 8,
             repeat: -1
         })
+
+        this.anims.create({
+            key: 'plinio-up',
+            frames: this.anims.generateFrameNumbers('plinio', {
+                start: 3,
+                end: 3
+            }),
+            frameRate: 1,
+        }
+        )
 
         this.anims.create({
             key: 'plinio-parado-direita',
@@ -125,8 +142,22 @@ export default class cena0 extends Phaser.Scene {
                 this.plinio.anims.play('plinio-parado-esquerda')
             } )
             
-        /*fazer o mesmo para o beto*/
+        this.up = this.add.sprite(115, 290, 'cima')
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.plinio.canJump = true
+                this.up.setFrame(1)
+                this.plinio.setVelocityY(-500)
+                this.plinio.anims.play('plinio-up')
+                
+            })
+            .on('pointerup', () => {
+                this.up.setFrame(0)
+                
+            })
         
+        /*fazer o mesmo para o beto*/    
+    
     }
     
 
