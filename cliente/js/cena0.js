@@ -36,6 +36,12 @@ export default class cena0 extends Phaser.Scene {
             frameHeight: 64
         })
 
+        this.load.spritesheet('tela_cheia', '../assets/botão/telacheia.png', {
+            frameWidth: 64,
+            frameHeight: 64
+        })
+
+
 
 
 
@@ -43,16 +49,31 @@ export default class cena0 extends Phaser.Scene {
     }
 
     create() {
-        this.add.image(400, 225, 'fundofinal')
+        this.fundo = this.add.image(400, 225, 'fundofinal')
         
         var chao = this.add.rectangle(0, 350, 800, 30,).setOrigin(0, 0);
         this.physics.add.existing(chao);
         chao.body.allowGravity = false;
         chao.body.setImmovable(true);
+
+        this.telacheia = this.add
+            .sprite(750, 50, 'tela_cheia', 0)
+            .setInteractive()
+            .on('pointerdown', () => {
+                if (this.scale.isFullscreen) {
+                    this.telacheia.setFrame(0)
+                    this.scale.stopFullscreen()
+                } else {
+                    this.telacheia.setFrame(1)
+                    this.scale.startFullscreen()
+                }
+            })
+            .setScrollFactor(0, 0)
         
-        this.beto = this.physics.add.sprite(400, 225, 'beto')
+       
+        this.beto = this.physics.add.sprite(500, 225, 'beto')
         
-        this.plinio = this.physics.add.sprite(500, 225, 'plinio')
+        this.plinio = this.physics.add.sprite(400, 225, 'plinio')
             .setScale(1.5, 1.5)
        
        
@@ -145,16 +166,23 @@ export default class cena0 extends Phaser.Scene {
         this.up = this.add.sprite(115, 290, 'cima')
             .setInteractive()
             .on('pointerdown', () => {
-                this.plinio.canJump = true
-                this.up.setFrame(1)
-                this.plinio.setVelocityY(-500)
-                this.plinio.anims.play('plinio-up')
-                
+                if (this.plinio.body.touching.down) {
+                    this.plinio.canJump = true
+                    this.up.setFrame(1)
+                    this.plinio.setVelocityY(-500)
+                    this.plinio.anims.play('plinio-up')
+                }
             })
             .on('pointerup', () => {
                 this.up.setFrame(0)
                 
             })
+        
+        /*camera*/
+        this.plinio.setCollideWorldBounds(true)
+        this.physics.world.setBounds(0, 0, 10000, 450, true,true,false,true)
+        this.cameras.main.setBounds(0,0,1000,450).startFollow(this.plinio)
+
         
         /*fazer o mesmo para o beto*/    
     
