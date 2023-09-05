@@ -5,7 +5,7 @@ export default class cena0 extends Phaser.Scene {
 
     preload() {
 
-        this.load.image('fundofinal', '../assets/cenário/startteste.png')
+        this.load.image('fundofinal', '../assets/cenário/fundo_final.png')
        
         this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
             {
@@ -180,8 +180,8 @@ export default class cena0 extends Phaser.Scene {
         
         /*camera*/
         this.plinio.setCollideWorldBounds(true)
-        this.physics.world.setBounds(0, 0, 10000, 450, true,true,false,true)
-        this.cameras.main.setBounds(0,0,1000,450).startFollow(this.plinio)
+        this.physics.world.setBounds(0, 0, 100000000, 450, true,true,false,true)
+        this.cameras.main.setBounds(0,0,1000000,450).startFollow(this.plinio)
 
         
         /*fazer o mesmo para o beto*/    
