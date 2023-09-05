@@ -4,7 +4,7 @@ export default class cenastart extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('cena-start', '../assets/cenário/startteste.png')
+    this.load.image('cena-start', '../assets/cenário/fundo_final.png')
     this.load.image('startbotton', '../assets/start_botton.png')
     this.load.spritesheet('tela_cheia', '../assets/botão/telacheia.png', {
       frameWidth: 64,

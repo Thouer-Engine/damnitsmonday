@@ -56,6 +56,7 @@ export default class cena0 extends Phaser.Scene {
         chao.body.allowGravity = false;
         chao.body.setImmovable(true);
 
+/*telacheia*/
         this.telacheia = this.add
             .sprite(750, 50, 'tela_cheia', 0)
             .setInteractive()
@@ -67,17 +68,17 @@ export default class cena0 extends Phaser.Scene {
                     this.telacheia.setFrame(1)
                     this.scale.startFullscreen()
                 }
-            })
-            .setScrollFactor(0, 0)
+        })
+        .setScrollFactor(0)
         
        
+/*Personagens*/
+        
         this.beto = this.physics.add.sprite(500, 225, 'beto')
         
         this.plinio = this.physics.add.sprite(400, 225, 'plinio')
-            .setScale(1.5, 1.5)
-       
-       
-       
+        .setScale(1, 1)
+        
         this.plinio.canJump = true
        
         
@@ -86,7 +87,7 @@ export default class cena0 extends Phaser.Scene {
         this.physics.add.collider(this.beto, chao)
         this.physics.add.collider(this.plinio,chao)
             
-
+/*anims create*/
         this.anims.create({
             key: 'plinio-direita',
             frames: this.anims.generateFrameNumbers('plinio', {
@@ -105,7 +106,6 @@ export default class cena0 extends Phaser.Scene {
             frameRate: 8,
             repeat: -1
         })
-
         this.anims.create({
             key: 'plinio-up',
             frames: this.anims.generateFrameNumbers('plinio', {
@@ -113,9 +113,7 @@ export default class cena0 extends Phaser.Scene {
                 end: 3
             }),
             frameRate: 1,
-        }
-        )
-
+        })
         this.anims.create({
             key: 'plinio-parado-direita',
             frames: this.anims.generateFrameNumbers('plinio', {
@@ -135,22 +133,22 @@ export default class cena0 extends Phaser.Scene {
             repeat: -1
         })
 
-
+/*botões*/
         this.direita = this.add.sprite(150, 350, 'direita')
+            .setScrollFactor(0)
             .setInteractive()
-                .on('pointerdown', () => { 
+            .on('pointerdown', () => { 
                     this.direita.setFrame(1)
                     this.plinio.anims.play('plinio-direita', true)
                     this.plinio.setVelocityX(100)
                  })
-                .on('pointerup', () => { 
+            .on('pointerup', () => { 
                     this.direita.setFrame(0)
                     this.plinio.setVelocityX(0)
                     this.plinio.anims.play('plinio-parado-direita', true)
-                })
-                
-        
+        })        
         this.esquerda = this.add.sprite(80, 350, 'esquerda')
+            .setScrollFactor(0)
             .setInteractive()
             .on('pointerdown', () => {
                 this.plinio.setVelocityX(-100)
@@ -161,9 +159,9 @@ export default class cena0 extends Phaser.Scene {
                 this.esquerda.setFrame(0)
                 this.plinio.setVelocityX(0)
                 this.plinio.anims.play('plinio-parado-esquerda')
-            } )
-            
-        this.up = this.add.sprite(115, 290, 'cima')
+        } )
+        this.up = this.add.sprite(700, 290, 'cima')
+            .setScrollFactor(0)
             .setInteractive()
             .on('pointerdown', () => {
                 if (this.plinio.body.touching.down) {
@@ -176,7 +174,7 @@ export default class cena0 extends Phaser.Scene {
             .on('pointerup', () => {
                 this.up.setFrame(0)
                 
-            })
+        })
         
         /*camera*/
         this.plinio.setCollideWorldBounds(true)
