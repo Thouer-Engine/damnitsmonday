@@ -5,6 +5,9 @@ export default class cena0 extends Phaser.Scene {
 
     preload() {
 
+
+
+
         this.load.image('fundofinal', '../assets/cenário/fundo_final.png')
        
         this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
@@ -19,27 +22,12 @@ export default class cena0 extends Phaser.Scene {
                 frameHeight:90
             })
         
-        this.load.spritesheet('direita', '../assets/botão/direita.png', {
-            frameWidth: 64, 
-            frameHeight: 64
-        })
-        this.load.spritesheet('esquerda', '../assets/botão/esquerda.png', {
-            frameWidth: 64,
-            frameHeight: 64
-        })
-        this.load.spritesheet('cima', '../assets/botão/cima.png', {
-            frameWidth: 64,
-            frameHeight: 64
-        })
-        this.load.spritesheet('baixo', '../assets/botão/baixo.png', {
+        this.load.spritesheet('botao', '../assets/botão/botoes.png', {
             frameWidth: 64,
             frameHeight: 64
         })
 
-        this.load.spritesheet('tela_cheia', '../assets/botão/telacheia.png', {
-            frameWidth: 64,
-            frameHeight: 64
-        })
+        
 
 
 
@@ -134,9 +122,10 @@ export default class cena0 extends Phaser.Scene {
         })
 
 /*botões*/
-        this.direita = this.add.sprite(150, 350, 'direita')
+        this.direita = this.add.sprite(150, 350, 'botao', 0)
             .setScrollFactor(0)
-            .setInteractive()
+            .setInteractive()   
+            
             .on('pointerdown', () => { 
                     this.direita.setFrame(1)
                     this.plinio.anims.play('plinio-direita', true)
@@ -146,33 +135,35 @@ export default class cena0 extends Phaser.Scene {
                     this.direita.setFrame(0)
                     this.plinio.setVelocityX(0)
                     this.plinio.anims.play('plinio-parado-direita', true)
-        })        
-        this.esquerda = this.add.sprite(80, 350, 'esquerda')
+            })       
+        
+        this.esquerda = this.add.sprite(80, 350, 'botao',4)
             .setScrollFactor(0)
             .setInteractive()
             .on('pointerdown', () => {
                 this.plinio.setVelocityX(-100)
-                this.esquerda.setFrame(1)
+                this.esquerda.setFrame(5)
                 this.plinio.anims.play('plinio-esquerda', true)
             })
             .on('pointerup', () => {
-                this.esquerda.setFrame(0)
+                this.esquerda.setFrame(4)
                 this.plinio.setVelocityX(0)
                 this.plinio.anims.play('plinio-parado-esquerda')
-        } )
-        this.up = this.add.sprite(700, 290, 'cima')
+            })
+        
+        this.up = this.add.sprite(700, 290, 'botao',6)
             .setScrollFactor(0)
             .setInteractive()
             .on('pointerdown', () => {
                 if (this.plinio.body.touching.down) {
                     this.plinio.canJump = true
-                    this.up.setFrame(1)
+                    this.up.setFrame(7)
                     this.plinio.setVelocityY(-500)
                     this.plinio.anims.play('plinio-up')
                 }
             })
             .on('pointerup', () => {
-                this.up.setFrame(0)
+                this.up.setFrame(6)
                 
         })
         
