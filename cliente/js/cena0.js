@@ -26,20 +26,14 @@ export default class cena0 extends Phaser.Scene {
             frameWidth: 64,
             frameHeight: 64
         })
-
-        
-
-
-
-
-
-   
+        this.load.image('monster', '../assets/personagem/monster.png')
     }
+
 
     create() {
         this.fundo = this.add.image(400, 225, 'fundofinal')
         
-        var chao = this.add.rectangle(0, 350, 800, 30,).setOrigin(0, 0);
+        var chao = this.add.rectangle(0, 350, 10000, 30,).setOrigin(0, 0);
         this.physics.add.existing(chao);
         chao.body.allowGravity = false;
         chao.body.setImmovable(true);
@@ -57,24 +51,24 @@ export default class cena0 extends Phaser.Scene {
                     this.scale.startFullscreen()
                 }
         })
-        .setScrollFactor(0)
-        
-       
+            .setScrollFactor(0)
 /*Personagens*/
         
         this.beto = this.physics.add.sprite(500, 225, 'beto')
         
         this.plinio = this.physics.add.sprite(400, 225, 'plinio')
         .setScale(1, 1)
-        
+        this.monster = this.physics.add.image(750, 225, 'monster')
         this.plinio.canJump = true
-       
         
-
-
+        
+/*colisão personagens*/
+        
+        this.physics.add.collider(this.plinio, chao)
         this.physics.add.collider(this.beto, chao)
-        this.physics.add.collider(this.plinio,chao)
-            
+        this.physics.add.collider(this.monster, chao)
+        this.physics.add.collider(this.plinio, this.monster, this.enemyhit, null, this)
+
 /*anims create*/
         this.anims.create({
             key: 'plinio-direita',
@@ -178,10 +172,21 @@ export default class cena0 extends Phaser.Scene {
     }
     
 
-    update() { 
+    update() { }
+    enemyhit(plinio) { 
+        if (enemyhit = true) {
+            this.physics.pause();
+            this.scene.destroy();
+            this.game.scene.stop('cena0');
+            this.game.scene.start('cenastart');
+            }
         
 
-    }
 }
+
+    
+
+}
+
 
 
