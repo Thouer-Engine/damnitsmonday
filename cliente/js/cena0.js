@@ -19,7 +19,7 @@ export default class cena0 extends Phaser.Scene {
         this.load.spritesheet('plinio', '../assets/personagem/plinio_sprite.png',
             {
                 frameWidth: 60,
-                frameHeight:90
+                frameHeight: 90
             })
         
         this.load.spritesheet('botao', '../assets/botão/botoes.png', {
@@ -27,6 +27,12 @@ export default class cena0 extends Phaser.Scene {
             frameHeight: 64
         })
         this.load.image('monster', '../assets/personagem/monster.png')
+
+        this.load.image('gameover', '../assets/gameover.png')
+        this.load.image('yes', '../assets/yes.png')
+        this.load.image('no', '../assets/no.png')
+        this.load.image('relatorio', '../assets/mapa.png')
+        this.load.image('win','../assets/win.png')
     }
 
 
@@ -38,7 +44,7 @@ export default class cena0 extends Phaser.Scene {
         chao.body.allowGravity = false;
         chao.body.setImmovable(true);
 
-/*telacheia*/
+        /*telacheia*/
         this.telacheia = this.add
             .sprite(750, 50, 'tela_cheia', 0)
             .setInteractive()
@@ -50,26 +56,35 @@ export default class cena0 extends Phaser.Scene {
                     this.telacheia.setFrame(1)
                     this.scale.startFullscreen()
                 }
-        })
+            })
             .setScrollFactor(0)
-/*Personagens*/
+        /*Personagens*/
+        this.relatorio = this.physics.add.image(100, 225, 'relatorio')
         
-        this.beto = this.physics.add.sprite(500, 225, 'beto')
-        
+        this.beto = this.add.sprite(500, 100, 'beto')
         this.plinio = this.physics.add.sprite(400, 225, 'plinio')
-        .setScale(1, 1)
+            .setScale(1, 1)
         this.monster = this.physics.add.image(750, 225, 'monster')
         this.plinio.canJump = true
         
         
-/*colisão personagens*/
+        /*colisão personagens*/
         
         this.physics.add.collider(this.plinio, chao)
         this.physics.add.collider(this.beto, chao)
         this.physics.add.collider(this.monster, chao)
-        this.physics.add.collider(this.plinio, this.monster, this.enemyhit, null, this)
+        this.physics.add.collider(this.relatorio, chao)
+        this.physics.add.collider(this.plinio, this.monster, this.gameover,null, this)
+        this.physics.add.collider(this.plinio, this.relatorio, this.timer, this.win, null, this)
+    
+        /*this.timer = 3
+        this.timedEvent = this.time.addEvent({
+            delay: 1000,
+            callback: this.countdown,
+            loop: true
+        })*/
 
-/*anims create*/
+        /*anims create*/
         this.anims.create({
             key: 'plinio-direita',
             frames: this.anims.generateFrameNumbers('plinio', {
@@ -115,23 +130,23 @@ export default class cena0 extends Phaser.Scene {
             repeat: -1
         })
 
-/*botões*/
+        /*botões*/
         this.direita = this.add.sprite(150, 350, 'botao', 0)
             .setScrollFactor(0)
-            .setInteractive()   
+            .setInteractive()
             
-            .on('pointerdown', () => { 
-                    this.direita.setFrame(1)
-                    this.plinio.anims.play('plinio-direita', true)
-                    this.plinio.setVelocityX(100)
-                 })
-            .on('pointerup', () => { 
-                    this.direita.setFrame(0)
-                    this.plinio.setVelocityX(0)
-                    this.plinio.anims.play('plinio-parado-direita', true)
-            })       
+            .on('pointerdown', () => {
+                this.direita.setFrame(1)
+                this.plinio.anims.play('plinio-direita', true)
+                this.plinio.setVelocityX(100)
+            })
+            .on('pointerup', () => {
+                this.direita.setFrame(0)
+                this.plinio.setVelocityX(0)
+                this.plinio.anims.play('plinio-parado-direita', true)
+            })
         
-        this.esquerda = this.add.sprite(80, 350, 'botao',4)
+        this.esquerda = this.add.sprite(80, 350, 'botao', 4)
             .setScrollFactor(0)
             .setInteractive()
             .on('pointerdown', () => {
@@ -145,7 +160,7 @@ export default class cena0 extends Phaser.Scene {
                 this.plinio.anims.play('plinio-parado-esquerda')
             })
         
-        this.up = this.add.sprite(700, 290, 'botao',6)
+        this.up = this.add.sprite(700, 290, 'botao', 6)
             .setScrollFactor(0)
             .setInteractive()
             .on('pointerdown', () => {
@@ -159,34 +174,74 @@ export default class cena0 extends Phaser.Scene {
             .on('pointerup', () => {
                 this.up.setFrame(6)
                 
-        })
+            })
         
         /*camera*/
         this.plinio.setCollideWorldBounds(true)
-        this.physics.world.setBounds(0, 0, 100000000, 450, true,true,false,true)
-        this.cameras.main.setBounds(0,0,1000000,450).startFollow(this.plinio)
+        this.physics.world.setBounds(0, 0, 100000000, 450, true, true, false, true)
+        this.cameras.main.setBounds(0, 0, 1000000, 450).startFollow(this.plinio)
 
         
-        /*fazer o mesmo para o beto*/    
+        /*fazer o mesmo para o beto*/
     
     }
     
 
     update() { }
-    enemyhit(plinio) { 
-        if (enemyhit = true) {
-            this.physics.pause();
-            this.scene.destroy();
-            this.game.scene.stop('cena0');
-            this.game.scene.start('cenastart');
-            }
+
+    gameover(plinio) {
+        this.plinio.setVelocityX(0)
+        this.plinio.setVelocityY(0)
+        this.plinio.anims.play('plinio-parado', true)
+        this.monster.setVelocityX(0)
+        
+        const centrox = this.cameras.main.worldView.x + this.cameras.main.width / 2
+        const centroy = this.cameras.main.worldView.y + this.cameras.main.height / 2
+
+        this.imagem = this.add.image(centrox, centroy, 'gameover')
+        
+        this.imagem = this.add.image(centrox - 40, centroy + 161, 'yes')
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.game.scene.stop('cena0')
+                this.game.scene.start('cena0')
+            })
         
 
-}
+        this.imagem = this.add.image(centrox + 55, centroy + 161, 'no')
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.game.scene.stop('cena0')
+                this.game.scene.start('cenastart')
+            })
 
+
+        
+        
+    }
+    win(plinio) {
+        this.plinio.setVelocityX(0)
+        this.plinio.setVelocityY(0)
+        this.plinio.anims.play('plinio-parado', true)
+        this.relatorio.setVelocityX(0)
+        const centrox = this.cameras.main.worldView.x + this.cameras.main.width / 2
+        const centroy = this.cameras.main.worldView.y + this.cameras.main.height / 2
+        this.imagem = this.add.image(centrox, centroy, 'win')
+            
+            .setInteractive()
+            .on('pointerdown', () => {
+                this.game.scene.stop('cena0')
+                this.game.scene.start('cenastart')
+            })
+    }
     
-
+   /* countdown() {
+        this.timer -= 1
+        if (this.timer <= 0) {
+            this.scene.destroy('cena0')
+            this.timedEvent.destroy()
+            this.game.scene.stop('cena0')
+            this.game.scene.start('cenastart')
+        }
+    }*/
 }
-
-
-
