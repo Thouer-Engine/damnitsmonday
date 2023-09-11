@@ -181,15 +181,18 @@ export default class cena0 extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, 100000000, 450, true, true, false, true)
         this.cameras.main.setBounds(0, 0, 1000000, 450).startFollow(this.plinio)
 
-        
-        /*fazer o mesmo para o beto*/
-    
+
     }
     
 
-    update() { }
+    update() {}
 
-    gameover(plinio) {
+    gameover() {
+        this.game.scene.stop('cena0')
+        this.game.scene.start('gameover')
+    }
+    
+    /*gameover(plinio) {
         this.plinio.setVelocityX(0)
         this.plinio.setVelocityY(0)
         this.plinio.anims.play('plinio-parado', true)
@@ -213,12 +216,8 @@ export default class cena0 extends Phaser.Scene {
             .on('pointerdown', () => {
                 this.game.scene.stop('cena0')
                 this.game.scene.start('cenastart')
-            })
-
-
-        
-        
-    }
+            })   
+    }*/
     win(plinio) {
         this.plinio.setVelocityX(0)
         this.plinio.setVelocityY(0)
