@@ -3,17 +3,16 @@ export default class gameover extends Phaser.Scene {
     super('gameover')
   }
 
-  preload() {
+  preload () {
     this.load.image('fim', '../assets/gameover.png')
     this.load.image('yes', '../assets/yes.png')
     this.load.image('no', '../assets/no.png')
   }
 
-  create() {
-    
+  create () {
     const centrox = this.cameras.main.worldView.x + this.cameras.main.width / 2
     const centroy = this.cameras.main.worldView.y + this.cameras.main.height / 2
-    
+
     this.imagem = this.add
     this.add.image(400, 225, 'fim')
 
@@ -30,8 +29,5 @@ export default class gameover extends Phaser.Scene {
         this.game.scene.stop('gameover')
         this.game.scene.start('cenastart')
       })
-
-
-
   }
 }

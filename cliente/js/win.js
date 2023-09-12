@@ -3,29 +3,20 @@ export default class cenastart extends Phaser.Scene {
     super('win')
   }
 
-  preload() {
+  preload () {
     this.load.image('imgwin', '../assets/win.png')
-    }
-  
-  create() { 
+  }
+
+  create () {
     this.add.image(400, 225, 'imgwin')
-    setInteractive()
+      .setInteractive()
       .on('pointerdown', () => {
-        this.game.scene.destroy('win')
-        this.game.scene.start('cena0')
+        this.game.scene.stop('win')
+        this.game.scene.start('cenastart')
       })
   }
-  
-  upload() {
+
+  upload () {
 
   }
-
-
-
-
-
-
-
-
-
 }
