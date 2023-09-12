@@ -4,7 +4,6 @@ export default class cena0 extends Phaser.Scene {
   }
 
   preload () {
-    
     this.load.image('fundofinal', '../assets/cenário/segunda/png/segunda.png')
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
