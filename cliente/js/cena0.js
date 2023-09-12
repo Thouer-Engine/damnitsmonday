@@ -8,7 +8,7 @@ export default class cena0 extends Phaser.Scene {
 
 
 
-        this.load.image('fundofinal', '../assets/cenário/fundo_final.png')
+        this.load.image('fundofinal', '../assets/cenário/segunda/png/segunda.png')
        
         this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
             {
@@ -27,10 +27,6 @@ export default class cena0 extends Phaser.Scene {
             frameHeight: 64
         })
         this.load.image('monster', '../assets/personagem/monster.png')
-
-        this.load.image('gameover', '../assets/gameover.png')
-        this.load.image('yes', '../assets/yes.png')
-        this.load.image('no', '../assets/no.png')
         this.load.image('relatorio', '../assets/mapa.png')
         this.load.image('win','../assets/win.png')
     }
@@ -75,7 +71,7 @@ export default class cena0 extends Phaser.Scene {
         this.physics.add.collider(this.monster, chao)
         this.physics.add.collider(this.relatorio, chao)
         this.physics.add.collider(this.plinio, this.monster, this.gameover,null, this)
-        this.physics.add.collider(this.plinio, this.relatorio, this.timer, this.win, null, this)
+        this.physics.add.collider(this.plinio, this.relatorio, this.win, null, this)
     
         /*this.timer = 3
         this.timedEvent = this.time.addEvent({
@@ -190,6 +186,10 @@ export default class cena0 extends Phaser.Scene {
     gameover() {
         this.game.scene.stop('cena0')
         this.game.scene.start('gameover')
+    }
+    win() {
+        this.game.scene.stop('cena0')
+        this.game.scene.start('win')
     }
     
     /*gameover(plinio) {

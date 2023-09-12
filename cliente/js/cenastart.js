@@ -4,7 +4,7 @@ export default class cenastart extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('cena-start', '../assets/cenário/fundo_final.png')
+    this.load.image('cenastart', '../assets/cenário/segunda/png/segunda.png')
     this.load.image('startbotton', '../assets/start_botton.png')
     this.load.spritesheet('tela_cheia', '../assets/botão/telacheia.png', {
       frameWidth: 64,
@@ -13,21 +13,21 @@ export default class cenastart extends Phaser.Scene {
   }
 
   create() {
-    this.imagem = this.add 
-    this.add.image(400, 225, 'cena-start')
+    this.imagem = this.add
+    this.add.image(400, 225, 'cenastart')
     this.add.image(400, 225, 'startbotton')
-    
+
       .setInteractive()
       .on('pointerover', () => {
-        
+
       })
       .on('pointerdown', () => {
         this.imagem.destroy()
         this.game.scene.stop('cenastart')
         this.game.scene.start('cena0')
       })
-    
-    
+
+
     this.telacheia = this.add
       .sprite(750, 50, 'tela_cheia', 0)
       .setInteractive()
@@ -42,11 +42,11 @@ export default class cenastart extends Phaser.Scene {
       })
       .setScrollFactor(0, 0)
   }
-    
-  
-  
 
-  update() {}
+
+
+
+  update() { }
 
 
 }
