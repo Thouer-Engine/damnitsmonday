@@ -4,6 +4,12 @@ export default class cena0 extends Phaser.Scene {
   }
 
   preload () {
+    
+    this.load.tilemapTiledJSON('unico', '../assets/mapa/unico.json')
+
+
+    this.load.image('tileset', '../assets/cenário/unico/tileset.png')
+    
     this.load.image('fundofinal', '../assets/cenário/segunda/png/segunda.png')
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
@@ -27,9 +33,24 @@ export default class cena0 extends Phaser.Scene {
   }
 
   create () {
+
+    this.tilemapUnico = this.make.tilemap({
+      key: 'unico'
+    })
+
+    this.tilesettileset = this.tilemapUnico.addTilesetImage('tileset')
+
+    this.layerfloor = this.tilemapUnico.createLayer('floor',[this.tilesettileset])
+    this.layercm1 = this.tilemapUnico.createLayer('cm1', [this.tilesettileset])
+    this.layercm2 = this.tilemapUnico.createLayer('cm2', [this.tilesettileset])
+    this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesettileset])
+
+    this.layerfloor.setCollisionByProperty({ collides: true })
+    
+
     this.fundo = this.add.image(600, 225, 'fundofinal')
 
-    const chao = this.add.rectangle(0, 350, 10000, 30).setOrigin(0, 0)
+    const chao = this.add.rectangle(-600, 350, 10000, 30).setOrigin(0, 0)
     this.physics.add.existing(chao)
     chao.body.allowGravity = false
     chao.body.setImmovable(true)
@@ -49,12 +70,12 @@ export default class cena0 extends Phaser.Scene {
       })
       .setScrollFactor(0)
     /* Personagens */
-    this.relatorio = this.physics.add.image(50, 225, 'relatorio')
+    this.relatorio = this.physics.add.image(780, 225, 'relatorio')
 
     this.beto = this.add.sprite(500, 100, 'beto')
-    this.plinio = this.physics.add.sprite(400, 225, 'plinio')
+    this.plinio = this.physics.add.sprite(-300, 225, 'plinio')
       .setScale(1, 1)
-    this.monster = this.physics.add.image(60, 225, 'monster')
+    this.monster = this.physics.add.image(700, 225, 'monster')
     this.plinio.canJump = true
 
     /* colisão personagens */
@@ -127,7 +148,7 @@ export default class cena0 extends Phaser.Scene {
       .on('pointerdown', () => {
         this.direita.setFrame(1)
         this.plinio.anims.play('plinio-direita', true)
-        this.plinio.setVelocityX(100)
+        this.plinio.setVelocityX(500)
       })
       .on('pointerup', () => {
         this.direita.setFrame(0)
@@ -153,12 +174,12 @@ export default class cena0 extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerdown', () => {
-        if (this.plinio.body.touching.down) {
+       // if (this.plinio.body.touching.down) { //
           this.plinio.canJump = true
           this.up.setFrame(7)
           this.plinio.setVelocityY(-500)
           this.plinio.anims.play('plinio-up')
-        }
+        //}//
       })
       .on('pointerup', () => {
         this.up.setFrame(6)
@@ -166,8 +187,8 @@ export default class cena0 extends Phaser.Scene {
 
     /* camera */
     this.plinio.setCollideWorldBounds(true)
-    this.physics.world.setBounds(-1000, 0, 100000000, 450, true, true, false, true)
-    this.cameras.main.setBounds(-1000, 0, 1000000, 450).startFollow(this.plinio)
+    this.physics.world.setBounds(-360, 0, 10000, 450, true, true, true, true)
+    this.cameras.main.setBounds(-360, 0, 10000, 450).startFollow(this.plinio)
   }
 
   update () { }
