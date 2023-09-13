@@ -5,12 +5,10 @@ export default class cena0 extends Phaser.Scene {
 
   preload () {
     
-    this.load.tilemapTiledJSON('unico', '../assets/mapa/unico.json')
+    this.load.tilemapTiledJSON('unico', '../assets/cenário/unico/unico.json')
 
 
     this.load.image('tileset', '../assets/cenário/unico/tileset.png')
-    
-    this.load.image('fundofinal', '../assets/cenário/segunda/png/segunda.png')
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
         frameWidth: 50, // plínio - 60x90  beto- 50x55
@@ -46,9 +44,7 @@ export default class cena0 extends Phaser.Scene {
     this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesettileset])
 
     this.layerfloor.setCollisionByProperty({ collides: true })
-    
 
-    this.fundo = this.add.image(600, 225, 'fundofinal')
 
     const chao = this.add.rectangle(-600, 350, 10000, 30).setOrigin(0, 0)
     this.physics.add.existing(chao)
@@ -73,7 +69,13 @@ export default class cena0 extends Phaser.Scene {
     this.relatorio = this.physics.add.image(780, 225, 'relatorio')
 
     this.beto = this.add.sprite(500, 100, 'beto')
-    this.plinio = this.physics.add.sprite(-300, 225, 'plinio')
+    
+    
+    
+    this.plinio = this.physics.add.sprite(500, 1, 'plinio')
+
+
+      
       .setScale(1, 1)
     this.monster = this.physics.add.image(700, 225, 'monster')
     this.plinio.canJump = true
@@ -187,8 +189,8 @@ export default class cena0 extends Phaser.Scene {
 
     /* camera */
     this.plinio.setCollideWorldBounds(true)
-    this.physics.world.setBounds(-360, 0, 10000, 450, true, true, true, true)
-    this.cameras.main.setBounds(-360, 0, 10000, 450).startFollow(this.plinio)
+    this.physics.world.setBounds(-10000, 0, 10000, 100000, true, true, false, true)
+    this.cameras.main.setBounds(-10000, 0, 10000, 100000).startFollow(this.plinio)
   }
 
   update () { }
