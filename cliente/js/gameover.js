@@ -4,9 +4,9 @@ export default class gameover extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('fim', '../assets/gameover.png')
-    this.load.image('yes', '../assets/yes.png')
-    this.load.image('no', '../assets/no.png')
+    this.load.image('fim', '../assets/cenário/gameover.png')
+    this.load.image('yes', '../assets/botão/yes.png')
+    this.load.image('no', '../assets/botão/no.png')
   }
 
   create () {

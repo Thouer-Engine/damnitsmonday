@@ -22,7 +22,7 @@ export default class cena0 extends Phaser.Scene {
       frameHeight: 64
     })
     this.load.image('monster', '../assets/personagem/monster.png')
-    this.load.image('relatorio', '../assets/mapa.png')
+    this.load.image('relatorio', '../assets/itens/mapa.png')
     this.load.image('win', '../assets/win.png')
   }
 
