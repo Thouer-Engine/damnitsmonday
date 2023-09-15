@@ -45,12 +45,6 @@ export default class cena0 extends Phaser.Scene {
 
     this.layerfloor.setCollisionByProperty({ collides: true })
 
-
-    const chao = this.add.rectangle(-600, 350, 10000, 30).setOrigin(0, 0)
-    this.physics.add.existing(chao)
-    chao.body.allowGravity = false
-    chao.body.setImmovable(true)
-
     /* telacheia */
     this.telacheia = this.add
       .sprite(750, 50, 'tela_cheia', 0)
@@ -81,11 +75,6 @@ export default class cena0 extends Phaser.Scene {
     this.plinio.canJump = true
 
     /* colisão personagens */
-
-    this.physics.add.collider(this.plinio, chao)
-    this.physics.add.collider(this.beto, chao)
-    this.physics.add.collider(this.monster, chao)
-    this.physics.add.collider(this.relatorio, chao)
     this.physics.add.collider(this.plinio, this.monster, this.gameover, null, this)
     this.physics.add.collider(this.plinio, this.relatorio, this.win, null, this)
 
@@ -188,9 +177,10 @@ export default class cena0 extends Phaser.Scene {
       })
 
     /* camera */
-    this.plinio.setCollideWorldBounds(true)
-    this.physics.world.setBounds(-10000, 0, 10000, 100000, true, true, false, true)
-    this.cameras.main.setBounds(-10000, 0, 10000, 100000).startFollow(this.plinio)
+   // this.plinio.setCollideWorldBounds(true)
+   // this.physics.world.setBounds(-10000, 0, 10000, 100000, true, true, false, true)
+      //this.cameras.main.setBounds(-10000, 0, 10000, 100000)
+      this.cameras.main.startFollow(this.plinio)
   }
 
   update () { }
