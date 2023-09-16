@@ -38,12 +38,16 @@ export default class cena0 extends Phaser.Scene {
 
     this.tilesettileset = this.tilemapUnico.addTilesetImage('tileset')
 
-    this.layerfloor = this.tilemapUnico.createLayer('floor',[this.tilesettileset])
+    this.layerfloor = this.tilemapUnico.createLayer('floor', [this.tilesettileset])
     this.layercm1 = this.tilemapUnico.createLayer('cm1', [this.tilesettileset])
     this.layercm2 = this.tilemapUnico.createLayer('cm2', [this.tilesettileset])
     this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesettileset])
-
+    
+    
     this.layerfloor.setCollisionByProperty({ collides: true })
+
+    /* Colisão entre personagem 1 e mapa (por layer) */
+    
 
     /* telacheia */
     this.telacheia = this.add
