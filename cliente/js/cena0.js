@@ -4,7 +4,7 @@ export default class cena0 extends Phaser.Scene {
   }
 
   preload () {
-    
+
     this.load.tilemapTiledJSON('unico', '../assets/cenário/unico/unico.json')
 
 
@@ -41,16 +41,6 @@ export default class cena0 extends Phaser.Scene {
     this.layercm1 = this.tilemapUnico.createLayer('cm1', [this.tilesetTileset])
     this.layercm2 = this.tilemapUnico.createLayer('cm2', [this.tilesetTileset])
     this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesetTileset])
-    
-    
-    this.layerfloor.setCollisionByProperty({ collides: true })
-    
-    this.physics.add.collider(this.plinio, this.layerfloor)
-
-
-    /* Colisão entre personagem 1 e mapa (por layer) */
-    
-
 
     /* telacheia */
     this.telacheia = this.add
@@ -70,18 +60,17 @@ export default class cena0 extends Phaser.Scene {
     this.relatorio = this.physics.add.image(780, 225, 'relatorio')
 
     this.beto = this.add.sprite(500, 100, 'beto')
-    
-    
-    
+
+
+
     this.plinio = this.physics.add.sprite(500, 800, 'plinio')
-
-
-      
       .setScale(1, 1)
     this.monster = this.physics.add.image(700, 225, 'monster')
     this.plinio.canJump = true
 
-    /* colisão personagens */
+    /* Colisão entre personagem 1 e mapa (por layer) */
+    this.layerfloor.setCollisionByProperty({ collides: true })
+    this.physics.add.collider(this.plinio, this.layerfloor)
     this.physics.add.collider(this.plinio, this.monster, this.gameover, null, this)
     this.physics.add.collider(this.plinio, this.relatorio, this.win, null, this)
 
@@ -132,7 +121,7 @@ export default class cena0 extends Phaser.Scene {
       key: 'plinio-parado-esquerda',
       frames: this.anims.generateFrameNumbers('plinio', {
         start: 26,
-        end: 32
+        end: 31
       }),
       frameRate: 2,
       repeat: -1
@@ -172,11 +161,11 @@ export default class cena0 extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerdown', () => {
-       // if (this.plinio.body.touching.down) { //
-          this.plinio.canJump = true
-          this.up.setFrame(7)
-          this.plinio.setVelocityY(-500)
-          this.plinio.anims.play('plinio-up')
+        // if (this.plinio.body.touching.down) { //
+        this.plinio.canJump = true
+        this.up.setFrame(7)
+        this.plinio.setVelocityY(-500)
+        this.plinio.anims.play('plinio-up')
         //}//
       })
       .on('pointerup', () => {
@@ -184,10 +173,10 @@ export default class cena0 extends Phaser.Scene {
       })
 
     /* camera */
-   // this.plinio.setCollideWorldBounds(true)
-   // this.physics.world.setBounds(-10000, 0, 10000, 100000, true, true, false, true)
-      //this.cameras.main.setBounds(-10000, 0, 10000, 100000)
-      this.cameras.main.startFollow(this.plinio)
+    // this.plinio.setCollideWorldBounds(true)
+    // this.physics.world.setBounds(-10000, 0, 10000, 100000, true, true, false, true)
+    //this.cameras.main.setBounds(-10000, 0, 10000, 100000)
+    this.cameras.main.startFollow(this.plinio)
   }
 
   update () { }
