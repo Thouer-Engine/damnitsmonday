@@ -27,7 +27,6 @@ export default class cena0 extends Phaser.Scene {
     })
     this.load.image('monster', '../assets/personagem/monster.png')
     this.load.image('relatorio', '../assets/itens/mapa.png')
-    this.load.image('win', '../assets/win.png')
   }
 
   create () {
@@ -36,18 +35,22 @@ export default class cena0 extends Phaser.Scene {
       key: 'unico'
     })
 
-    this.tilesettileset = this.tilemapUnico.addTilesetImage('tileset')
+    this.tilesetTileset = this.tilemapUnico.addTilesetImage('tileset')
 
-    this.layerfloor = this.tilemapUnico.createLayer('floor', [this.tilesettileset])
-    this.layercm1 = this.tilemapUnico.createLayer('cm1', [this.tilesettileset])
-    this.layercm2 = this.tilemapUnico.createLayer('cm2', [this.tilesettileset])
-    this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesettileset])
+    this.layerfloor = this.tilemapUnico.createLayer('floor', [this.tilesetTileset])
+    this.layercm1 = this.tilemapUnico.createLayer('cm1', [this.tilesetTileset])
+    this.layercm2 = this.tilemapUnico.createLayer('cm2', [this.tilesetTileset])
+    this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesetTileset])
     
     
     this.layerfloor.setCollisionByProperty({ collides: true })
+    
+    this.physics.add.collider(this.plinio, this.layerfloor)
+
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     
+
 
     /* telacheia */
     this.telacheia = this.add
@@ -70,7 +73,7 @@ export default class cena0 extends Phaser.Scene {
     
     
     
-    this.plinio = this.physics.add.sprite(500, 1, 'plinio')
+    this.plinio = this.physics.add.sprite(500, 800, 'plinio')
 
 
       
