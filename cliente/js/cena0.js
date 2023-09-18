@@ -134,7 +134,7 @@ export default class cena0 extends Phaser.Scene {
 
       .on('pointerdown', () => {
         this.direita.setFrame(1)
-        this.plinio.anims.play('plinio-direita', true)
+        this.plinio.anims.play('plinio-direita', true)//oi
         this.plinio.setVelocityX(500)
       })
       .on('pointerup', () => {
