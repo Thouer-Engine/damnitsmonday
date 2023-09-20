@@ -70,6 +70,7 @@ export default class cena0 extends Phaser.Scene {
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     this.layerfloor.setCollisionByProperty({ collides: true })
+    
     this.physics.add.collider(this.plinio, this.layerfloor)
     this.physics.add.collider(this.plinio, this.monster, this.gameover, null, this)
     this.physics.add.collider(this.plinio, this.relatorio, this.win, null, this)
@@ -142,7 +143,7 @@ export default class cena0 extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
 
-      .on('pointerdown', () => {
+      .on('pointerover', () => {
         this.direita.setFrame(1)
         this.plinio.anims.play('plinio-direita', true)//oi
         this.plinio.setVelocityX(150)
@@ -153,10 +154,10 @@ export default class cena0 extends Phaser.Scene {
         this.plinio.anims.play('plinio-parado-direita', true)
       })
 
-    this.esquerda = this.add.sprite(80, 350, 'botao', 4)
+    this.esquerda = this.add.sprite(79, 350, 'botao', 4)
       .setScrollFactor(0)
       .setInteractive()
-      .on('pointerdown', () => {
+      .on('pointerover', () => {
         this.plinio.setVelocityX(-150)
         this.esquerda.setFrame(5)
         this.plinio.anims.play('plinio-esquerda', true)
@@ -194,10 +195,10 @@ export default class cena0 extends Phaser.Scene {
       })*/
   
      
-      this.up = this.add.sprite(700, 290, 'botao', 6)
+      this.up = this.add.sprite(115, 310, 'botao', 6)
       .setScrollFactor(0)
       .setInteractive()
-         .on('pointerdown', () => {
+         .on('pointerover', () => {
            let anim = this.plinio.anims.getName()
            const esquerda = new RegExp('.*esquerda.*') // qualquer expressão com a palavra 'esquerda'
            const direita = new RegExp('.*direita.*') // qualquer expressão com a palavra 'direita'
@@ -207,7 +208,7 @@ export default class cena0 extends Phaser.Scene {
         this.plinio.setVelocityY(-500)
         this.plinio.anims.play('plinio-upe')
            }
-           else if (direita.test(anim)) {
+           else if (this.plinio.body.blocked.down && direita.test(anim)) {
              this.plinio.setVelocityY(-450)
              this.plinio.anims.play('plinio-upd', true)
            }
@@ -216,14 +217,19 @@ export default class cena0 extends Phaser.Scene {
     /* camera */
     // this.plinio.setCollideWorldBounds(true)
     // this.physics.world.setBounds(-10000, 0, 10000, 100000, true, true, false, true)
-    //this.cameras.main.setBounds(-10000, 0, 10000, 100000)
+    this.cameras.main.setBounds(0, 0, 10000, 1022)
 
 
     this.cameras.main.startFollow(this.plinio)
   }
 
-  update () { }
+  update () { 
 
+  }
+  gameover () {
+    this.game.scene.stop('cena0')
+
+  }
   gameover () {
     this.game.scene.stop('cena0')
     this.game.scene.start('gameover')
