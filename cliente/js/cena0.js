@@ -1,8 +1,13 @@
 export default class cena0 extends Phaser.Scene {
   constructor () {
     super('cena0')
+  
+    this.botoesPressionados = {
+      cima: false,
+      direita: false,
+      esquerda: false,
+    };
   }
-
   preload () {
 
     this.load.tilemapTiledJSON('unico', '../assets/cenário/unico/unico.json')
@@ -30,6 +35,7 @@ export default class cena0 extends Phaser.Scene {
   }
 
   create () {
+    this.input.addPointer(3)
 
     this.tilemapUnico = this.make.tilemap({
       key: 'unico'
@@ -139,7 +145,8 @@ export default class cena0 extends Phaser.Scene {
     })
 
     /* botões */
-    this.direita = this.add.sprite(150, 350, 'botao', 0)
+
+    this.direita = this.add.sprite(150, 350, 'botao', 0)  
       .setScrollFactor(0)
       .setInteractive()
 
@@ -148,7 +155,7 @@ export default class cena0 extends Phaser.Scene {
         this.plinio.anims.play('plinio-direita', true)//oi
         this.plinio.setVelocityX(150)
       })
-      .on('pointerup', () => {
+      .on('pointerout', () => {
         this.direita.setFrame(0)
         this.plinio.setVelocityX(0)
         this.plinio.anims.play('plinio-parado-direita', true)
@@ -162,64 +169,54 @@ export default class cena0 extends Phaser.Scene {
         this.esquerda.setFrame(5)
         this.plinio.anims.play('plinio-esquerda', true)
       })
-      .on('pointerup', () => {
+      .on('pointerout', () => {
         this.esquerda.setFrame(4)
         this.plinio.setVelocityX(0)
         this.plinio.anims.play('plinio-parado-esquerda')
       })
-
-    /*this.up = this.add.sprite(700, 290,'botao', 6)
-      .setInteractive()
-      .on('pointerdown', () => {
-        let anim = this.plinio.anims.getName()
-        const esquerda = new RegExp('.*esquerda.*') // qualquer expressão com a palavra 'esquerda'
-        const direita = new RegExp('.*direita.*') // qualquer expressão com a palavra 'direita'
-        if (esquerda.test(anim)) {
-          this.plinio.setVelocityY(-450)
-          this.plinio.anims.play('plinio-up', true)
-        } else if (direita.test(anim)) {
-          this.plinio.setVelocityY(-450)
-          this.plinio.anims.play('plinio-up', true)
-        }
-      })
-      .on('pointerup', () => {
-        this.up.setFrame(6)
-        let anim = this.plinio.anims.getName()
-        const esquerda = new RegExp('.*esquerda.*') // qualquer expressão com a palavra 'esquerda'
-        const direita = new RegExp('.*direita.*') // qualquer expressão com a palavra 'direita'
-        if (esquerda.test(anim)) {
-          this.plinio.anims.play('plinio', true)
-        } else if (direita.test(anim)) {
-          this.plinio.anims.play('plinio-up', true)
-        }
-      })*/
-  
-     
-      this.up = this.add.sprite(115, 310, 'botao', 6)
+      this.up = this.add.sprite(505, 310, 'botao', 6)
       .setScrollFactor(0)
-      .setInteractive()
-         .on('pointerover', () => {
-           let anim = this.plinio.anims.getName()
-           const esquerda = new RegExp('.*esquerda.*') // qualquer expressão com a palavra 'esquerda'
-           const direita = new RegExp('.*direita.*') // qualquer expressão com a palavra 'direita'
-           if (this.plinio.body.blocked.down && esquerda.test(anim))  {
-        this.plinio.canJump = true
-        this.up.setFrame(7)
-        this.plinio.setVelocityY(-500)
-        this.plinio.anims.play('plinio-upe')
-           }
+        .setInteractive()
+        .on('pointerover', () => {
+          this.up.setFrame(7)
+          let anim = this.plinio.anims.getName()
+          const esquerda = new RegExp('.*esquerda.*') // qualquer expressão com a palavra 'esquerda'
+          const direita = new RegExp('.*direita.*') // qualquer expressão com a palavra 'direita'
+          if (this.plinio.body.blocked.down && esquerda.test(anim)) {
+            this.plinio.canJump = true
+            this.plinio.setVelocityY(-500)
+            this.plinio.anims.play('plinio-upe')
+          } 
            else if (this.plinio.body.blocked.down && direita.test(anim)) {
              this.plinio.setVelocityY(-450)
-             this.plinio.anims.play('plinio-upd', true)
-           }
-      })
+            this.plinio.anims.play('plinio-upd', true)    
+          }
+          
+
+        })
+        .on('pointerout', () => {
+          let anim = this.plinio.anims.getName()
+          const esquerda = new RegExp('.*esquerda.*') // qualquer expressão com a palavra 'esquerda'
+          const direita = new RegExp('.*direita.*') // qualquer expressão com a palavra 'direita'
+          this.up.setFrame(6)
+          if (esquerda.test(anim)) {
+            this.plinio.anims.play('plinio-esquerda', true)
+          }
+          else if (direita.test(anim)) {
+            this.plinio.anims.play('plinio-direita', true)
+          }
+            
+        })
+        
+
+    /*this.direitaPressionado = false;
+    this.esquerdaPressionado = false;
+    this.upePressionado = false;
+    this.updPressionado = false; */
+        
 
     /* camera */
-    // this.plinio.setCollideWorldBounds(true)
-    // this.physics.world.setBounds(-10000, 0, 10000, 100000, true, true, false, true)
     this.cameras.main.setBounds(0, 0, 10000, 1022)
-
-
     this.cameras.main.startFollow(this.plinio)
   }
 
