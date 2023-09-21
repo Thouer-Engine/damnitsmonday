@@ -145,6 +145,8 @@ export default class cena0 extends Phaser.Scene {
     })
 
     /* botões */
+    const BOTAO_PRESSIONADO = 'pressionado';
+
 
     this.direita = this.add.sprite(150, 350, 'botao', 0)  
       .setScrollFactor(0)
@@ -152,11 +154,13 @@ export default class cena0 extends Phaser.Scene {
 
       .on('pointerover', () => {
         this.direita.setFrame(1)
+        this.direita.customState = BOTAO_PRESSIONADO;
         this.plinio.anims.play('plinio-direita', true)//oi
         this.plinio.setVelocityX(150)
       })
       .on('pointerout', () => {
         this.direita.setFrame(0)
+        this.direita.customState = undefined;
         this.plinio.setVelocityX(0)
         this.plinio.anims.play('plinio-parado-direita', true)
       })
@@ -165,11 +169,13 @@ export default class cena0 extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
+        this.esquerda.customState = BOTAO_PRESSIONADO;
         this.plinio.setVelocityX(-150)
         this.esquerda.setFrame(5)
         this.plinio.anims.play('plinio-esquerda', true)
       })
       .on('pointerout', () => {
+        this.direita.customState = undefined;
         this.esquerda.setFrame(4)
         this.plinio.setVelocityX(0)
         this.plinio.anims.play('plinio-parado-esquerda')
@@ -177,7 +183,7 @@ export default class cena0 extends Phaser.Scene {
       this.up = this.add.sprite(505, 310, 'botao', 6)
       .setScrollFactor(0)
         .setInteractive()
-        .on('pointerover', () => {
+        .on('pointerdown', () => {
           this.up.setFrame(7)
           let anim = this.plinio.anims.getName()
           const esquerda = new RegExp('.*esquerda.*') // qualquer expressão com a palavra 'esquerda'
@@ -194,7 +200,28 @@ export default class cena0 extends Phaser.Scene {
           
 
         })
-        .on('pointerout', () => {
+        
+        
+
+        
+        
+        .on('pointerup', () => {
+          let anim = this.plinio.anims.getName();
+          const esquerda = new RegExp('.*esquerda.*');
+          const direita = new RegExp('.*direita.*');
+          this.up.setFrame(6)
+          if ( (esquerda.test(anim) || direita.test(anim))) {
+            // Defina a animação de andar apropriada com base na direção atual
+            if (esquerda.test(anim)) {
+              this.plinio.anims.play('plinio-esquerda', true);
+            } else if (direita.test(anim)) {
+              this.plinio.anims.play('plinio-direita', true);
+            }
+          }
+        })
+        
+        
+        .on('pointerup', () => {
           let anim = this.plinio.anims.getName()
           const esquerda = new RegExp('.*esquerda.*') // qualquer expressão com a palavra 'esquerda'
           const direita = new RegExp('.*direita.*') // qualquer expressão com a palavra 'direita'
