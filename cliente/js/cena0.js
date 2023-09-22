@@ -71,7 +71,7 @@ export default class cena0 extends Phaser.Scene {
 
     this.plinio = this.physics.add.sprite(500, 800, 'plinio')
       .setScale(1, 1)
-    this.monster = this.physics.add.image(1000, 225, 'monster')
+    this.monster = this.physics.add.image(500, 225, 'monster')
     this.plinio.canJump = true
 
     /* Colisão entre personagem 1 e mapa (por layer) */
@@ -220,7 +220,7 @@ export default class cena0 extends Phaser.Scene {
         const direita = new RegExp('.*direita.*') // qualquer expressão com a palavra 'direita'
       
 
-        if ((direitaPressionado || esquerdaPressionado)) {
+        
           if (direitaPressionado) {
             this.plinio.anims.play('plinio-direita', true);
           }
@@ -230,7 +230,7 @@ export default class cena0 extends Phaser.Scene {
           else if (esquerdaPressionado) {
             this.plinio.anims.play('plinio-esquerda', true);
           }
-        }
+        
         
 
         if (esquerda.test(anim) ) {
