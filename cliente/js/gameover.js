@@ -4,8 +4,16 @@ export default class gameover extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('fim', '../assets/cenário/gameover.png')
-    this.load.spritesheet(botões)
+    this.load.image('over', '../assets/cenário/gameover.png')
+    this.load.spritesheet('try', '../assets/botão/trybutton.png', {
+      frameWidth: 128,
+      frameHeight: 64
+    })
+    this.load.spritesheet('menu', '../assets/botão/menu.png', {
+      frameWidth: 128,
+      frameHeight: 64
+    })
+
   }
 
   create () {
@@ -13,20 +21,16 @@ export default class gameover extends Phaser.Scene {
     const centroy = this.cameras.main.worldView.y + this.cameras.main.height / 2
 
     this.imagem = this.add
-    this.add.image(400, 225, 'fim')
+    this.add.image(400, 225, 'over')
 
-    this.imagem = this.add.image(centrox - 40, centroy + 161, 'yes')
+    this.try = this.add.sprite(centrox - 70, centroy + 100, 'try', 0)
       .setInteractive()
-      .on('pointerdown', () => {
-        this.game.scene.stop('gameover')
-        this.game.scene.start('cena0')
+      .on('pointerover', () => {
+        this.try.setFrame(1)
       })
-
-    this.imagem = this.add.image(centrox + 55, centroy + 161, 'no')
-      .setInteractive()
-      .on('pointerdown', () => {
-        this.game.scene.stop('gameover')
-        this.game.scene.start('cenastart')
+      .on('pointerout', () => {
+        this.try.setFrame(0)
       })
+    
   }
 }
