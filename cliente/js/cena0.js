@@ -14,6 +14,8 @@ export default class cena0 extends Phaser.Scene {
 
 
     this.load.image('tileset', '../assets/cenário/unico/tileset.png')
+    //this.load.audio('som1', '../assets/som/som.mp3')
+
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
         frameWidth: 50, // plínio - 60x90  beto- 50x55
@@ -32,10 +34,18 @@ export default class cena0 extends Phaser.Scene {
     })
     this.load.image('monster', '../assets/personagem/monster.png')
     this.load.image('relatorio', '../assets/itens/mapa.png')
+    this.load.image('portal1', '../assets/itens/portal1.png')
+
   }
 
+
   create () {
+    this.physics.world.setBounds
     this.input.addPointer(3)
+
+   /* this.musicaambiente = this.sound.add('som1');
+    this.musicaambiente.setLoop(true);
+    this.musicaambiente.play();*/
 
     this.tilemapUnico = this.make.tilemap({
       key: 'unico'
@@ -47,6 +57,9 @@ export default class cena0 extends Phaser.Scene {
     this.layercm1 = this.tilemapUnico.createLayer('cm1', [this.tilesetTileset])
     this.layercm2 = this.tilemapUnico.createLayer('cm2', [this.tilesetTileset])
     this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesetTileset])
+
+    
+
 
     /* telacheia */
     this.telacheia = this.add
@@ -63,15 +76,18 @@ export default class cena0 extends Phaser.Scene {
       })
       .setScrollFactor(0)
     /* Personagens */
-    this.relatorio = this.physics.add.image(780, 225, 'relatorio')
+    this.relatorio = this.physics.add.image(500, 225, 'relatorio')
 
     this.beto = this.add.sprite(500, 100, 'beto')
 
+    
 
-
-    this.plinio = this.physics.add.sprite(500, 800, 'plinio')
+    this.plinio = this.physics.add.sprite(1800, 800, 'plinio')
       .setScale(1, 1)
-    this.monster = this.physics.add.image(500, 225, 'monster')
+
+    this.portal = this.physics.add.image(1930, 831, 'portal1')
+    this.portal.setImmovable(true)
+    this.monster = this.physics.add.image (400, 225, 'monster')
     this.plinio.canJump = true
 
     /* Colisão entre personagem 1 e mapa (por layer) */
@@ -81,15 +97,14 @@ export default class cena0 extends Phaser.Scene {
     this.physics.add.collider(this.monster, this.layerfloor)
     this.physics.add.collider(this.relatorio, this.layerfloor)
 
+
+    this.physics.add.collider(this.plinio , this.portal, this.segundafase, null, this)
+    this.physics.add.collider(this.portal,this.layerfloor)
     this.physics.add.collider(this.plinio, this.monster, this.gameover, null, this)
     this.physics.add.collider(this.plinio, this.relatorio, this.win, null, this)
 
-    /* this.timer = 3
-                    this.timedEvent = this.time.addEvent({
-                        delay: 1000,
-                        callback: this.countdown,
-                        loop: true
-                    }) */
+   
+
 
     /* anims create */
     this.anims.create({
@@ -194,7 +209,7 @@ export default class cena0 extends Phaser.Scene {
 
    
 
-    this.up = this.add.sprite(505, 310, 'botao', 6)
+    this.up = this.add.sprite(115, 310, 'botao', 6)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
@@ -230,16 +245,11 @@ export default class cena0 extends Phaser.Scene {
           else if (esquerdaPressionado) {
             this.plinio.anims.play('plinio-esquerda', true);
           }
+      
         
         
-
-        if (esquerda.test(anim) ) {
-          this.plinio.anims.play('plinio-parado-esquerda', true);
-        }
-
-        else if (direita.test(anim)) {
-          this.plinio.anims.play('plinio-parado-direita', true);
-        }
+        
+        
       })
 
     /*  .on('pointerup', () => {
@@ -268,17 +278,22 @@ export default class cena0 extends Phaser.Scene {
         
 
     /* camera */
-    this.cameras.main.setBounds(0, 0, 10000, 1022)
+    this.cameras.main.setBounds(0, 0, 10000, 10220)
     this.cameras.main.startFollow(this.plinio)
   }
+  
 
   update () { 
-
+    
   }
-  gameover () {
-    this.game.scene.stop('cena0')
+  segundafase () {
+    
+      this.plinio.x = 500;
+    this.plinio.y = 1640;
+    }
+    
 
-  }
+  
   gameover () {
     this.game.scene.stop('cena0')
     this.game.scene.start('gameover')
