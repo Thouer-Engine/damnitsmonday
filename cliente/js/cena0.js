@@ -15,7 +15,10 @@ export default class cena0 extends Phaser.Scene {
 
     this.load.image('tileset', '../assets/cenário/unico/tileset.png')
     //this.load.audio('som1', '../assets/som/som.mp3')
-
+    this.load.spritesheet('tela-cheia', '../assets/botão/telacheia.png', {
+      frameWidth: 64,
+      frameHeight: 64
+    })
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
         frameWidth: 50, // plínio - 60x90  beto- 50x55
@@ -35,7 +38,8 @@ export default class cena0 extends Phaser.Scene {
     this.load.image('monster', '../assets/personagem/monster.png')
     this.load.image('relatorio', '../assets/itens/mapa.png')
     this.load.image('portal1', '../assets/itens/portal1.png')
-
+    this.load.image('portal2', '../assets/itens/portal2.png')
+  
   }
 
 
@@ -63,7 +67,7 @@ export default class cena0 extends Phaser.Scene {
 
     /* telacheia */
     this.telacheia = this.add
-      .sprite(750, 50, 'tela_cheia', 0)
+      .sprite(750, 50, 'tela-cheia', 0)
       .setInteractive()
       .on('pointerdown', () => {
         if (this.scale.isFullscreen) {
@@ -82,24 +86,30 @@ export default class cena0 extends Phaser.Scene {
 
     
 
-    this.plinio = this.physics.add.sprite(1800, 800, 'plinio')
+    this.plinio = this.physics.add.sprite(670, 835, 'plinio')
       .setScale(1, 1)
 
-    this.portal = this.physics.add.image(1930, 831, 'portal1')
-    this.portal.setImmovable(true)
+    this.portal1 = this.physics.add.image(1930, 831, 'portal1')
+    this.portal1.setImmovable(true)
+    this.portal2 = this.physics.add.image(2545, 1715, 'portal2')
+    this.portal2.setImmovable(true)
+
+
     this.monster = this.physics.add.image (400, 225, 'monster')
     this.plinio.canJump = true
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     this.layerfloor.setCollisionByProperty({ collides: true })
     
-    this.physics.add.collider(this.plinio, this.layerfloor)
+    this.physics.add.collider(this.plinio, this.layerfloor, this.contandar, null, this)
     this.physics.add.collider(this.monster, this.layerfloor)
     this.physics.add.collider(this.relatorio, this.layerfloor)
 
 
-    this.physics.add.collider(this.plinio , this.portal, this.segundafase, null, this)
-    this.physics.add.collider(this.portal,this.layerfloor)
+    this.physics.add.collider(this.plinio, this.portal1, this.segundafase, null, this)
+    this.physics.add.collider(this.plinio, this.portal2, this.terceirafase, null, this)
+    this.physics.add.collider(this.portal1, this.layerfloor)
+    this.physics.add.collider(this.portal2, this.layerfloor)
     this.physics.add.collider(this.plinio, this.monster, this.gameover, null, this)
     this.physics.add.collider(this.plinio, this.relatorio, this.win, null, this)
 
@@ -209,7 +219,7 @@ export default class cena0 extends Phaser.Scene {
 
    
 
-    this.up = this.add.sprite(115, 310, 'botao', 6)
+    this.up = this.add.sprite(705, 310, 'botao', 6)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
@@ -281,9 +291,39 @@ export default class cena0 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 10000, 10220)
     this.cameras.main.startFollow(this.plinio)
   }
-  
 
-  update () { 
+
+
+  
+  /*contandar (plinio, floor) {
+    if (this.botao.frame.name === 1) {
+      if (this.botao.frame.name === 7) {
+        this.plinio.anims.play('upd')
+        this.plinio.setVelocityX(150)
+      }
+    } else if (this.botao.frame.name === 1) {
+      if (this.botao.frame.name === 5) {
+        this.plinio.anims.play('upe')
+        this.plinio.setVelocityX(-150)
+      }
+    }
+  }*/
+  /*contandar () {
+    this.esquerdaPressionado = false;
+    this.upePressionado = false;
+    this.updPressionado = false;
+
+
+    if (this.esquerdaPressionado) {
+      this.plinio.setVelocityX(-150)
+      this.plinio.anims.play('plinio-esquerda', true)
+
+    }
+    }*/
+
+
+  update () {
+    
     
   }
   segundafase () {
@@ -292,6 +332,11 @@ export default class cena0 extends Phaser.Scene {
     this.plinio.y = 1640;
     }
     
+  terceirafase () {
+
+    this.plinio.x = 324;
+    this.plinio.y = 2510;
+  }
 
   
   gameover () {
