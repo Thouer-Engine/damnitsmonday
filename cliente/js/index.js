@@ -9,6 +9,8 @@ class Game extends Phaser.Game {
   constructor () {
     super(config)
 
+    this.socket = io()
+
     this.scene.add('cenastart', cenastart)
     this.scene.add('cena0', cena0)
     this.scene.add('gameover', gameover)
