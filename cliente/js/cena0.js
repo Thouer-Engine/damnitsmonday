@@ -58,6 +58,7 @@ export default class cena0 extends Phaser.Scene {
     this.tilesetTileset = this.tilemapUnico.addTilesetImage('tileset')
 
     this.layerfloor = this.tilemapUnico.createLayer('floor', [this.tilesetTileset])
+    this.layerbackground = this.tilemapUnico.createLayer('background', [this.tilesetTileset])
     this.layercm1 = this.tilemapUnico.createLayer('cm1', [this.tilesetTileset])
     this.layercm2 = this.tilemapUnico.createLayer('cm2', [this.tilesetTileset])
     this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesetTileset])
