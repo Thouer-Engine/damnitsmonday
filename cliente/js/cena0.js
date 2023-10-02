@@ -288,7 +288,7 @@ export default class cena0 extends Phaser.Scene {
         
 
     /* camera */
-    this.cameras.main.setBounds(0, 0, 10000, 10220)
+    this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.plinio)
   }
 
