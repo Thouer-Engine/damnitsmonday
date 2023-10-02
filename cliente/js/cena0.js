@@ -174,8 +174,8 @@ export default class cena0 extends Phaser.Scene {
 
     /* botões */
 
-    const direitaPressionado = false;
-    const esquerdaPressionado = false;
+    let direitaPressionado = false;
+    let esquerdaPressionado = false;
    
     
 
