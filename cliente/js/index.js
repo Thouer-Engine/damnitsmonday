@@ -10,6 +10,10 @@ class Game extends Phaser.Game {
     super(config)
 
     this.socket = io()
+    this.socket.on('connect', () => {
+      console.log('Conectado ao servidor !')
+      this.socket.emit('entrar-na-sala', 1)
+    })
 
     this.scene.add('cenastart', cenastart)
     this.scene.add('cena0', cena0)

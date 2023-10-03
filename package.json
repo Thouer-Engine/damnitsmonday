@@ -6,6 +6,9 @@
     "eslint-plugin-n": "^16.0.2",
     "eslint-plugin-promise": "^6.1.1"
   },
+  "engines":{
+    "node": ">=14"
+  },
   "scripts": {
     "start": "npm start --prefix servidor"
   },
