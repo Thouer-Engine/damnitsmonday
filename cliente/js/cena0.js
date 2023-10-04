@@ -186,15 +186,13 @@ export default class cena0 extends Phaser.Scene {
       .setInteractive()
 
       .on('pointerover', () => {
-        direitaPressionado = true;
-        esquerdaPressionado = true;
-       
-        
+        this.direitaPressionado = true;      
         this.direita.setFrame(1)
         this.plinio.anims.play('plinio-direita', true)//oi
         this.plinio.setVelocityX(150)
       })
       .on('pointerout', () => {
+        this.direitaPressionado = false;
         this.direita.setFrame(0)
         this.plinio.setVelocityX(0)
         this.plinio.anims.play('plinio-parado-direita', true)
@@ -204,14 +202,13 @@ export default class cena0 extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        esquerdaPressionado = true;
-        direitaPressionado = false;
-    
+        this.esquerdaPressionado = true;
         this.plinio.setVelocityX(-150)
         this.esquerda.setFrame(5)
         this.plinio.anims.play('plinio-esquerda', true)
       })
       .on('pointerout', () => {
+        this.esquerdaPressionado = false;
         this.esquerda.setFrame(4)
         this.plinio.setVelocityX(0)
         this.plinio.anims.play('plinio-parado-esquerda')
@@ -324,9 +321,24 @@ export default class cena0 extends Phaser.Scene {
 
 
   update () {
-    
-    
+    if (this.esquerdaPressionado) {
+      this.plinio.setVelocityX(-150);
+
+
+      this.plinio.anims.play('plinio-esquerda', true);
+    }
+  
+
+ 
+else if (this.direitaPressionado) {
+    this.plinio.setVelocityX(150);
+
+
+    this.plinio.anims.play('plinio-direita', true);
   }
+
+
+}
   segundafase () {
     
       this.plinio.x = 500;
