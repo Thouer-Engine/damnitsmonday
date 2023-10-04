@@ -239,6 +239,7 @@ export default class cena0 extends Phaser.Scene {
       
       .on('pointerout', () => {
         this.up.setFrame(6)
+        let anim = this.plinio.anims.getName()
         const esquerda = new RegExp('.*esquerda.*') // qualquer expressão com a palavra 'esquerda'
         const direita = new RegExp('.*direita.*') // qualquer expressão com a palavra 'direita'
       
@@ -248,12 +249,16 @@ export default class cena0 extends Phaser.Scene {
             this.plinio.anims.play('plinio-direita', true);
           }
 
-        
-        
           else if (esquerdaPressionado) {
             this.plinio.anims.play('plinio-esquerda', true);
           }
-      
+          
+          else if (this.esquerda.test(anim) && !direitaPressionado && !esquerdaPressionado) {
+              this.plinio.anims.play('plinio-parado-esquerda', true)
+            }
+          else if (this.direita.test(anim) && !direitaPressionado && !esquerdaPressionado) {
+                this.plinio.anims.play('plinio-parado-direita', true)
+              }
         
         
         
@@ -289,36 +294,6 @@ export default class cena0 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.plinio)
   }
-
-
-
-  
-  /*contandar (plinio, floor) {
-    if (this.botao.frame.name === 1) {
-      if (this.botao.frame.name === 7) {
-        this.plinio.anims.play('upd')
-        this.plinio.setVelocityX(150)
-      }
-    } else if (this.botao.frame.name === 1) {
-      if (this.botao.frame.name === 5) {
-        this.plinio.anims.play('upe')
-        this.plinio.setVelocityX(-150)
-      }
-    }
-  }*/
-  /*contandar () {
-    this.esquerdaPressionado = false;
-    this.upePressionado = false;
-    this.updPressionado = false;
-
-
-    if (this.esquerdaPressionado) {
-      this.plinio.setVelocityX(-150)
-      this.plinio.anims.play('plinio-esquerda', true)
-
-    }
-    }*/
-
 
   update () {
     if (this.esquerdaPressionado) {
