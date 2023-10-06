@@ -80,30 +80,41 @@ export default class cena0 extends Phaser.Scene {
         }
       })
       .setScrollFactor(0)
-    /* Personagens */
-    this.relatorio = this.physics.add.image(500, 225, 'relatorio')
 
-    this.beto = this.add.sprite(500, 100, 'beto')
+    /* Personagens */
+    if (this.game.jogadores.primeiro === this.game.socket.id) {
+      this.plinio = this.physics.add.sprite(670, 835, 'plinio',)
+      this.plinio.canJump = true
+    }
+
+    else if (this.game.jogadores.segundo === this.game.socket.id) {
+      this.beto = this.physics.add.sprite(690, 835, 'beto',)
+    }
+
+    else {
+
+    }
 
     
-
-    this.plinio = this.physics.add.sprite(670, 835, 'plinio')
-      .setScale(1, 1)
-
+    
+    //portal//
+    
     this.portal1 = this.physics.add.image(1930, 831, 'portal1')
     this.portal1.setImmovable(true)
     this.portal2 = this.physics.add.image(2545, 1715, 'portal2')
     this.portal2.setImmovable(true)
-
-
+    
+    
+    this.relatorio = this.physics.add.image(900, 225, 'relatorio')
     this.monster = this.physics.add.image (400, 225, 'monster')
-    this.plinio.canJump = true
+    
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     this.layerfloor.setCollisionByProperty({ collides: true })
     
     this.physics.add.collider(this.plinio, this.layerfloor, this.contandar, null, this)
     this.physics.add.collider(this.monster, this.layerfloor)
+    this.physics.add.collider(this.beto, this.layerfloor)
     this.physics.add.collider(this.relatorio, this.layerfloor)
 
 
@@ -115,7 +126,6 @@ export default class cena0 extends Phaser.Scene {
     this.physics.add.collider(this.plinio, this.relatorio, this.win, null, this)
 
    
-
 
     /* anims create */
     this.anims.create({
@@ -293,6 +303,7 @@ export default class cena0 extends Phaser.Scene {
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.plinio)
+    this.cameras.main.startFollow(this.beto)
   }
 
   update () {

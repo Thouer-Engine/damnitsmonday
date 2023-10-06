@@ -28,16 +28,21 @@ export default class cenasala extends Phaser.Scene {
           .text(sala.x, sala.y, 'sala' + sala.numero)
           .setInteractive()
           .on('pointerdown', () => {
-            this.game.socket.emit('entrar-na-sala', sala.numero)
-            
-          this.aguarde = this.add.text(this.game.config.widith / 2, this.game.config.heigth / 2, 'Conectando...')
+           
             this.game.socket.on('jogadores', (jogadores) => {
-              this.aguarde.destroy()
               this.game.jogadores = jogadores
+              console.log(jogadores)
               this.game.scene.stop('cenasala')
               this.game.scene.start('cena0')
             })
 
+           
+           
+            this.game.socket.emit('entrar-na-sala', sala.numero)
+            this.aguarde = this.add.text(this.game.config.widith / 2,
+              this.game.config.heigth / 2,
+              'Conectando...')
+           
             
           
           })
