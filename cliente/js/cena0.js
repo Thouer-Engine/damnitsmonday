@@ -83,12 +83,19 @@ export default class cena0 extends Phaser.Scene {
 
     /* Personagens */
     if (this.game.jogadores.primeiro === this.game.socket.id) {
-      this.plinio = this.physics.add.sprite(670, 835, 'plinio',)
+      this.local = 'plinio'
+      this.remoto = 'beto'
+      this.plinio = this.physics.add.sprite(670, 835, this.local,)
+      this.beto = this.add.sprite(800, 835, this.remoto,1)
       this.plinio.canJump = true
+    
     }
 
     else if (this.game.jogadores.segundo === this.game.socket.id) {
-      this.beto = this.physics.add.sprite(690, 835, 'beto',)
+      this.local = 'beto'
+      this.remoto = 'plinio'
+      this.plinio = this.add.sprite(670, 835, this.remoto,)
+      this.beto = this.physics.add.sprite(800, 835, this.local,1)
     }
 
     else {
@@ -185,8 +192,8 @@ export default class cena0 extends Phaser.Scene {
 
     /* botões */
 
-    let direitaPressionado = false;
-    let esquerdaPressionado = false;
+    this.direitaPressionado = false;
+    this.esquerdaPressionado = false;
    
     
 
@@ -255,18 +262,18 @@ export default class cena0 extends Phaser.Scene {
       
 
         
-          if (direitaPressionado) {
-            this.plinio.anims.play('plinio-direita', true);
-          }
+        if (this.direitaPressionado) {
+          this.plinio.anims.play('plinio-direita', true);
+        }
 
-          else if (esquerdaPressionado) {
-            this.plinio.anims.play('plinio-esquerda', true);
-          }
+        else if (this.esquerdaPressionado) {
+          this.plinio.anims.play('plinio-esquerda', true);
+        }
           
-          else if (this.esquerda.test(anim) && !direitaPressionado && !esquerdaPressionado) {
-              this.plinio.anims.play('plinio-parado-esquerda', true)
-            }
-          else if (this.direita.test(anim) && !direitaPressionado && !esquerdaPressionado) {
+        else if (!this.direitaPressionado && !this.esquerdaPressionado && this.esquerda.test(anim)) {
+          this.plinio.anims.play('plinio-parado-esquerda', true)
+        }
+        else if (!this.direitaPressionado && !this.esquerdaPressionado && this.direita.test(anim)) {
                 this.plinio.anims.play('plinio-parado-direita', true)
               }
         
@@ -322,7 +329,6 @@ else if (this.direitaPressionado) {
 
     this.plinio.anims.play('plinio-direita', true);
   }
-
 
 }
   segundafase () {
