@@ -47,9 +47,9 @@ export default class cena0 extends Phaser.Scene {
     this.physics.world.setBounds
     this.input.addPointer(3)
 
-   /* this.musicaambiente = this.sound.add('som1');
-    this.musicaambiente.setLoop(true);
-    this.musicaambiente.play();*/
+    /* this.musicaambiente = this.sound.add('som1');
+     this.musicaambiente.setLoop(true);
+     this.musicaambiente.play();*/
 
     this.tilemapUnico = this.make.tilemap({
       key: 'unico'
@@ -86,7 +86,7 @@ export default class cena0 extends Phaser.Scene {
       this.local = 'plinio'
       this.remoto = 'beto'
       this.plinio = this.physics.add.sprite(670, 835, this.local,)
-      this.beto = this.add.sprite(800, 835, this.remoto,1)
+      this.beto = this.add.sprite(800, 835, this.remoto,)
       this.plinio.canJump = true
     
     }
@@ -95,7 +95,7 @@ export default class cena0 extends Phaser.Scene {
       this.local = 'beto'
       this.remoto = 'plinio'
       this.plinio = this.add.sprite(670, 835, this.remoto,)
-      this.beto = this.physics.add.sprite(800, 835, this.local,1)
+      this.beto = this.physics.add.sprite(800, 835, this.local,)
     }
 
     else {
@@ -112,8 +112,8 @@ export default class cena0 extends Phaser.Scene {
     this.portal2.setImmovable(true)
     
     
-    this.relatorio = this.physics.add.image(900, 225, 'relatorio')
-    this.monster = this.physics.add.image (400, 225, 'monster')
+    this.relatorio = this.physics.add.image(1900, 225, 'relatorio')
+    this.monster = this.physics.add.image(400, 225, 'monster')
     
 
     /* Colisão entre personagem 1 e mapa (por layer) */
@@ -203,7 +203,7 @@ export default class cena0 extends Phaser.Scene {
       .setInteractive()
 
       .on('pointerover', () => {
-        this.direitaPressionado = true;      
+        this.direitaPressionado = true;
         this.direita.setFrame(1)
         this.plinio.anims.play('plinio-direita', true)//oi
         this.plinio.setVelocityX(150)
@@ -270,34 +270,36 @@ export default class cena0 extends Phaser.Scene {
           this.plinio.anims.play('plinio-esquerda', true);
         }
           
-        else if (!this.direitaPressionado && !this.esquerdaPressionado && this.esquerda.test(anim)) {
-          this.plinio.anims.play('plinio-parado-esquerda', true)
+        else if (!this.direitaPressionado && !this.esquerdaPressionado) {
+          if (this.esquerda.test(anim)) {
+            this.plinio.anims.play('plinio-parado-esquerda', true)
+          }
+          else if (this.direita.test(anim)) {
+            this.plinio.anims.play('plinio-parado-direita', true)
+          }
         }
-        else if (!this.direitaPressionado && !this.esquerdaPressionado && this.direita.test(anim)) {
-                this.plinio.anims.play('plinio-parado-direita', true)
-              }
-        
-        
+      
         
         
       })
 
-    /*  .on('pointerup', () => {
-        let anim = this.plinio.anims.getName();
-        const esquerda = new RegExp('.*esquerda.*');
-        const direita = new RegExp('.*direita.*');
-        this.up.setFrame(6)
-        if ((esquerda.test(anim) || direita.test(anim))) {
+    /*.on('pointerup', () => {
+      let anim = this.plinio.anims.getName();
+      const esquerda = new RegExp('.*esquerda.*');
+      const direita = new RegExp('.*direita.*');
+      this.up.setFrame(6)
+      if ((esquerda.test(anim) || direita.test(anim))) {
 
-          if (esquerda.test(anim)) {
-            this.plinio.anims.play('plinio-esquerda', true);
-          } else if (direita.test(anim)) {
-            this.plinio.anims.play('plinio-direita', true);
-          }
+        if (esquerda.test(anim)) {
+          this.plinio.anims.play('plinio-esquerda', true);
+        } else if (direita.test(anim)) {
+          this.plinio.anims.play('plinio-direita', true);
         }
-      })     
+      }
+    })
+    */
   
-*/
+
 
     
 
@@ -311,25 +313,27 @@ export default class cena0 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.plinio)
     this.cameras.main.startFollow(this.beto)
-  }
-
-  update () {
-    if (this.esquerdaPressionado) {
-      this.plinio.setVelocityX(-150);
-
-
-      this.plinio.anims.play('plinio-esquerda', true);
-    }
+    
+    this.game.socket.on('estado-notificar', ({ cena, x, y, frame }) => { 
+      this.beto.x = x
+      this.beto.y = y
+      this.beto.setFrame(frame)
+    })
   
-
- 
-else if (this.direitaPressionado) {
-    this.plinio.setVelocityX(150);
-
-
-    this.plinio.anims.play('plinio-direita', true);
   }
 
+  update () {    
+    try {
+      this.game.socket.emit('estado-publicar', this.game.sala, {
+        x: this.plinio.x, 
+        y: this.plinio.y,
+        frame: this.plinio.frame.name
+      })
+    } catch (error) {
+  console.error(error)
+    }
+    
+    
 }
   segundafase () {
     
