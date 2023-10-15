@@ -9,11 +9,10 @@ export default class gameover extends Phaser.Scene {
       frameWidth: 128,
       frameHeight: 64
     })
-    this.load.spritesheet('menu', '../assets/botão/menu.png', {
+    this.load.spritesheet('menu', '../assets/botão/menubutton.png', {
       frameWidth: 128,
       frameHeight: 64
     })
-
   }
 
   create () {
@@ -31,6 +30,21 @@ export default class gameover extends Phaser.Scene {
       .on('pointerout', () => {
         this.try.setFrame(0)
       })
-    
+      .on('pointerdown', () => {
+        this.game.scene.stop('gameover')
+        this.game.scene.start('cena0')
+      })
+    this.menu = this.add.sprite(centrox + 70, centroy + 100, 'menu', 0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.menu.setFrame(1)
+      })
+      .on('pointerout', () => {
+        this.menu.setFrame(0)
+      })
+      .on('pointerdown', () => {
+        this.game.scene.stop('gameover')
+        this.game.scene.start('cenastart')
+      })
   }
 }

@@ -1,6 +1,6 @@
-export default class cena0 extends Phaser.Scene {
+export default class cena3 extends Phaser.Scene {
   constructor () {
-    super('cena0')
+    super('cena3')
 
     this.botoesPressionados = {
       cima: false,
@@ -13,8 +13,7 @@ export default class cena0 extends Phaser.Scene {
     this.load.tilemapTiledJSON('unico', '../assets/cenário/unico/unico.json')
 
     this.load.image('tileset', '../assets/cenário/unico/tileset.png')
-    this.load.audio('som1', '../assets/som/background.mp3')
-    this.load.audio('somportal', '../assets/som/somportal.mp3')
+    // this.load.audio('som1', '../assets/som/som.mp3')
     this.load.spritesheet('tela-cheia', '../assets/botão/telacheia.png', {
       frameWidth: 64,
       frameHeight: 64
@@ -46,9 +45,9 @@ export default class cena0 extends Phaser.Scene {
     // this.physics.world.setBounds
     this.input.addPointer(3)
 
-     this.musicaambiente = this.sound.add('som1');
+    /* this.musicaambiente = this.sound.add('som1');
      this.musicaambiente.setLoop(true);
-     this.musicaambiente.play();
+     this.musicaambiente.play(); */
 
     this.tilemapUnico = this.make.tilemap({
       key: 'unico'
@@ -62,17 +61,6 @@ export default class cena0 extends Phaser.Scene {
     this.layercm2 = this.tilemapUnico.createLayer('cm2', [this.tilesetTileset])
     this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesetTileset])
 
-    // proximidade com o portal//
-   /* function.verificarProximidade (personagem, objeto, distanciaMaxima) {
-      const distancia = Phaser.Math.Distance.Between(personagem.x, personagem.y, objeto.x, objeto.y);
-
-      if (distancia <= distanciaMaxima) {
-        return true;
-      }
-
-      return false;
-    }
-*/
     /* telacheia */
     this.telacheia = this.add
       .sprite(750, 50, 'tela-cheia', 0)
@@ -334,13 +322,13 @@ export default class cena0 extends Phaser.Scene {
             this.eu.anims.play('beto-esquerda', true)
           }
         }
-       /* if (!this.direitaPressionado && !this.esquerdaPressionado) {
-          if (this.esquerda.test(anim)) {
-            this.eu.anims.play('plinio-esquerda-parado', true)
-          } else if (this.direita.test(anim)) {
-            this.eu.anims.play('plinio-direita-parado', true)
-          }
-        }*/
+        /* if (!this.direitaPressionado && !this.esquerdaPressionado) {
+           if (this.esquerda.test(anim)) {
+             this.eu.anims.play('plinio-esquerda-parado', true)
+           } else if (this.direita.test(anim)) {
+             this.eu.anims.play('plinio-direita-parado', true)
+           }
+         }*/
       })
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
@@ -363,27 +351,20 @@ export default class cena0 extends Phaser.Scene {
     } catch (error) {
       console.error(error)
     }
-    // eslint-disable-next-line no-undef
-    /*if (verificarProximidade) {
-      this.somportal = this.sound.add('somportal')
-      this.somportal.setLoop(true)
-      this.somportal.play()
-      this.somportal.play()
-    }*/
   }
 
   trocafase () {
-    this.game.scene.stop('cena0')
+    this.game.scene.stop('cena3')
     this.game.scene.start('cenamapas')
   }
 
   gameover () {
-    this.game.scene.stop('cena0')
+    this.game.scene.stop('cena3')
     this.game.scene.start('gameover')
   }
 
   win () {
-    this.game.scene.stop('cena0')
+    this.game.scene.stop('cena3')
     this.game.scene.start('win')
   }
 }
