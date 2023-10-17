@@ -35,10 +35,10 @@ export default class cena1 extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64
     })
-
+    this.load.audio('somportal', '../assets/som/somportal.mp3')
     this.load.image('monster', '../assets/personagem/monster.png')
     this.load.image('relatorio', '../assets/itens/mapa.png')
-    this.load.image('portal', '../assets/itens/portal1.png')
+    this.load.image('portal', '../assets/itens/portal2.png')
   }
 
   create () {
@@ -81,19 +81,19 @@ export default class cena1 extends Phaser.Scene {
       this.local = 'plinio'
       this.remoto = 'beto'
       this.eu = this.physics.add.sprite(500, 1640, this.local)
-      this.ele = this.add.sprite(560, 1640, this.remoto)
+      this.ele = this.add.sprite(460, 1640, this.remoto)
       this.eu.canJump = true
     } else if (this.game.jogadores.segundo === this.game.socket.id) {
       this.local = 'beto'
       this.remoto = 'plinio'
       this.ele = this.add.sprite(500, 1640, this.remoto)
-      this.eu = this.physics.add.sprite(560, 1640, this.local)
+      this.eu = this.physics.add.sprite(460, 1640, this.local)
     } else { }
 
     // portal//
 
-    this.portal1 = this.physics.add.image(1930, 831, 'portal')
-    this.portal1.setImmovable(true)
+    this.portal2 = this.physics.add.image(2550, 1600, 'portal')
+    this.portal2.setImmovable(true)
     this.relatorio = this.physics.add.image(190, 225, 'relatorio')
     this.monster = this.physics.add.image(400, 225, 'monster')
 
@@ -104,8 +104,8 @@ export default class cena1 extends Phaser.Scene {
     this.physics.add.collider(this.monster, this.layerfloor)
     this.physics.add.collider(this.relatorio, this.layerfloor)
 
-    this.physics.add.collider(this.eu, this.portal1, this.trocafase, null, this)
-    this.physics.add.collider(this.portal1, this.layerfloor)
+    this.physics.add.collider(this.eu, this.portal2, this.trocafase, null, this)
+    this.physics.add.collider(this.portal2, this.layerfloor)
     this.physics.add.collider(this.eu, this.monster, this.gameover, null, this)
     this.physics.add.collider(this.eu, this.relatorio, this.win, null, this)
 
@@ -354,6 +354,10 @@ export default class cena1 extends Phaser.Scene {
   }
 
   trocafase () {
+    this.somportal = this.sound.add('somportal')
+    this.somportal.play()
+    this.somportal.play()
+    
     this.game.scene.stop('cena1')
     this.game.scene.start('cenamapas')
   }

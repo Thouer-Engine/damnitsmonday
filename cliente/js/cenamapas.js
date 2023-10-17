@@ -18,7 +18,6 @@ export default class cenamapas extends Phaser.Scene {
     this.load.image('fundomapa', '../assets/fases/fundo_fases.png')
   }
 
-
   create () {
     const centrox = this.cameras.main.worldView.x + this.cameras.main.width / 2
     const centroy = this.cameras.main.worldView.y + this.cameras.main.height / 2

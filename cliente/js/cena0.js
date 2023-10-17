@@ -46,9 +46,9 @@ export default class cena0 extends Phaser.Scene {
     // this.physics.world.setBounds
     this.input.addPointer(3)
 
-     this.musicaambiente = this.sound.add('som1');
-     this.musicaambiente.setLoop(true);
-     this.musicaambiente.play();
+    this.musicaambiente = this.sound.add('som1')
+    this.musicaambiente.setLoop(true)
+    this.musicaambiente.play()
 
     this.tilemapUnico = this.make.tilemap({
       key: 'unico'
@@ -63,16 +63,13 @@ export default class cena0 extends Phaser.Scene {
     this.layercm3 = this.tilemapUnico.createLayer('cm3', [this.tilesetTileset])
 
     // proximidade com o portal//
-   /* function.verificarProximidade (personagem, objeto, distanciaMaxima) {
-      const distancia = Phaser.Math.Distance.Between(personagem.x, personagem.y, objeto.x, objeto.y);
-
+    function verificarProximidade (plinio, portal1, distanciaMaxima) {
+      const distancia = Phaser.Math.Distance.Between(plinio.x, plinio.y, portal1.x, portal1.y)
       if (distancia <= distanciaMaxima) {
-        return true;
+        return true
       }
-
-      return false;
+      return false
     }
-*/
     /* telacheia */
     this.telacheia = this.add
       .sprite(750, 50, 'tela-cheia', 0)
@@ -334,13 +331,13 @@ export default class cena0 extends Phaser.Scene {
             this.eu.anims.play('beto-esquerda', true)
           }
         }
-       /* if (!this.direitaPressionado && !this.esquerdaPressionado) {
+        /* if (!this.direitaPressionado && !this.esquerdaPressionado) {
           if (this.esquerda.test(anim)) {
             this.eu.anims.play('plinio-esquerda-parado', true)
           } else if (this.direita.test(anim)) {
             this.eu.anims.play('plinio-direita-parado', true)
           }
-        }*/
+        } */
       })
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
@@ -363,16 +360,13 @@ export default class cena0 extends Phaser.Scene {
     } catch (error) {
       console.error(error)
     }
-    // eslint-disable-next-line no-undef
-    /*if (verificarProximidade) {
-      this.somportal = this.sound.add('somportal')
-      this.somportal.setLoop(true)
-      this.somportal.play()
-      this.somportal.play()
-    }*/
   }
 
   trocafase () {
+    this.somportal = this.sound.add('somportal')
+    this.somportal.play()
+    this.somportal.play()
+
     this.game.scene.stop('cena0')
     this.game.scene.start('cenamapas')
   }

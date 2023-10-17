@@ -31,7 +31,7 @@ export default class cenasala extends Phaser.Scene {
             this.game.jogadores = jogadores
             console.log(jogadores)
             this.game.scene.stop('cenasala')
-            this.game.scene.start('cena0')
+            this.game.scene.start('cena1')
           })
 
           this.game.socket.emit('entrar-na-sala', sala.numero)
