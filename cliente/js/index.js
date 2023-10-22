@@ -30,6 +30,7 @@ class Game extends Phaser.Game {
     this.scene.add('win', win)
     this.scene.add('cenasala', cenasala)
 
+    this.salaCorrente = 'cenasala'
     this.scene.start('cenasala')
   }
 }

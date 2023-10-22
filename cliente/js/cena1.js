@@ -42,6 +42,7 @@ export default class cena1 extends Phaser.Scene {
   }
 
   create () {
+    this.game.salaCorrente = 'cena1'
     // this.physics.world.setBounds
     this.input.addPointer(3)
 
@@ -328,7 +329,7 @@ export default class cena1 extends Phaser.Scene {
            } else if (this.direita.test(anim)) {
              this.eu.anims.play('plinio-direita-parado', true)
            }
-         }*/
+         } */
       })
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
@@ -357,7 +358,7 @@ export default class cena1 extends Phaser.Scene {
     this.somportal = this.sound.add('somportal')
     this.somportal.play()
     this.somportal.play()
-    
+
     this.game.scene.stop('cena1')
     this.game.scene.start('cenamapas')
   }

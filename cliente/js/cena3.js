@@ -42,6 +42,7 @@ export default class cena3 extends Phaser.Scene {
   }
 
   create () {
+    this.game.salaCorrente = 'cena3'
     // this.physics.world.setBounds
     this.input.addPointer(3)
 

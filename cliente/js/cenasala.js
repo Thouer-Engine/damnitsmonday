@@ -4,34 +4,66 @@ export default class cenasala extends Phaser.Scene {
   }
 
   preload () {
-
+    this.load.image('bgsala', '../assets/salas/salas.png')
+    this.load.spritesheet('sala', '../assets/salas/salasbotoes.png', {
+      frameWidth: 140,
+      frameHeight: 45
+    })
   }
 
   create () {
+    this.add.image(400, 225, 'bgsala')
     this.salas = [
       {
         numero: 1,
-        x: 100,
+        x: 315,
         y: 100
       },
       {
         numero: 2,
-        x: 200,
-        y: 200
-
+        x: 485,
+        y: 100
+      },
+      {
+        numero: 3,
+        x: 315,
+        y: 180
+      },
+      {
+        numero: 4,
+        x: 485,
+        y: 180
+      },
+      {
+        numero: 5,
+        x: 315,
+        y: 260
+      },
+      {
+        numero: 6,
+        x: 485,
+        y: 260
+      },
+      {
+        numero: 7,
+        x: 315,
+        y: 340
+      },
+      {
+        numero: 8,
+        x: 485,
+        y: 340
       }
     ]
-
     this.salas.forEach((sala) => {
-      sala.botao = this.add
-        .text(sala.x, sala.y, 'sala' + sala.numero)
+      sala.botao = this.add.sprite(sala.x, sala.y, 'sala' + sala.numero)
         .setInteractive()
         .on('pointerdown', () => {
           this.game.socket.on('jogadores', (jogadores) => {
             this.game.jogadores = jogadores
             console.log(jogadores)
             this.game.scene.stop('cenasala')
-            this.game.scene.start('cena1')
+            this.game.scene.start('cena0')
           })
 
           this.game.socket.emit('entrar-na-sala', sala.numero)

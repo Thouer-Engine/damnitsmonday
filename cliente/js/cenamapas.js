@@ -19,6 +19,7 @@ export default class cenamapas extends Phaser.Scene {
   }
 
   create () {
+    this.game.salaCorrente = 'cenamapas'
     const centrox = this.cameras.main.worldView.x + this.cameras.main.width / 2
     const centroy = this.cameras.main.worldView.y + this.cameras.main.height / 2
 

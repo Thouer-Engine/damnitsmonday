@@ -32,7 +32,7 @@ export default class gameover extends Phaser.Scene {
       })
       .on('pointerdown', () => {
         this.game.scene.stop('gameover')
-        this.game.scene.start('cena0')
+        this.game.scene.start(this.game.salaCorrente)
       })
     this.menu = this.add.sprite(centrox + 70, centroy + 100, 'menu', 0)
       .setInteractive()
