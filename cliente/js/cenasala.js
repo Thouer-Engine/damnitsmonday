@@ -56,22 +56,32 @@ export default class cenasala extends Phaser.Scene {
       }
     ]
     this.salas.forEach((sala) => {
-      sala.botao = this.add.sprite(sala.x, sala.y, 'sala' + sala.numero)
+      sala.botao = this.add.sprite(sala.x, sala.y, 'sala', sala.numero - 1)
         .setInteractive()
         .on('pointerdown', () => {
-          this.game.socket.on('jogadores', (jogadores) => {
-            this.game.jogadores = jogadores
-            console.log(jogadores)
-            this.game.scene.stop('cenasala')
-            this.game.scene.start('cena0')
+          this.salas.forEach((item) => {
+            item.botao.destroy()
           })
-
-          this.game.socket.emit('entrar-na-sala', sala.numero)
-          this.game.sala = sala.numero
-          this.aguarde = this.add.text(this.game.config.widith / 2,
-            this.game.config.heigth / 2,
-            'Conectando...')
+          this.game.cenasala = sala.numero
+          this.game.socket.emit('entrar-na-sala', this.game.cenasala)
         })
+    })
+
+    this.game.socket.on('jogadores', (jogadores) => {
+      this.game.jogadores = jogadores
+      console.log(jogadores)
+      if (jogadores.segundo) {
+        this.game.jogadores = jogadores
+      } else if (jogadores.primeiro) {
+        navigator.mediaDevices
+          .getUserMedia({ video: false, audio: true })
+          .then((stream) => {
+            this.game.midias = stream
+          })
+          .catch((error) => console.error(error))
+      }
+      this.game.scene.stop('cenasala')
+      this.game.scene.start('cena0')
     })
   }
 
