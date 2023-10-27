@@ -281,15 +281,13 @@ export default class cena0 extends Phaser.Scene {
 
     /* botões */
 
-    this.direitaPressionado = false
-    this.esquerdaPressionado = false
 
     this.direita = this.add.sprite(150, 350, 'botao', 0)
       .setScrollFactor(0)
       .setInteractive()
 
       .on('pointerover', () => {
-        this.direitaPressionado = true
+        this.direitaPressionado = true,
         this.direita.setFrame(1)
         this.eu.setVelocityX(150)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
@@ -299,7 +297,7 @@ export default class cena0 extends Phaser.Scene {
         }
       })
       .on('pointerout', () => {
-        this.direitaPressionado = false
+        this.direitaPressionado = false,
         this.direita.setFrame(0)
         this.eu.setVelocityX(0)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
@@ -313,7 +311,7 @@ export default class cena0 extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        this.esquerdaPressionado = true
+        this.esquerdaPressionado = true,
         this.eu.setVelocityX(-150)
         this.esquerda.setFrame(5)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
@@ -323,7 +321,7 @@ export default class cena0 extends Phaser.Scene {
         }
       })
       .on('pointerout', () => {
-        this.esquerdaPressionado = false
+        this.esquerdaPressionado = false,
         this.esquerda.setFrame(4)
         this.eu.setVelocityX(0)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
@@ -379,13 +377,13 @@ export default class cena0 extends Phaser.Scene {
             this.eu.anims.play('beto-esquerda', true)
           }
         }
-        /* if (!this.direitaPressionado && !this.esquerdaPressionado) {
+         if (!this.direitaPressionado && !this.esquerdaPressionado) {
           if (this.esquerda.test(anim)) {
             this.eu.anims.play('plinio-esquerda-parado', true)
           } else if (this.direita.test(anim)) {
             this.eu.anims.play('plinio-direita-parado', true)
           }
-        } */
+        } 
       })
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
