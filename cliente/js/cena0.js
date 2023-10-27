@@ -99,7 +99,7 @@ export default class cena0 extends Phaser.Scene {
       this.remoto = 'plinio'
       this.ele = this.add.sprite(670, 835, this.remoto)
       this.eu = this.physics.add.sprite(800, 835, this.local)
-    
+
       navigator.mediaDevices.getUserMedia({ video: false, audio: true })
         .then((stream) => {
           this.game.localConnection = new RTCPeerConnection(this.game.ice_servers)
@@ -108,7 +108,7 @@ export default class cena0 extends Phaser.Scene {
 
           this.game.localConnection.ontrack = ({ streams: [stream] }) =>
             this.game.audio.srcObject = stream
-          
+
           stream.getTracks()
             .forEach((track) => this.game.localConnection.addTrack(track, stream))
 
@@ -120,7 +120,7 @@ export default class cena0 extends Phaser.Scene {
         })
         .catch((error) => console.error(error))
     }
-    
+
     this.game.socket.on('offer', (description) => {
       this.game.remoteConnection = new RTCPeerConnection(this.game.ice_servers)
 
@@ -146,7 +146,7 @@ export default class cena0 extends Phaser.Scene {
     this.game.socket.on('candidate', (candidate) => {
       const conn = this.game.localConnection || this.game.remoteConnection
       conn.addIceCandidate(new RTCIceCandidate(candidate))
-    })       
+    })
     // portal//
 
     this.portal1 = this.physics.add.image(1930, 831, 'portal')
@@ -163,7 +163,7 @@ export default class cena0 extends Phaser.Scene {
 
     this.physics.add.collider(this.eu, this.portal1, this.trocafase, null, this)
     this.physics.add.collider(this.portal1, this.layerfloor)
-    this.physics.add.collider(this.eu, this.monster, this.gameover, null, this)
+    this.physics.add.collider(this.eu, this.monster, this.gameOver, null, this)
     this.physics.add.collider(this.eu, this.relatorio, this.win, null, this)
 
     /* anims create */
@@ -389,10 +389,15 @@ export default class cena0 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.eu)
 
-    this.game.socket.on('estado-notificar', ({ cena, x, y, frame }) => {
+    this.game.socket.on('estado-notificar', ({ x, y, frame }) => {
       this.ele.x = x
       this.ele.y = y
       this.ele.setFrame(frame)
+    })
+
+    this.game.socket.on('cena-notificar', cena => {
+      this.game.scene.stop('cena0')
+      this.game.scene.start(cena)
     })
   }
 
@@ -414,16 +419,19 @@ export default class cena0 extends Phaser.Scene {
     this.somportal.play()
 
     this.game.scene.stop('cena0')
+    this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenamapas')
     this.game.scene.start('cenamapas')
   }
 
-  gameover () {
+  gameOver () {
     this.game.scene.stop('cena0')
+    this.game.socket.emit('cena-publicar', this.game.cenasala, 'gameover')
     this.game.scene.start('gameover')
   }
 
   win () {
     this.game.scene.stop('cena0')
+    this.game.socket.emit('cena-publicar', this.game.cenasala, 'win')
     this.game.scene.start('win')
   }
 }
