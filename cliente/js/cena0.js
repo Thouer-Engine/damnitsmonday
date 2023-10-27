@@ -2,11 +2,7 @@ export default class cena0 extends Phaser.Scene {
   constructor () {
     super('cena0')
 
-    this.botoesPressionados = {
-      cima: false,
-      direita: false,
-      esquerda: false
-    }
+   
   }
 
   preload () {
@@ -280,8 +276,8 @@ export default class cena0 extends Phaser.Scene {
     })
 
     /* botões */
-
-
+    this.esquerda = false,
+      this.direitaPressionado = false,
     this.direita = this.add.sprite(150, 350, 'botao', 0)
       .setScrollFactor(0)
       .setInteractive()
@@ -378,11 +374,12 @@ export default class cena0 extends Phaser.Scene {
           }
         }
          if (!this.direitaPressionado && !this.esquerdaPressionado) {
-          if (this.esquerda.test(anim)) {
-            this.eu.anims.play('plinio-esquerda-parado', true)
-          } else if (this.direita.test(anim)) {
-            this.eu.anims.play('plinio-direita-parado', true)
-          }
+       if (direita.test(anim)) {
+             this.eu.anims.play('plinio-direita-parado', true)
+          } 
+           else if (esquerda.test(anim)) {
+             this.eu.anims.play('plinio-esquerda-parado', true)
+}
         } 
       })
     /* camera */
