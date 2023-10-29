@@ -276,12 +276,12 @@ export default class cena0 extends Phaser.Scene {
     })
 
     /* botões */
-    this.esquerda = false,
-      this.direitaPressionado = false,
-    this.direita = this.add.sprite(150, 350, 'botao', 0)
+    this.esquerdaPressionado = false,
+    this.direitaPressionado = false,
+   
+      this.direita = this.add.sprite(150, 350, 'botao', 0)
       .setScrollFactor(0)
       .setInteractive()
-
       .on('pointerover', () => {
         this.direitaPressionado = true,
         this.direita.setFrame(1)
@@ -374,7 +374,7 @@ export default class cena0 extends Phaser.Scene {
           }
         }
          if (!this.direitaPressionado && !this.esquerdaPressionado) {
-       if (direita.test(anim)) {
+         if (direita.test(anim)) {
              this.eu.anims.play('plinio-direita-parado', true)
           } 
            else if (esquerda.test(anim)) {
@@ -399,6 +399,17 @@ export default class cena0 extends Phaser.Scene {
   }
 
   update () {
+    
+      if (this.esquerdaPressionado) {
+        this.eu.setVelocityX(-150)
+      } else if (this.direitaPressionado) {
+        this.eu.setVelocityX(150)
+      } 
+    if (!this.esquerdaPressionado && !this.direitaPressionado) { 
+      this.eu.setVelocityX(0)
+      }
+    
+    
     try {
       this.game.socket.emit('estado-publicar', this.game.cenasala, {
         x: this.eu.x,

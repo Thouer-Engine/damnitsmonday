@@ -9,10 +9,17 @@ export default class cenasala extends Phaser.Scene {
       frameWidth: 140,
       frameHeight: 45
     })
+    this.load.image('texto', '../assets/salas/texto.png')
   }
 
   create () {
     this.add.image(400, 225, 'bgsala')
+    this.mensagem = this.add.text(100, 75, ' ', {
+      fontFamily: 'monospace',
+      font: '32px Courier',
+      fill: '#cccccc'
+    })
+
     this.salas = [
       {
         numero: 1,
@@ -72,16 +79,18 @@ export default class cenasala extends Phaser.Scene {
       console.log(jogadores)
       if (jogadores.segundo) {
         this.game.jogadores = jogadores
+        this.game.scene.stop('cenasala')
+        this.game.scene.start('cena0')
       } else if (jogadores.primeiro) {
-        navigator.mediaDevices
-          .getUserMedia({ video: false, audio: true })
+        this.add.image(405, 200, 'texto')
+        .setScale(0.5)
+        
+        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
           .then((stream) => {
             this.game.midias = stream
           })
           .catch((error) => console.error(error))
       }
-      this.game.scene.stop('cenasala')
-      this.game.scene.start('cena0')
     })
   }
 

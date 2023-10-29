@@ -22,8 +22,9 @@ export default class cenastart extends Phaser.Scene {
 
       })
       .on('pointerdown', () => {
+        this.scale.startFullscreen()
         this.game.scene.stop('cenastart')
-        this.game.scene.start('cena0')
+        this.game.scene.start('cenasala')
       })
 
     this.telacheia = this.add
