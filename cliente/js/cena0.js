@@ -148,7 +148,7 @@ export default class cena0 extends Phaser.Scene {
     this.portal1 = this.physics.add.image(1930, 831, 'portal')
     this.portal1.setImmovable(true)
     this.relatorio = this.physics.add.image(190, 225, 'relatorio')
-    this.monster = this.physics.add.image(400, 225, 'monster')
+    this.monster = this.physics.add.image(670, 225, 'monster')
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     this.layerfloor.setCollisionByProperty({ collides: true })
@@ -399,17 +399,17 @@ export default class cena0 extends Phaser.Scene {
   }
 
   update () {
-    
+    let isSceneTransitioning = false
+   
+    if (!isSceneTransitioning) {
       if (this.esquerdaPressionado) {
-        this.eu.setVelocityX(-150)
+        this.eu.setVelocityX(-150);
       } else if (this.direitaPressionado) {
-        this.eu.setVelocityX(150)
-      } 
-    if (!this.esquerdaPressionado && !this.direitaPressionado) { 
-      this.eu.setVelocityX(0)
+        this.eu.setVelocityX(150);
       }
+    }
     
-    
+         
     try {
       this.game.socket.emit('estado-publicar', this.game.cenasala, {
         x: this.eu.x,
@@ -419,22 +419,27 @@ export default class cena0 extends Phaser.Scene {
     } catch (error) {
       console.error(error)
     }
+    
   }
+  
 
   trocafase () {
     this.somportal = this.sound.add('somportal')
     this.somportal.play()
     this.somportal.play()
-
-    this.game.scene.stop('cena0')
-    this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenamapas')
-    this.game.scene.start('cenamapas')
+    setTimeout(() => {
+      this.game.scene.stop('cena0');
+      this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenamapas');
+      this.game.scene.start('cenamapas');
+    }, 1);
   }
 
   gameOver () {
-    this.game.scene.stop('cena0')
-    this.game.socket.emit('cena-publicar', this.game.cenasala, 'gameover')
-    this.game.scene.start('gameover')
+    setTimeout(() => {
+      this.game.scene.stop('cena0');
+      this.game.socket.emit('cena-publicar', this.game.cenasala, 'gameover');
+      this.game.scene.start('gameover');
+    }, 1);
   }
 
   win () {
