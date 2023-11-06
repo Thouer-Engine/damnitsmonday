@@ -148,7 +148,7 @@ export default class cena0 extends Phaser.Scene {
     this.portal1 = this.physics.add.image(1930, 831, 'portal')
     this.portal1.setImmovable(true)
     this.relatorio = this.physics.add.image(190, 225, 'relatorio')
-    this.monster = this.physics.add.image(670, 225, 'monster')
+    this.monster = this.physics.add.image(600, 225, 'monster')
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     this.layerfloor.setCollisionByProperty({ collides: true })

@@ -4,12 +4,9 @@ export default class cenastart extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('imgcenastart', '../assets/cenário/segunda/png/segunda.png')
-    this.load.image('startbotton', '../assets/botão/start_botton.png')
-    this.load.spritesheet('tela_cheia', '../assets/botão/telacheia.png', {
-      frameWidth: 64,
-      frameHeight: 64
-    })
+
+    this.load.image('startbotton', '../assets/cenário/tela_inicial_taptostart.png')
+
   }
 
   create () {
@@ -22,25 +19,13 @@ export default class cenastart extends Phaser.Scene {
 
       })
       .on('pointerdown', () => {
+       
+       
         this.scale.startFullscreen()
         this.game.scene.stop('cenastart')
         this.game.scene.start('cenasala')
       })
 
-    this.telacheia = this.add
-      .sprite(750, 50, 'tela_cheia', 0)
-      .setInteractive()
-      .on('pointerdown', () => {
-        if (this.scale.isFullscreen) {
-          this.telacheia.setFrame(0)
-          this.scale.stopFullscreen()
-        } else {
-          this.telacheia.setFrame(1)
-          this.scale.startFullscreen()
-        }
-      })
-      .setScrollFactor(0, 0)
   }
-
   update () { }
 }
