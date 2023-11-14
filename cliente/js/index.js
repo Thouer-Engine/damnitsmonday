@@ -15,6 +15,9 @@ class Game extends Phaser.Game {
   constructor () {
     super(config)
 
+    this.id = 1 // Jogo Pesadelos Lúcidos, id 1
+    this.valor = 100 // crédito padrão em Tijolinhos quando termina o jogo
+    
     let iceServers
     if (window.location.host === 'feira-de-jogos.sj.ifsc.edu.br') {
       iceServers = [
@@ -41,6 +44,25 @@ class Game extends Phaser.Game {
     this.socket.on('connect', () => {
       console.log('Conectado ao servidor!')
     })
+
+
+    this.socket.on('cena-notificar', cena => {
+      this.scene.stop(this.cena)
+      this.scene.start(cena)
+    })
+
+
+    this.socket.on('estado-notificar', ({ x, y, frame }) => {
+      try {
+        this.scene.getScene(this.cena).ele.x = x
+        this.scene.getScene(this.cena).ele.y = y
+        this.scene.getScene(this.cena).ele.setFrame(frame)
+      }
+      catch (e) {
+        // console.error(e)
+      }
+    })
+
     this.scene.add('cenamapas', cenamapas)
     this.scene.add('cenastart', cenastart)
     this.scene.add('cena0', cena0)
@@ -53,7 +75,7 @@ class Game extends Phaser.Game {
     this.scene.add('cenasala', cenasala)
 
     this.salaCorrente = 'cenasala'
-    this.scene.start('cenasala')
+    this.scene.start('cenastart')
   }
 }
 

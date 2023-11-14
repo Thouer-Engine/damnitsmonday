@@ -5,11 +5,12 @@ export default class cenastart extends Phaser.Scene {
 
   preload () {
 
-    this.load.image('startbotton', '../assets/cenário/tela_inicial_taptostart.png')
+    this.load.image('startbotton', '../assets/cenário/start.png')
 
   }
 
   create () {
+ 
     this.imagem = this.add
     this.add.image(400, 225, 'imgcenastart')
     this.add.image(400, 225, 'startbotton')

@@ -19,7 +19,10 @@ export default class cenamapas extends Phaser.Scene {
   }
 
   create () {
-    this.game.salaCorrente = 'cenamapas'
+    this.game.cena = 'cenamapas'
+  
+
+
     const centrox = this.cameras.main.worldView.x + this.cameras.main.width / 2
     const centroy = this.cameras.main.worldView.y + this.cameras.main.height / 2
 
@@ -28,6 +31,7 @@ export default class cenamapas extends Phaser.Scene {
     this.mapasbmon = this.add.sprite(centrox - 300, centroy, 'mapaslib', 0)
       .setInteractive()
       .on('pointerdown', () => {
+        this.game.socket.emit('cena-publicar', this.game.cenasala, 'cena0')
         this.game.scene.stop('cenamapas')
         this.game.scene.start('cena0')
       })
@@ -43,6 +47,5 @@ export default class cenamapas extends Phaser.Scene {
   }
 
   update () {
-
   }
 }

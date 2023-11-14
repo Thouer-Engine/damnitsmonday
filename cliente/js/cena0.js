@@ -1,8 +1,6 @@
 export default class cena0 extends Phaser.Scene {
   constructor () {
     super('cena0')
-
-   
   }
 
   preload () {
@@ -11,10 +9,7 @@ export default class cena0 extends Phaser.Scene {
     this.load.image('tileset', '../assets/cenário/unico/tileset.png')
     this.load.audio('som1', '../assets/som/background.mp3')
     this.load.audio('somportal', '../assets/som/somportal.mp3')
-    this.load.spritesheet('tela-cheia', '../assets/botão/telacheia.png', {
-      frameWidth: 64,
-      frameHeight: 64
-    })
+    
 
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
@@ -39,6 +34,8 @@ export default class cena0 extends Phaser.Scene {
   }
 
   create () {
+    this.game.cena = 'cena0'
+
     this.game.salaCorrente = 'cena0'
 
     // this.physics.world.setBounds
@@ -68,33 +65,23 @@ export default class cena0 extends Phaser.Scene {
       }
       return false
     }
-    /* telacheia */
-    this.telacheia = this.add
-      .sprite(750, 50, 'tela-cheia', 0)
-      .setInteractive()
-      .on('pointerdown', () => {
-        if (this.scale.isFullscreen) {
-          this.telacheia.setFrame(0)
-          this.scale.stopFullscreen()
-        } else {
-          this.telacheia.setFrame(1)
-          this.scale.startFullscreen()
-        }
-      })
-      .setScrollFactor(0)
+   
 
     /* Personagens */
     if (this.game.jogadores.primeiro === this.game.socket.id) {
       this.local = 'plinio'
       this.remoto = 'beto'
-      this.eu = this.physics.add.sprite(670, 835, this.local)
-      this.ele = this.add.sprite(800, 835, this.remoto)
-      this.eu.canJump = true
+     /*plinio*/ this.eu = this.physics.add.sprite(410, 835, this.local)
+     /*beto*/  this.ele = this.add.sprite(450, 835, this.remoto)
+  
     } else if (this.game.jogadores.segundo === this.game.socket.id) {
       this.local = 'beto'
       this.remoto = 'plinio'
-      this.ele = this.add.sprite(670, 835, this.remoto)
-      this.eu = this.physics.add.sprite(800, 835, this.local)
+      /*plinio*/ this.ele = this.add.sprite(410, 835, this.remoto)
+      /*beto*/  this.eu = this.physics.add.sprite(450, 835, this.local)
+  
+    
+      
 
       navigator.mediaDevices.getUserMedia({ video: false, audio: true })
         .then((stream) => {
@@ -148,7 +135,7 @@ export default class cena0 extends Phaser.Scene {
     this.portal1 = this.physics.add.image(1930, 831, 'portal')
     this.portal1.setImmovable(true)
     this.relatorio = this.physics.add.image(190, 225, 'relatorio')
-    this.monster = this.physics.add.image(600, 225, 'monster')
+    this.monster = this.physics.add.image(200, 225, 'monster')
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     this.layerfloor.setCollisionByProperty({ collides: true })
@@ -161,6 +148,8 @@ export default class cena0 extends Phaser.Scene {
     this.physics.add.collider(this.portal1, this.layerfloor)
     this.physics.add.collider(this.eu, this.monster, this.gameOver, null, this)
     this.physics.add.collider(this.eu, this.relatorio, this.win, null, this)
+
+  
 
     /* anims create */
     this.anims.create({
@@ -326,7 +315,6 @@ export default class cena0 extends Phaser.Scene {
           this.eu.anims.play('beto-esquerda-parado')
         }
       })
-
     this.up = this.add.sprite(705, 310, 'botao', 6)
       .setScrollFactor(0)
       .setInteractive()
@@ -342,6 +330,7 @@ export default class cena0 extends Phaser.Scene {
             this.eu.anims.play('plinio-upe')
           } else {
             this.eu.anims.play('beto-upe')
+            
           }
         } else if (this.eu.body.blocked.down && direita.test(anim)) {
           this.eu.setVelocityY(-450)
@@ -386,16 +375,7 @@ export default class cena0 extends Phaser.Scene {
     this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.eu)
 
-    this.game.socket.on('estado-notificar', ({ x, y, frame }) => {
-      this.ele.x = x
-      this.ele.y = y
-      this.ele.setFrame(frame)
-    })
 
-    this.game.socket.on('cena-notificar', cena => {
-      this.game.scene.stop('cena0')
-      this.game.scene.start(cena)
-    })
   }
 
   update () {
