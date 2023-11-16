@@ -9,7 +9,7 @@ export default class cena0 extends Phaser.Scene {
     this.load.image('tileset', '../assets/cenário/unico/tileset.png')
     this.load.audio('som1', '../assets/som/background.mp3')
     this.load.audio('somportal', '../assets/som/somportal.mp3')
-    
+    this.load.audio('somroboo', '../assets/som/somderobo.mp3')
 
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
@@ -27,10 +27,14 @@ export default class cena0 extends Phaser.Scene {
       frameWidth: 64,
       frameHeight: 64
     })
-
-    this.load.image('monster', '../assets/personagem/monster.png')
+    this.load.spritesheet('monster', '../assets/personagem/monsters/monster_red.png',
+      {
+        frameWidth: 118,
+        frameHeight: 160
+      })
     this.load.image('relatorio', '../assets/itens/mapa.png')
     this.load.image('portal', '../assets/itens/portal1.png')
+    this.load.image('acionarsom', '../assets/itens/acionarsom.png')
   }
 
   create () {
@@ -38,12 +42,15 @@ export default class cena0 extends Phaser.Scene {
 
     this.game.salaCorrente = 'cena0'
 
+
     // this.physics.world.setBounds
     this.input.addPointer(3)
 
     this.musicaambiente = this.sound.add('som1')
     this.musicaambiente.setLoop(true)
     this.musicaambiente.play()
+
+
 
     this.tilemapUnico = this.make.tilemap({
       key: 'unico'
@@ -65,23 +72,23 @@ export default class cena0 extends Phaser.Scene {
       }
       return false
     }
-   
+
 
     /* Personagens */
     if (this.game.jogadores.primeiro === this.game.socket.id) {
       this.local = 'plinio'
       this.remoto = 'beto'
      /*plinio*/ this.eu = this.physics.add.sprite(410, 835, this.local)
-     /*beto*/  this.ele = this.add.sprite(450, 835, this.remoto)
-  
+     /*beto*/  this.ele = this.add.sprite(1045, 900, this.remoto)
+
     } else if (this.game.jogadores.segundo === this.game.socket.id) {
       this.local = 'beto'
       this.remoto = 'plinio'
       /*plinio*/ this.ele = this.add.sprite(410, 835, this.remoto)
-      /*beto*/  this.eu = this.physics.add.sprite(450, 835, this.local)
-  
-    
-      
+      /*beto*/  this.eu = this.physics.add.sprite(1045, 800, this.local)
+
+
+
 
       navigator.mediaDevices.getUserMedia({ video: false, audio: true })
         .then((stream) => {
@@ -134,24 +141,60 @@ export default class cena0 extends Phaser.Scene {
 
     this.portal1 = this.physics.add.image(1930, 831, 'portal')
     this.portal1.setImmovable(true)
+
+    this.acionarsomrobo = this.physics.add.image(786, 831, 'acionarsom')
+    this.acionarsomrobo.setImmovable(true)
+
+
     this.relatorio = this.physics.add.image(190, 225, 'relatorio')
-    this.monster = this.physics.add.image(200, 225, 'monster')
+
+
+    //monster
+
+    this.monstersGroup = this.physics.add.group(); // Cria um grupo de monstros
+
+    // Adiciona um monstro ao grupo
+    this.monster1 = this.monstersGroup.create(1450, 750, 'monster');
+    this.physics.add.collider(this.monster1, this.layerfloor)
+    this.monster1.setVelocityX(-40);// Define a velocidade inicial do monstro
+    this.anims.create({
+      key: 'monster-esquerda',
+      frames: this.anims.generateFrameNumbers('monster', {
+        start: 0,
+        end: 7
+      }),
+      frameRate: 6,
+      repeat: -1
+    });
+
+    this.monster1.anims.play('monster-esquerda', true);
+
+
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     this.layerfloor.setCollisionByProperty({ collides: true })
 
+
     this.physics.add.collider(this.eu, this.layerfloor, this.contandar, null, this)
-    this.physics.add.collider(this.monster, this.layerfloor)
     this.physics.add.collider(this.relatorio, this.layerfloor)
+
+    this.physics.add.collider(this.acionarsomrobo, this.layerfloor)
+    this.physics.add.collider(this.eu, this.acionarsomrobo, this.somrobot, null, this)
 
     this.physics.add.collider(this.eu, this.portal1, this.trocafase, null, this)
     this.physics.add.collider(this.portal1, this.layerfloor)
-    this.physics.add.collider(this.eu, this.monster, this.gameOver, null, this)
+    //this.physics.add.collider(this.eu, this.monster, this.gameOver, null, this)
     this.physics.add.collider(this.eu, this.relatorio, this.win, null, this)
 
-  
+
+
+
 
     /* anims create */
+
+    //anims monster//
+
+
     this.anims.create({
       key: 'plinio-direita',
       frames: this.anims.generateFrameNumbers('plinio', {
@@ -266,38 +309,38 @@ export default class cena0 extends Phaser.Scene {
 
     /* botões */
     this.esquerdaPressionado = false,
-    this.direitaPressionado = false,
-   
+      this.direitaPressionado = false,
+
       this.direita = this.add.sprite(150, 350, 'botao', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => {
-        this.direitaPressionado = true,
-        this.direita.setFrame(1)
-        this.eu.setVelocityX(150)
-        if (this.game.jogadores.primeiro === this.game.socket.id) {
-          this.eu.anims.play('plinio-direita')
-        } else {
-          this.eu.anims.play('beto-direita')
-        }
-      })
-      .on('pointerout', () => {
-        this.direitaPressionado = false,
-        this.direita.setFrame(0)
-        this.eu.setVelocityX(0)
-        if (this.game.jogadores.primeiro === this.game.socket.id) {
-          this.eu.anims.play('plinio-direita-parado')
-        } else {
-          this.eu.anims.play('beto-direita-parado')
-        }
-      })
+        .setScrollFactor(0)
+        .setInteractive()
+        .on('pointerover', () => {
+          this.direitaPressionado = true,
+            this.direita.setFrame(1)
+          this.eu.setVelocityX(150)
+          if (this.game.jogadores.primeiro === this.game.socket.id) {
+            this.eu.anims.play('plinio-direita')
+          } else {
+            this.eu.anims.play('beto-direita')
+          }
+        })
+        .on('pointerout', () => {
+          this.direitaPressionado = false,
+            this.direita.setFrame(0)
+          this.eu.setVelocityX(0)
+          if (this.game.jogadores.primeiro === this.game.socket.id) {
+            this.eu.anims.play('plinio-direita-parado')
+          } else {
+            this.eu.anims.play('beto-direita-parado')
+          }
+        })
 
     this.esquerda = this.add.sprite(79, 350, 'botao', 4)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
         this.esquerdaPressionado = true,
-        this.eu.setVelocityX(-150)
+          this.eu.setVelocityX(-150)
         this.esquerda.setFrame(5)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda')
@@ -307,7 +350,7 @@ export default class cena0 extends Phaser.Scene {
       })
       .on('pointerout', () => {
         this.esquerdaPressionado = false,
-        this.esquerda.setFrame(4)
+          this.esquerda.setFrame(4)
         this.eu.setVelocityX(0)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda-parado')
@@ -330,7 +373,7 @@ export default class cena0 extends Phaser.Scene {
             this.eu.anims.play('plinio-upe')
           } else {
             this.eu.anims.play('beto-upe')
-            
+
           }
         } else if (this.eu.body.blocked.down && direita.test(anim)) {
           this.eu.setVelocityY(-450)
@@ -362,14 +405,14 @@ export default class cena0 extends Phaser.Scene {
             this.eu.anims.play('beto-esquerda', true)
           }
         }
-         if (!this.direitaPressionado && !this.esquerdaPressionado) {
-         if (direita.test(anim)) {
-             this.eu.anims.play('plinio-direita-parado', true)
-          } 
-           else if (esquerda.test(anim)) {
-             this.eu.anims.play('plinio-esquerda-parado', true)
-}
-        } 
+        if (!this.direitaPressionado && !this.esquerdaPressionado) {
+          if (direita.test(anim)) {
+            this.eu.anims.play('plinio-direita-parado', true)
+          }
+          else if (esquerda.test(anim)) {
+            this.eu.anims.play('plinio-esquerda-parado', true)
+          }
+        }
       })
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
@@ -380,7 +423,7 @@ export default class cena0 extends Phaser.Scene {
 
   update () {
     let isSceneTransitioning = false
-   
+
     if (!isSceneTransitioning) {
       if (this.esquerdaPressionado) {
         this.eu.setVelocityX(-150);
@@ -388,8 +431,8 @@ export default class cena0 extends Phaser.Scene {
         this.eu.setVelocityX(150);
       }
     }
-    
-         
+
+
     try {
       this.game.socket.emit('estado-publicar', this.game.cenasala, {
         x: this.eu.x,
@@ -399,12 +442,26 @@ export default class cena0 extends Phaser.Scene {
     } catch (error) {
       console.error(error)
     }
-    
+
+    this.monstersGroup.children.iterate((monster) => {
+      // Verifica se o monstro atingiu os limites e inverte a direção
+      if (monster.x > 1464) {
+        monster.setVelocityX(-40);
+        monster.flipX = false; // Inverte o sprite horizontalmente
+      } else if (monster.x < 1214) {
+        monster.setVelocityX(40);
+        monster.flipX = true; // Reverte a orientação horizontal do sprite
+      }
+    });
+
+
+
   }
-  
+
+
 
   trocafase () {
-    this.somportal = this.sound.add('somportal')
+    this.somportal = this.sound.add('portal')
     this.somportal.play()
     this.somportal.play()
     setTimeout(() => {
@@ -413,6 +470,14 @@ export default class cena0 extends Phaser.Scene {
       this.game.scene.start('cenamapas');
     }, 1);
   }
+  somrobot () {
+
+
+    const somAoPassar = this.sound.add('somroboo');
+    somAoPassar.play();
+  }
+
+
 
   gameOver () {
     setTimeout(() => {

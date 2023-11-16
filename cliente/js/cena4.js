@@ -66,14 +66,14 @@ export default class cena4 extends Phaser.Scene {
     if (this.game.jogadores.primeiro === this.game.socket.id) {
       this.local = 'plinio'
       this.remoto = 'beto'
-      this.eu = this.physics.add.sprite(339, 2510, this.local)
-      this.ele = this.add.sprite(384, 2510, this.remoto)
+      this.eu = this.physics.add.sprite(341, 5680, this.local)
+      this.ele = this.add.sprite(384, 5699, this.remoto)
       this.eu.canJump = true
     } else if (this.game.jogadores.segundo === this.game.socket.id) {
       this.local = 'beto'
       this.remoto = 'plinio'
-      this.ele = this.add.sprite(339, 2510, this.remoto)
-      this.eu = this.physics.add.sprite(384, 2510, this.local)
+      this.ele = this.add.sprite(341, 5680, this.remoto)
+      this.eu = this.physics.add.sprite(384, 5699, this.local)
 
       navigator.mediaDevices.getUserMedia({ video: false, audio: true })
         .then((stream) => {
@@ -124,7 +124,7 @@ export default class cena4 extends Phaser.Scene {
     })
     // portal//
 
-    this.portal1 = this.physics.add.image(1930, 831, 'portal')
+    this.portal1 = this.physics.add.image(1058, 5683, 'portal')
     this.portal1.setImmovable(true)
     this.relatorio = this.physics.add.image(190, 225, 'relatorio')
     this.monster = this.physics.add.image(600, 225, 'monster')
@@ -399,8 +399,8 @@ export default class cena4 extends Phaser.Scene {
     this.somportal.play()
     setTimeout(() => {
       this.game.scene.stop('cena4');
-      this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenamapas');
-      this.game.scene.start('cenamapas');
+      this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenafinal');
+      this.game.scene.start('cenafinal');
     }, 1);
   }
 

@@ -33,7 +33,7 @@ export default class cenamapas extends Phaser.Scene {
       .on('pointerdown', () => {
         this.game.socket.emit('cena-publicar', this.game.cenasala, 'cena0')
         this.game.scene.stop('cenamapas')
-        this.game.scene.start('cena0')
+        this.game.scene.start('cena3')
       })
 
     this.mapasbtue = this.add.sprite(centrox - 150, centroy, 'mapasbloq', 1)
