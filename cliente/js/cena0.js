@@ -9,7 +9,9 @@ export default class cena0 extends Phaser.Scene {
     this.load.image('tileset', '../assets/cenário/unico/tileset.png')
     this.load.audio('som1', '../assets/som/background.mp3')
     this.load.audio('somportal', '../assets/som/somportal.mp3')
-    this.load.audio('somroboo', '../assets/som/somderobo.mp3')
+    this.load.audio('somroboo', '../assets/som/somrobo.mp3')
+    this.load.audio('somexplosao', '../assets/som/somexplosao.mp3')
+    this.load.audio('somdegameover', '../assets/som/somgameover.mp3')
 
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
@@ -32,9 +34,18 @@ export default class cena0 extends Phaser.Scene {
         frameWidth: 118,
         frameHeight: 160
       })
+    this.load.spritesheet('explosao', '../assets/itens/explosao.png',
+      {
+        frameWidth: 200,
+        frameHeight: 208
+    }
+    )
+
     this.load.image('relatorio', '../assets/itens/mapa.png')
     this.load.image('portal', '../assets/itens/portal1.png')
     this.load.image('acionarsom', '../assets/itens/acionarsom.png')
+
+    this.load.image('poder', '../assets/itens/poder.png')
   }
 
   create () {
@@ -145,6 +156,9 @@ export default class cena0 extends Phaser.Scene {
     this.acionarsomrobo = this.physics.add.image(786, 831, 'acionarsom')
     this.acionarsomrobo.setImmovable(true)
 
+    
+
+
 
     this.relatorio = this.physics.add.image(190, 225, 'relatorio')
 
@@ -183,10 +197,8 @@ export default class cena0 extends Phaser.Scene {
 
     this.physics.add.collider(this.eu, this.portal1, this.trocafase, null, this)
     this.physics.add.collider(this.portal1, this.layerfloor)
-    //this.physics.add.collider(this.eu, this.monster, this.gameOver, null, this)
+    this.physics.add.collider(this.eu, this.monster1, this.gameOver, null, this)
     this.physics.add.collider(this.eu, this.relatorio, this.win, null, this)
-
-
 
 
 
@@ -306,6 +318,17 @@ export default class cena0 extends Phaser.Scene {
       frameRate: 2,
       repeat: -1
     })
+    
+    //anims explosão//
+    this.anims.create({
+      key: 'explosao',
+      frames: this.anims.generateFrameNumbers('explosao', {
+        start: 0,
+        end: 5
+      }),
+      frameRate: 9,
+      repeat: 0
+    })
 
     /* botões */
     this.esquerdaPressionado = false,
@@ -414,11 +437,77 @@ export default class cena0 extends Phaser.Scene {
           }
         }
       })
+    
+    
+    //teste ataque//
+    this.ataque = this.add.sprite(705, 200, 'botao', 8)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+
+        const anim = this.eu.anims.getName()
+        const esquerda = /.*esquerda.*/ // qualquer expressão com a palavra 'esquerda'
+        const direita = /.*direita.*/ // qualquer expressão com a palavra 'direita'
+       
+        if (this.game.jogadores.primeiro === this.game.socket.id) {
+          if (esquerda.test(anim)) {
+            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 25, 'poder').setGravity(0, 300)
+            this.bola.setVelocity(-700, -300)
+            this.eu.setVelocityY(0)
+          } else if (direita.test(anim)) {
+            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder').setGravity(0, 300)
+            this.bola.setVelocity(700, -300)
+            this.eu.setVelocityY(0)
+            this.bola.body.gravity.y = 0
+          }
+          else {
+            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder').setGravity(0, 300)
+            this.bola.setVelocity(700, -300)
+            this.eu.setVelocityY(0)
+          }
+        }
+        else {
+          if (esquerda.test(anim)) {
+            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 25, 'poder').setGravity(0, 300)
+            this.bola.setVelocity(-800, -500)
+            this.eu.setVelocityY(0)
+          } else if (direita.test(anim)) {
+            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder').setGravity(0, 300)
+            this.bola.setVelocity(800, -500)
+            this.eu.setVelocityY(0)
+          }
+          else {
+            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder').setGravity(0, 300)
+            this.bola.setVelocity(800, -500)
+            this.eu.setVelocityY(0)
+          }
+        }
+        this.game.socket.emit('artefatos-publicar', this.game.sala, {
+          bola: {
+            x: this.bola.x,
+            y: this.bola.y,
+            velocityX: this.bola.body.velocity.x
+          }
+        })
+     
+
+        this.physics.add.collider(this.bola, this.layerfloor, this.bolaAtingeChao, null, this)
+        this.physics.add.collider(this.bola, this.monster1, this.matarmonster, null, this)
+      
+        
+       
+        
+        
+        
+      })
+
+    const monster1x = this.monster1.x
+    const monster1y = this.monster1.y
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.eu)
 
-
+  
   }
 
   update () {
@@ -455,31 +544,63 @@ export default class cena0 extends Phaser.Scene {
     });
 
 
-
   }
 
 
+  somrobot (eu, acionarsomrobo) {
+    this.acionarsomrobo.destroy();
+    this.somderobo = this.sound.add('somroboo')
+    this.somderobo.play()
+    this.somderobo.setLoop(true)
+
+  }
+
+bolaAtingeChao (bola,layerfloor){
+ 
+  setTimeout(() => {
+    this.bola.destroy()
+  }, 2);
+}
+
+
+  matarmonster (bola, monster1) {
+    
+    const explosaoSprite = this.add.sprite(monster1.x, monster1.y, 'explosao');
+    explosaoSprite.anims.play('explosao');
+    explosaoSprite.on('animationcomplete', () => {
+      explosaoSprite.destroy();
+    });
+    this.somdeexplosao = this.sound.add('somexplosao')
+    this.somdeexplosao.play()
+      // Destroi o monstro
+    this.monster1.destroy();    
+    this.bola.destroy();
+    if (this.somderobo && this.somderobo.isPlaying) {
+      this.somderobo.stop();
+    }
+   
+  }
 
   trocafase () {
-    this.somportal = this.sound.add('portal')
-    this.somportal.play()
-    this.somportal.play()
+   /* this.somportal = this.sound.add('portal')
+    this.somportal.play()*/
     setTimeout(() => {
       this.game.scene.stop('cena0');
       this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenamapas');
       this.game.scene.start('cenamapas');
     }, 1);
   }
-  somrobot () {
-
-
-    const somAoPassar = this.sound.add('somroboo');
-    somAoPassar.play();
-  }
 
 
 
   gameOver () {
+    if (this.somderobo && this.somderobo.isPlaying) {
+      this.somderobo.stop();
+    }
+
+    this.musicaambiente.stop();
+    this.somgameover = this.sound.add('somdegameover')
+    this.somgameover.play()
     setTimeout(() => {
       this.game.scene.stop('cena0');
       this.game.socket.emit('cena-publicar', this.game.cenasala, 'gameover');
