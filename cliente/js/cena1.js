@@ -34,6 +34,7 @@ export default class cena1 extends Phaser.Scene {
 
   create () {
     this.game.cena = 'cena1'
+    this.game.cenas = 2
 
     this.game.salaCorrente = 'cena1'
 
@@ -128,7 +129,7 @@ export default class cena1 extends Phaser.Scene {
     this.portal1 = this.physics.add.image(2539, 1700, 'portal')
     this.portal1.setImmovable(true)
     this.relatorio = this.physics.add.image(190, 225, 'relatorio')
-    this.monster = this.physics.add.image(600, 225, 'monster')
+    this.monster = this.physics.add.image(0, 225, 'monster')
 
     /* Colisão entre personagem 1 e mapa (por layer) */
     this.layerfloor.setCollisionByProperty({ collides: true })

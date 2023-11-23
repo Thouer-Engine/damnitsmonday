@@ -34,6 +34,7 @@ export default class cena2 extends Phaser.Scene {
 
   create () {
     this.game.cena = 'cena2'
+    this.game.cenas = 3
 
     this.game.salaCorrente = 'cena2'
 
