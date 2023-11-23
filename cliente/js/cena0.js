@@ -38,14 +38,26 @@ export default class cena0 extends Phaser.Scene {
       {
         frameWidth: 200,
         frameHeight: 208
-    }
-    )
+      })
+    
+    this.load.spritesheet('poder_plinio', '../assets/itens/poder_plinio.png',
+      {
+        frameWidth: 20,
+        frameHeight: 20
+      })
+    this.load.spritesheet('poder_beto', '../assets/itens/poder_beto.png',
+      {
+        frameWidth: 16,
+        frameHeight: 16
+      })
+  
 
     this.load.image('relatorio', '../assets/itens/mapa.png')
     this.load.image('portal', '../assets/itens/portal1.png')
     this.load.image('acionarsom', '../assets/itens/acionarsom.png')
 
     this.load.image('poder', '../assets/itens/poder.png')
+    
   }
 
   create () {
@@ -451,49 +463,54 @@ export default class cena0 extends Phaser.Scene {
        
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           if (esquerda.test(anim)) {
-            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 25, 'poder').setGravity(0, 300)
-            this.bola.setVelocity(-700, -300)
+            this.poder_plinio = this.physics.add.sprite(this.eu.x, this.eu.y + 25, 'poder_plinio').setGravity(0, 300)
+            this.pode_plinio.setVelocity(-700, -300)
             this.eu.setVelocityY(0)
           } else if (direita.test(anim)) {
-            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder').setGravity(0, 300)
-            this.bola.setVelocity(700, -300)
+            this.poder_plinio = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder_plinio').setGravity(0, 300)
+            this.poder_plinio.setVelocity(700, -300)
             this.eu.setVelocityY(0)
-            this.bola.body.gravity.y = 0
+            
           }
           else {
-            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder').setGravity(0, 300)
-            this.bola.setVelocity(700, -300)
+            this.poder_plinio = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder-plinio').setGravity(0, 300)
+            this.poder_plinio.setVelocity(700, -300)
             this.eu.setVelocityY(0)
           }
         }
         else {
           if (esquerda.test(anim)) {
-            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 25, 'poder').setGravity(0, 300)
-            this.bola.setVelocity(-800, -500)
+            this.poder_beto = this.physics.add.sprite(this.eu.x, this.eu.y + 25, 'poder_beto').setGravity(0, 300)
+            this.poder_beto.setVelocity(-800, -500)
             this.eu.setVelocityY(0)
           } else if (direita.test(anim)) {
-            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder').setGravity(0, 300)
-            this.bola.setVelocity(800, -500)
+            this.poder_beto = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder_beto').setGravity(0, 300)
+            this.poder_beto.setVelocity(800, -500)
             this.eu.setVelocityY(0)
           }
           else {
-            this.bola = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder').setGravity(0, 300)
-            this.bola.setVelocity(800, -500)
+            this.poder_beto = this.physics.add.sprite(this.eu.x, this.eu.y + 14, 'poder_beto').setGravity(0, 300)
+            this.poder_beto.setVelocity(800, -500)
             this.eu.setVelocityY(0)
           }
         }
+
         this.game.socket.emit('artefatos-publicar', this.game.sala, {
           bola: {
-            x: this.bola.x,
-            y: this.bola.y,
+            x: poder_beto.x,
+            y: poder_beto.y,
             velocityX: this.bola.body.velocity.x
           }
         })
+
+        
      
 
-        this.physics.add.collider(this.bola, this.layerfloor, this.bolaAtingeChao, null, this)
-        this.physics.add.collider(this.bola, this.monster1, this.matarmonster, null, this)
-      
+        this.physics.add.collider(this.poder_beto, this.layerfloor, this.bolaAtingeChao, null, this)
+        this.physics.add.collider(this.poder_beto, this.monster1, this.matarmonster, null, this)
+        this.physics.add.collider(this.poder_plinio, this.layerfloor, this.bolaAtingeChao, null, this)
+        this.physics.add.collider(this.poder_plinio, this.monster1, this.matarmonster, null, this)
+
         
        
         
