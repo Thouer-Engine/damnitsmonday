@@ -379,17 +379,18 @@ export default class cena0 extends Phaser.Scene {
       }),
       frameRate: 9,
       repeat: 0
-    });
+    })
 
     /* botões */
-    (this.esquerdaPressionado = false),
-    (this.direitaPressionado = false),
-    (this.direita = this.add
+    this.esquerdaPressionado = false
+    this.direitaPressionado = false
+    this.direita = this.add
       .sprite(150, 350, 'botao', 0)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        (this.direitaPressionado = true), this.direita.setFrame(1)
+        this.direitaPressionado = true
+        this.direita.setFrame(1)
         this.eu.setVelocityX(150)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-direita')
@@ -398,21 +399,23 @@ export default class cena0 extends Phaser.Scene {
         }
       })
       .on('pointerout', () => {
-        (this.direitaPressionado = false), this.direita.setFrame(0)
+        this.direitaPressionado = false
+        this.direita.setFrame(0)
         this.eu.setVelocityX(0)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-direita-parado')
         } else {
           this.eu.anims.play('beto-direita-parado')
         }
-      }))
+      })
 
     this.esquerda = this.add
       .sprite(79, 350, 'botao', 4)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        (this.esquerdaPressionado = true), this.eu.setVelocityX(-150)
+        this.esquerdaPressionado = true
+        this.eu.setVelocityX(-150)
         this.esquerda.setFrame(5)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda')
@@ -421,7 +424,8 @@ export default class cena0 extends Phaser.Scene {
         }
       })
       .on('pointerout', () => {
-        (this.esquerdaPressionado = false), this.esquerda.setFrame(4)
+        this.esquerdaPressionado = false
+        this.esquerda.setFrame(4)
         this.eu.setVelocityX(0)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda-parado')
@@ -561,11 +565,25 @@ export default class cena0 extends Phaser.Scene {
         )
       })
 
-    const monster1x = this.monster1.x
-    const monster1y = this.monster1.y
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.eu)
+
+    this.game.socket.on('artefatos-notificar', (artefatos) => {
+      if (!artefatos.monster1) {
+        const explosaoSprite = this.add.sprite(this.monster1.x, this.monster1.y, 'explosao')
+        explosaoSprite.anims.play('explosao')
+        explosaoSprite.on('animationcomplete', () => {
+          explosaoSprite.destroy()
+        })
+        this.somdeexplosao = this.sound.add('somexplosao')
+        this.somdeexplosao.play()
+        this.monster1.destroy()
+        if (this.somderobo && this.somderobo.isPlaying) {
+          this.somderobo.stop()
+        }
+      }
+    })
   }
 
   update () {
@@ -623,8 +641,9 @@ export default class cena0 extends Phaser.Scene {
     this.somdeexplosao = this.sound.add('somexplosao')
     this.somdeexplosao.play()
     // Destroi o monstro
-    this.monster1.destroy()
-    this.bola.destroy()
+    this.game.socket.emit('artefatos-publicar', this.game.cenasala, { monster1: false })
+    monster1.destroy()
+    bola.destroy()
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop()
     }
