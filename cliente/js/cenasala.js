@@ -83,8 +83,8 @@ export default class cenasala extends Phaser.Scene {
         this.game.scene.start('cena0')
       } else if (jogadores.primeiro) {
         this.add.image(405, 200, 'texto')
-        .setScale(0.5)
-        
+          .setScale(0.5)
+
         navigator.mediaDevices.getUserMedia({ video: false, audio: true })
           .then((stream) => {
             this.game.midias = stream

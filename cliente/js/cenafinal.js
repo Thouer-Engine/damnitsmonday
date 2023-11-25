@@ -5,7 +5,6 @@ export default class cenafinal extends Phaser.Scene {
 
   preload () { }
 
-
   create () {
     this.posicao = ''
 
@@ -163,5 +162,4 @@ export default class cenafinal extends Phaser.Scene {
   }
 
   update () { }
-
 }

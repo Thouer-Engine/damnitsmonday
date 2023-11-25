@@ -9,7 +9,6 @@ export default class cena2 extends Phaser.Scene {
     this.load.image('tileset', '../assets/cenário/unico/tileset.png')
     this.load.audio('somportal', '../assets/som/somportal.mp3')
 
-
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
         frameWidth: 50, // plínio - 60x90  beto- 50x55
@@ -61,7 +60,6 @@ export default class cena2 extends Phaser.Scene {
       }
       return false
     }
- 
 
     /* Personagens */
     if (this.game.jogadores.primeiro === this.game.socket.id) {
@@ -257,38 +255,38 @@ export default class cena2 extends Phaser.Scene {
 
     /* botões */
     this.esquerdaPressionado = false,
-      this.direitaPressionado = false,
+    this.direitaPressionado = false,
 
-      this.direita = this.add.sprite(150, 350, 'botao', 0)
-        .setScrollFactor(0)
-        .setInteractive()
-        .on('pointerover', () => {
-          this.direitaPressionado = true,
-            this.direita.setFrame(1)
-          this.eu.setVelocityX(150)
-          if (this.game.jogadores.primeiro === this.game.socket.id) {
-            this.eu.anims.play('plinio-direita')
-          } else {
-            this.eu.anims.play('beto-direita')
-          }
-        })
-        .on('pointerout', () => {
-          this.direitaPressionado = false,
-            this.direita.setFrame(0)
-          this.eu.setVelocityX(0)
-          if (this.game.jogadores.primeiro === this.game.socket.id) {
-            this.eu.anims.play('plinio-direita-parado')
-          } else {
-            this.eu.anims.play('beto-direita-parado')
-          }
-        })
+    this.direita = this.add.sprite(150, 350, 'botao', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.direitaPressionado = true,
+        this.direita.setFrame(1)
+        this.eu.setVelocityX(150)
+        if (this.game.jogadores.primeiro === this.game.socket.id) {
+          this.eu.anims.play('plinio-direita')
+        } else {
+          this.eu.anims.play('beto-direita')
+        }
+      })
+      .on('pointerout', () => {
+        this.direitaPressionado = false,
+        this.direita.setFrame(0)
+        this.eu.setVelocityX(0)
+        if (this.game.jogadores.primeiro === this.game.socket.id) {
+          this.eu.anims.play('plinio-direita-parado')
+        } else {
+          this.eu.anims.play('beto-direita-parado')
+        }
+      })
 
     this.esquerda = this.add.sprite(79, 350, 'botao', 4)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
         this.esquerdaPressionado = true,
-          this.eu.setVelocityX(-150)
+        this.eu.setVelocityX(-150)
         this.esquerda.setFrame(5)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda')
@@ -298,7 +296,7 @@ export default class cena2 extends Phaser.Scene {
       })
       .on('pointerout', () => {
         this.esquerdaPressionado = false,
-          this.esquerda.setFrame(4)
+        this.esquerda.setFrame(4)
         this.eu.setVelocityX(0)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda-parado')
@@ -356,8 +354,7 @@ export default class cena2 extends Phaser.Scene {
         if (!this.direitaPressionado && !this.esquerdaPressionado) {
           if (direita.test(anim)) {
             this.eu.anims.play('plinio-direita-parado', true)
-          }
-          else if (esquerda.test(anim)) {
+          } else if (esquerda.test(anim)) {
             this.eu.anims.play('plinio-esquerda-parado', true)
           }
         }
@@ -365,21 +362,18 @@ export default class cena2 extends Phaser.Scene {
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.eu)
-
-
   }
 
   update () {
-    let isSceneTransitioning = false
+    const isSceneTransitioning = false
 
     if (!isSceneTransitioning) {
       if (this.esquerdaPressionado) {
-        this.eu.setVelocityX(-150);
+        this.eu.setVelocityX(-150)
       } else if (this.direitaPressionado) {
-        this.eu.setVelocityX(150);
+        this.eu.setVelocityX(150)
       }
     }
-
 
     try {
       this.game.socket.emit('estado-publicar', this.game.cenasala, {
@@ -390,27 +384,25 @@ export default class cena2 extends Phaser.Scene {
     } catch (error) {
       console.error(error)
     }
-
   }
-
 
   trocafase () {
     this.somportal = this.sound.add('somportal')
     this.somportal.play()
     this.somportal.play()
     setTimeout(() => {
-      this.game.scene.stop('cena2');
-      this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenamapas');
-      this.game.scene.start('cenamapas');
-    }, 1);
+      this.game.scene.stop('cena2')
+      this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenamapas')
+      this.game.scene.start('cenamapas')
+    }, 1)
   }
 
   gameOver () {
     setTimeout(() => {
-      this.game.scene.stop('cena2');
-      this.game.socket.emit('cena-publicar', this.game.cenasala, 'gameover');
-      this.game.scene.start('gameover');
-    }, 1);
+      this.game.scene.stop('cena2')
+      this.game.socket.emit('cena-publicar', this.game.cenasala, 'gameover')
+      this.game.scene.start('gameover')
+    }, 1)
   }
 
   win () {
