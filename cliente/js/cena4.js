@@ -72,54 +72,8 @@ export default class cena4 extends Phaser.Scene {
       this.remoto = 'plinio'
       this.ele = this.add.sprite(341, 5680, this.remoto)
       this.eu = this.physics.add.sprite(384, 5699, this.local)
-
-      navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-        .then((stream) => {
-          this.game.localConnection = new RTCPeerConnection(this.game.ice_servers)
-          this.game.localConnection.onicecandidate = ({ candidate }) =>
-            candidate && this.game.socket.emit('candidate', this.game.cenasala, candidate)
-
-          this.game.localConnection.ontrack = ({ streams: [stream] }) =>
-            this.game.audio.srcObject = stream
-
-          stream.getTracks()
-            .forEach((track) => this.game.localConnection.addTrack(track, stream))
-
-          this.game.localConnection.createOffer()
-            .then((offer) => this.game.localConnection.setLocalDescription(offer))
-            .then(() => this.game.socket.emit('offer', this.game.cenasala, this.game.localConnection.localDescription))
-
-          this.game.midias = stream
-        })
-        .catch((error) => console.error(error))
     }
 
-    this.game.socket.on('offer', (description) => {
-      this.game.remoteConnection = new RTCPeerConnection(this.game.ice_servers)
-
-      this.game.remoteConnection.onicecandidate = ({ candidate }) =>
-        candidate && this.game.socket.emit('candidate', this.game.cenasala, candidate)
-
-      this.game.remoteConnection.ontrack = ({ streams: [midia] }) =>
-        this.game.audio.srcObject = midia
-
-      this.game.midias.getTracks()
-        .forEach((track) => this.game.remoteConnection.addTrack(track, this.game.midias))
-
-      this.game.remoteConnection.setRemoteDescription(description)
-        .then(() => this.game.remoteConnection.createAnswer())
-        .then((answer) => this.game.remoteConnection.setLocalDescription(answer))
-        .then(() => this.game.socket.emit('answer', this.game.cenasala, this.game.remoteConnection.localDescription))
-    })
-
-    this.game.socket.on('answer', (description) =>
-      this.game.localConnection.setRemoteDescription(description)
-    )
-
-    this.game.socket.on('candidate', (candidate) => {
-      const conn = this.game.localConnection || this.game.remoteConnection
-      conn.addIceCandidate(new RTCIceCandidate(candidate))
-    })
     // portal//
 
     this.portal1 = this.physics.add.image(1058, 5683, 'portal')

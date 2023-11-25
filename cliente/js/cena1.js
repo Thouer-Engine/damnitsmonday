@@ -81,83 +81,8 @@ export default class cena1 extends Phaser.Scene {
       this.remoto = 'plinio'
       this.ele = this.add.sprite(344, 1650, this.remoto)
       this.eu = this.physics.add.sprite(394, 1650, this.local)
-
-      navigator.mediaDevices
-        .getUserMedia({ video: false, audio: true })
-        .then((stream) => {
-          this.game.localConnection = new RTCPeerConnection(
-            this.game.ice_servers
-          )
-          this.game.localConnection.onicecandidate = ({ candidate }) =>
-            candidate &&
-            this.game.socket.emit('candidate', this.game.cenasala, candidate)
-
-          this.game.localConnection.ontrack = ({ streams: [stream] }) =>
-            (this.game.audio.srcObject = stream)
-
-          stream
-            .getTracks()
-            .forEach((track) =>
-              this.game.localConnection.addTrack(track, stream)
-            )
-
-          this.game.localConnection
-            .createOffer()
-            .then((offer) =>
-              this.game.localConnection.setLocalDescription(offer)
-            )
-            .then(() =>
-              this.game.socket.emit(
-                'offer',
-                this.game.cenasala,
-                this.game.localConnection.localDescription
-              )
-            )
-
-          this.game.midias = stream
-        })
-        .catch((error) => console.error(error))
     }
 
-    this.game.socket.on('offer', (description) => {
-      this.game.remoteConnection = new RTCPeerConnection(this.game.ice_servers)
-
-      this.game.remoteConnection.onicecandidate = ({ candidate }) =>
-        candidate &&
-        this.game.socket.emit('candidate', this.game.cenasala, candidate)
-
-      this.game.remoteConnection.ontrack = ({ streams: [midia] }) =>
-        (this.game.audio.srcObject = midia)
-
-      this.game.midias
-        .getTracks()
-        .forEach((track) =>
-          this.game.remoteConnection.addTrack(track, this.game.midias)
-        )
-
-      this.game.remoteConnection
-        .setRemoteDescription(description)
-        .then(() => this.game.remoteConnection.createAnswer())
-        .then((answer) =>
-          this.game.remoteConnection.setLocalDescription(answer)
-        )
-        .then(() =>
-          this.game.socket.emit(
-            'answer',
-            this.game.cenasala,
-            this.game.remoteConnection.localDescription
-          )
-        )
-    })
-
-    this.game.socket.on('answer', (description) =>
-      this.game.localConnection.setRemoteDescription(description)
-    )
-
-    this.game.socket.on('candidate', (candidate) => {
-      const conn = this.game.localConnection || this.game.remoteConnection
-      conn.addIceCandidate(new RTCIceCandidate(candidate))
-    })
     // portal//
 
     this.portal1 = this.physics.add.image(2539, 1700, 'portal')
@@ -300,40 +225,43 @@ export default class cena1 extends Phaser.Scene {
       }),
       frameRate: 2,
       repeat: -1
-    });
+    })
 
     /* botões */
-    (this.esquerdaPressionado = false),
-      (this.direitaPressionado = false),
-      (this.direita = this.add
-        .sprite(150, 350, 'botao', 0)
-        .setScrollFactor(0)
-        .setInteractive()
-        .on('pointerover', () => {
-          (this.direitaPressionado = true), this.direita.setFrame(1)
-          this.eu.setVelocityX(150)
-          if (this.game.jogadores.primeiro === this.game.socket.id) {
-            this.eu.anims.play('plinio-direita')
-          } else {
-            this.eu.anims.play('beto-direita')
-          }
-        })
-        .on('pointerout', () => {
-          (this.direitaPressionado = false), this.direita.setFrame(0)
-          this.eu.setVelocityX(0)
-          if (this.game.jogadores.primeiro === this.game.socket.id) {
-            this.eu.anims.play('plinio-direita-parado')
-          } else {
-            this.eu.anims.play('beto-direita-parado')
-          }
-        }))
+    this.esquerdaPressionado = false
+    this.direitaPressionado = false
+    this.direita = this.add
+      .sprite(150, 350, 'botao', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.direitaPressionado = true
+        this.direita.setFrame(1)
+        this.eu.setVelocityX(150)
+        if (this.game.jogadores.primeiro === this.game.socket.id) {
+          this.eu.anims.play('plinio-direita')
+        } else {
+          this.eu.anims.play('beto-direita')
+        }
+      })
+      .on('pointerout', () => {
+        this.direitaPressionado = false
+        this.direita.setFrame(0)
+        this.eu.setVelocityX(0)
+        if (this.game.jogadores.primeiro === this.game.socket.id) {
+          this.eu.anims.play('plinio-direita-parado')
+        } else {
+          this.eu.anims.play('beto-direita-parado')
+        }
+      })
 
     this.esquerda = this.add
       .sprite(79, 350, 'botao', 4)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
-        (this.esquerdaPressionado = true), this.eu.setVelocityX(-150)
+        this.esquerdaPressionado = true
+        this.eu.setVelocityX(-150)
         this.esquerda.setFrame(5)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda')
@@ -342,7 +270,8 @@ export default class cena1 extends Phaser.Scene {
         }
       })
       .on('pointerout', () => {
-        (this.esquerdaPressionado = false), this.esquerda.setFrame(4)
+        this.esquerdaPressionado = false
+        this.esquerda.setFrame(4)
         this.eu.setVelocityX(0)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda-parado')
