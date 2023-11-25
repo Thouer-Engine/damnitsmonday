@@ -8,7 +8,6 @@ export default class cena4 extends Phaser.Scene {
 
     this.load.image('tileset', '../assets/cenário/unico/tileset.png')
     this.load.audio('somportal', '../assets/som/somportal.mp3')
-   
 
     this.load.spritesheet('beto', '../assets/personagem/beto_sprite.png',
       {
@@ -60,7 +59,6 @@ export default class cena4 extends Phaser.Scene {
       }
       return false
     }
- 
 
     /* Personagens */
     if (this.game.jogadores.primeiro === this.game.socket.id) {
@@ -74,54 +72,8 @@ export default class cena4 extends Phaser.Scene {
       this.remoto = 'plinio'
       this.ele = this.add.sprite(341, 5680, this.remoto)
       this.eu = this.physics.add.sprite(384, 5699, this.local)
-
-      navigator.mediaDevices.getUserMedia({ video: false, audio: true })
-        .then((stream) => {
-          this.game.localConnection = new RTCPeerConnection(this.game.ice_servers)
-          this.game.localConnection.onicecandidate = ({ candidate }) =>
-            candidate && this.game.socket.emit('candidate', this.game.cenasala, candidate)
-
-          this.game.localConnection.ontrack = ({ streams: [stream] }) =>
-            this.game.audio.srcObject = stream
-
-          stream.getTracks()
-            .forEach((track) => this.game.localConnection.addTrack(track, stream))
-
-          this.game.localConnection.createOffer()
-            .then((offer) => this.game.localConnection.setLocalDescription(offer))
-            .then(() => this.game.socket.emit('offer', this.game.cenasala, this.game.localConnection.localDescription))
-
-          this.game.midias = stream
-        })
-        .catch((error) => console.error(error))
     }
 
-    this.game.socket.on('offer', (description) => {
-      this.game.remoteConnection = new RTCPeerConnection(this.game.ice_servers)
-
-      this.game.remoteConnection.onicecandidate = ({ candidate }) =>
-        candidate && this.game.socket.emit('candidate', this.game.cenasala, candidate)
-
-      this.game.remoteConnection.ontrack = ({ streams: [midia] }) =>
-        this.game.audio.srcObject = midia
-
-      this.game.midias.getTracks()
-        .forEach((track) => this.game.remoteConnection.addTrack(track, this.game.midias))
-
-      this.game.remoteConnection.setRemoteDescription(description)
-        .then(() => this.game.remoteConnection.createAnswer())
-        .then((answer) => this.game.remoteConnection.setLocalDescription(answer))
-        .then(() => this.game.socket.emit('answer', this.game.cenasala, this.game.remoteConnection.localDescription))
-    })
-
-    this.game.socket.on('answer', (description) =>
-      this.game.localConnection.setRemoteDescription(description)
-    )
-
-    this.game.socket.on('candidate', (candidate) => {
-      const conn = this.game.localConnection || this.game.remoteConnection
-      conn.addIceCandidate(new RTCIceCandidate(candidate))
-    })
     // portal//
 
     this.portal1 = this.physics.add.image(1058, 5683, 'portal')
@@ -256,38 +208,38 @@ export default class cena4 extends Phaser.Scene {
 
     /* botões */
     this.esquerdaPressionado = false,
-      this.direitaPressionado = false,
+    this.direitaPressionado = false,
 
-      this.direita = this.add.sprite(150, 350, 'botao', 0)
-        .setScrollFactor(0)
-        .setInteractive()
-        .on('pointerover', () => {
-          this.direitaPressionado = true,
-            this.direita.setFrame(1)
-          this.eu.setVelocityX(150)
-          if (this.game.jogadores.primeiro === this.game.socket.id) {
-            this.eu.anims.play('plinio-direita')
-          } else {
-            this.eu.anims.play('beto-direita')
-          }
-        })
-        .on('pointerout', () => {
-          this.direitaPressionado = false,
-            this.direita.setFrame(0)
-          this.eu.setVelocityX(0)
-          if (this.game.jogadores.primeiro === this.game.socket.id) {
-            this.eu.anims.play('plinio-direita-parado')
-          } else {
-            this.eu.anims.play('beto-direita-parado')
-          }
-        })
+    this.direita = this.add.sprite(150, 350, 'botao', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.direitaPressionado = true,
+        this.direita.setFrame(1)
+        this.eu.setVelocityX(150)
+        if (this.game.jogadores.primeiro === this.game.socket.id) {
+          this.eu.anims.play('plinio-direita')
+        } else {
+          this.eu.anims.play('beto-direita')
+        }
+      })
+      .on('pointerout', () => {
+        this.direitaPressionado = false,
+        this.direita.setFrame(0)
+        this.eu.setVelocityX(0)
+        if (this.game.jogadores.primeiro === this.game.socket.id) {
+          this.eu.anims.play('plinio-direita-parado')
+        } else {
+          this.eu.anims.play('beto-direita-parado')
+        }
+      })
 
     this.esquerda = this.add.sprite(79, 350, 'botao', 4)
       .setScrollFactor(0)
       .setInteractive()
       .on('pointerover', () => {
         this.esquerdaPressionado = true,
-          this.eu.setVelocityX(-150)
+        this.eu.setVelocityX(-150)
         this.esquerda.setFrame(5)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda')
@@ -297,7 +249,7 @@ export default class cena4 extends Phaser.Scene {
       })
       .on('pointerout', () => {
         this.esquerdaPressionado = false,
-          this.esquerda.setFrame(4)
+        this.esquerda.setFrame(4)
         this.eu.setVelocityX(0)
         if (this.game.jogadores.primeiro === this.game.socket.id) {
           this.eu.anims.play('plinio-esquerda-parado')
@@ -355,8 +307,7 @@ export default class cena4 extends Phaser.Scene {
         if (!this.direitaPressionado && !this.esquerdaPressionado) {
           if (direita.test(anim)) {
             this.eu.anims.play('plinio-direita-parado', true)
-          }
-          else if (esquerda.test(anim)) {
+          } else if (esquerda.test(anim)) {
             this.eu.anims.play('plinio-esquerda-parado', true)
           }
         }
@@ -364,21 +315,18 @@ export default class cena4 extends Phaser.Scene {
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220)
     this.cameras.main.startFollow(this.eu)
-
-
   }
 
   update () {
-    let isSceneTransitioning = false
+    const isSceneTransitioning = false
 
     if (!isSceneTransitioning) {
       if (this.esquerdaPressionado) {
-        this.eu.setVelocityX(-150);
+        this.eu.setVelocityX(-150)
       } else if (this.direitaPressionado) {
-        this.eu.setVelocityX(150);
+        this.eu.setVelocityX(150)
       }
     }
-
 
     try {
       this.game.socket.emit('estado-publicar', this.game.cenasala, {
@@ -389,27 +337,25 @@ export default class cena4 extends Phaser.Scene {
     } catch (error) {
       console.error(error)
     }
-
   }
-
 
   trocafase () {
     this.somportal = this.sound.add('somportal')
     this.somportal.play()
     this.somportal.play()
     setTimeout(() => {
-      this.game.scene.stop('cena4');
-      this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenafinal');
-      this.game.scene.start('cenafinal');
-    }, 1);
+      this.game.scene.stop('cena4')
+      this.game.socket.emit('cena-publicar', this.game.cenasala, 'cenafinal')
+      this.game.scene.start('cenafinal')
+    }, 1)
   }
 
   gameOver () {
     setTimeout(() => {
-      this.game.scene.stop('cena4');
-      this.game.socket.emit('cena-publicar', this.game.cenasala, 'gameover');
-      this.game.scene.start('gameover');
-    }, 1);
+      this.game.scene.stop('cena4')
+      this.game.socket.emit('cena-publicar', this.game.cenasala, 'gameover')
+      this.game.scene.start('gameover')
+    }, 1)
   }
 
   win () {

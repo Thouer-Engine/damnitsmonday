@@ -17,7 +17,7 @@ export default class gameover extends Phaser.Scene {
 
   create () {
     this.game.cena = 'gameover'
-  
+
     const centrox = this.cameras.main.worldView.x + this.cameras.main.width / 2
     const centroy = this.cameras.main.worldView.y + this.cameras.main.height / 2
 
@@ -37,7 +37,7 @@ export default class gameover extends Phaser.Scene {
         this.game.scene.stop('gameover')
         this.game.scene.start(this.game.salaCorrente)
       })
-    
+
     this.menu = this.add.sprite(centrox + 70, centroy + 100, 'menu', 0)
       .setInteractive()
       .on('pointerover', () => {
@@ -51,10 +51,7 @@ export default class gameover extends Phaser.Scene {
         this.game.scene.stop('gameover')
         this.game.scene.start('cenamapas')
       })
-    
   }
 
   update () {}
-
-  }
-
+}

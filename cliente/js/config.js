@@ -1,4 +1,4 @@
-//configuração do objeto Game//
+// configuração do objeto Game//
 
 export default {
   type: Phaser.AUTO,

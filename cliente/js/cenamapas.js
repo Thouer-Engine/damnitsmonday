@@ -20,14 +20,12 @@ export default class cenamapas extends Phaser.Scene {
 
   create () {
     this.game.cena = 'cenamapas'
-  
 
     const centrox = this.cameras.main.worldView.x + this.cameras.main.width / 2
     const centroy = this.cameras.main.worldView.y + this.cameras.main.height / 2
 
     this.fundofase = this.add.image(centrox, centroy, 'fundomapa')
-    
-  
+
     console.log(this.game.cenas)
     if (this.mapasbmon) this.mapasbmon.destroy()
     if (this.mapasbtue) this.mapasbtue.destroy()
@@ -77,7 +75,7 @@ export default class cenamapas extends Phaser.Scene {
       this.mapasbthu = this.add.sprite(centrox + 150, centroy, 'mapaslib', 3)
         .setInteractive()
         .on('pointerdown', () => {
-           this.game.socket.emit('cena-publicar', this.game.cenasala, 'cena3')
+          this.game.socket.emit('cena-publicar', this.game.cenasala, 'cena3')
           this.game.scene.stop('cenamapas')
           this.game.scene.stop('cenamapas')
           this.game.scene.start('cena3')
@@ -97,7 +95,6 @@ export default class cenamapas extends Phaser.Scene {
           this.game.scene.start('cena4')
         })
     }
-
   }
 
   update () {
