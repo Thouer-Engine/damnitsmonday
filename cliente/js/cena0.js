@@ -3,6 +3,7 @@ export default class cena0 extends Phaser.Scene {
     super("cena0");
   }
 
+
   preload() {
     //preload mapa//
     this.load.tilemapTiledJSON("unico", "../assets/cenário/unico/unico.json");
@@ -60,7 +61,8 @@ export default class cena0 extends Phaser.Scene {
     this.load.image("poder", "../assets/itens/poder.png");
   }
 
-  create() {
+  create () {
+    this.scale.startFullscreen();
     this.game.cena = "cena0";
     this.game.cenas = 1;
     this.game.salaCorrente = "cena0";
