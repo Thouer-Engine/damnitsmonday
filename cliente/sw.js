@@ -32,7 +32,7 @@ const precacheResources = [
   "./assets/botão/try_or_menu.png",
   "./assets/botão/trybutton.png",
   "./assets/botão/yes.png",
-  "./assets/cenário/mapa/maparoxo.json",
+  "./assets/cenário/mapa/maparoxo1.json",
   "./assets/cenário/mapa/tiles.png",
   "./assets/cenário/mapa/quarta/png/quarta.png",
   "./assets/cenário/mapa/quarta/quarta.json",
