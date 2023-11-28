@@ -32,7 +32,7 @@ export default class cena1 extends Phaser.Scene {
 
     this.load.spritesheet(
       "monster",
-      "../assets/personagem/monsters/monster_.png",
+      "../assets/personagem/monsters/monster_dog.png",
       {
         frameWidth: 143,
         frameHeight: 150,
