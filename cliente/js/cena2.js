@@ -9,7 +9,6 @@ export default class cena2 extends Phaser.Scene {
     this.load.image("tileset", "../assets/cenário/unico/tileset.png");
 
     //preload sons//
-    this.load.audio("som1", "../assets/som/background.mp3");
     this.load.audio("somportal", "../assets/som/somportal.mp3");
     this.load.audio("somroboo", "../assets/som/somrobo.mp3");
     this.load.audio("somexplosao", "../assets/som/somexplosao.mp3");
@@ -66,11 +65,7 @@ export default class cena2 extends Phaser.Scene {
     this.game.salaCorrente = "cena2";
     this.input.addPointer(3);
 
-    //acionar som ambiente//
-    this.musicaambiente = this.sound.add("som1");
-    this.musicaambiente.setLoop(true);
-    this.musicaambiente.play();
-
+   
     //create mapa//
     this.tilemapUnico = this.make.tilemap({
       key: "unico",
@@ -690,7 +685,7 @@ export default class cena2 extends Phaser.Scene {
   }
 
   trocafase() {
-    this.musicaambiente.stop();
+    
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
       
@@ -710,7 +705,7 @@ export default class cena2 extends Phaser.Scene {
       this.somderobo.stop();
     }
 
-    this.musicaambiente.stop();
+   
     this.somgameover = this.sound.add("somdegameover");
     this.somgameover.play();
     setTimeout(() => {

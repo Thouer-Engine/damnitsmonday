@@ -693,7 +693,7 @@ export default class cena0 extends Phaser.Scene {
   }
 
   trocafase () {
-     this.musicaambiente.stop();
+
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
     }
@@ -712,7 +712,6 @@ export default class cena0 extends Phaser.Scene {
       this.somderobo.stop();
     }
 
-    this.musicaambiente.stop();
     this.somgameover = this.sound.add("somdegameover");
     this.somgameover.play();
     setTimeout(() => {
