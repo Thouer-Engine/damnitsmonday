@@ -697,9 +697,10 @@ export default class cena3 extends Phaser.Scene {
   }
 
   trocafase() {
+     this.musicaambiente.stop();
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
-      this.musicaambiente.stop();
+     
     }
     this.somportal = this.sound.add("somportal");
     this.somportal.play();
