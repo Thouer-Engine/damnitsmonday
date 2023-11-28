@@ -16,7 +16,7 @@ const precacheResources = [
   "./js/cena4.js",
   "./js/cenafinal.js",
   "./js/cenamapas.js",
-  "./js/cenasalas.js",
+  "./js/cenasala.js",
   "./js/cenastart.js",
   "./js/config.js",
   "./js/gameover.js",
@@ -93,7 +93,7 @@ const precacheResources = [
   "./assets/salas/salas.png",
   "./assets/salas/salasbotoes.png",
   "./assets/salas/texto.png",
-  
+
   "./assets/som/background.mp3",
   "./assets/som/som.mp3",
   "./assets/som/somderobo.mp3",
