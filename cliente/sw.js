@@ -80,12 +80,12 @@ const precacheResources = [
   "./assets/itens/portal1.png",
   "./assets/itens/portal2.png",
 
-  "./assets/personagem/monster/monster_blackgold.png",
-  "./assets/personagem/monster/monster_blueball.png",
-  "./assets/personagem/monster/monster_dog.png",
-  "./assets/personagem/monster/monster_green.png",
-  "./assets/personagem/monster/monster_red.png",
-  "./assets/personagem/monster/purple_monster.png",
+  "./assets/personagem/monsters/monster_blackgold.png",
+  "./assets/personagem/monsters/monster_blueball.png",
+  "./assets/personagem/monsters/monster_dog.png",
+  "./assets/personagem/monsters/monster_green.png",
+  "./assets/personagem/monsters/monster_red.png",
+  "./assets/personagem/monsters/purple_monster.png",
 
   "./assets/personagem/plinio_sprite.png",
   "./assets/personagem/beto_sprite.png",
