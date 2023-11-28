@@ -32,10 +32,10 @@ export default class cena1 extends Phaser.Scene {
 
     this.load.spritesheet(
       "monster",
-      "../assets/personagem/monsters/monster_red.png",
+      "../assets/personagem/monsters/monster_blueball.png",
       {
-        frameWidth: 118,
-        frameHeight: 160,
+        frameWidth: 200,
+        frameHeight: 204,
       }
     );
     this.load.spritesheet("explosao", "../assets/itens/explosao.png", {
@@ -184,7 +184,7 @@ export default class cena1 extends Phaser.Scene {
 
     // monster//
     this.monstersGroup = this.physics.add.group();
-    this.monster1 = this.monstersGroup.create(1450, 750, "monster");
+    this.monster1 = this.monstersGroup.create(1290, 1635, "monster");
     this.physics.add.collider(this.monster1, this.layerfloor);
     this.monster1.setVelocityX(-40);
     this.anims.create({
