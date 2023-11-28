@@ -685,6 +685,7 @@ export default class cena0 extends Phaser.Scene {
     });
     monster1.destroy();
     bola.destroy();
+    this.acionarsomrobo.destroy()
     this.soltarmala = true;
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
