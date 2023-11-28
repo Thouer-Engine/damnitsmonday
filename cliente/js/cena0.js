@@ -391,7 +391,6 @@ export default class cena0 extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on("pointerover", () => {
-        this.scale.startFullscreen();
         this.direitaPressionado = true;
         this.direita.setFrame(1);
         this.eu.setVelocityX(150);
