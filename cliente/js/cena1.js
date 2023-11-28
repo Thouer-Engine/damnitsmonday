@@ -184,7 +184,7 @@ export default class cena1 extends Phaser.Scene {
 
     // monster//
     this.monstersGroup = this.physics.add.group();
-    this.monster1 = this.monstersGroup.create(1290, 1635, "monster");
+    this.monster1 = this.monstersGroup.create(1290, 1605, "monster");
     this.physics.add.collider(this.monster1, this.layerfloor);
     this.monster1.setVelocityX(-40);
     this.anims.create({
