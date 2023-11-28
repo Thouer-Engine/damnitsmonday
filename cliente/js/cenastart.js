@@ -14,7 +14,7 @@ export default class cenastart extends Phaser.Scene {
 
       .setInteractive()
 
-      .on('pointerdown', () => {
+      .on('pointerover', () => {
         this.scale.startFullscreen()
         this.game.scene.stop('cenastart')
         this.game.scene.start('cenasala')
