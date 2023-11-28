@@ -32,10 +32,10 @@ export default class cena1 extends Phaser.Scene {
 
     this.load.spritesheet(
       "monster",
-      "../assets/personagem/monsters/monster_blueball.png",
+      "../assets/personagem/monsters/monster_.png",
       {
-        frameWidth: 200,
-        frameHeight: 204,
+        frameWidth: 143,
+        frameHeight: 150,
       }
     );
     this.load.spritesheet("explosao", "../assets/itens/explosao.png", {
@@ -644,7 +644,7 @@ export default class cena1 extends Phaser.Scene {
       if (monster.x > 1464) {
         monster.setVelocityX(-40);
         monster.flipX = false; // Inverte o sprite horizontalmente
-      } else if (monster.x < 1214) {
+      } else if (monster.x < 950) {
         monster.setVelocityX(40);
         monster.flipX = true; // Reverte a orientação horizontal do sprite
       }
