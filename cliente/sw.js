@@ -43,7 +43,7 @@ const precacheResources = [
   "./assets/cenário/segunda/tile/completo.png",
   "./assets/cenário/segunda/tile/fundo_final.png",
   "./assets/cenário/segunda/tile/New Piskel (1).png",
-  "./assets/cenário/segunda/tile/Pinter1.png",
+  "./assets/cenário/segunda/tile/Pointer1.png",
   "./assets/cenário/segunda/tile/segunda.json",
   "./assets/cenário/segunda/tile/tiles.png",
   "./assets/cenário/segunda/segunda.json",
