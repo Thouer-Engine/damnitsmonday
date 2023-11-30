@@ -9,7 +9,7 @@ export default class cena4 extends Phaser.Scene {
     this.load.image("tileset", "../assets/cenário/unico/tileset.png");
 
     //preload sons//
-   
+
     this.load.audio("somportal", "../assets/som/somportal.mp3");
     this.load.audio("somroboo", "../assets/som/somrobo.mp3");
     this.load.audio("somexplosao", "../assets/som/somexplosao.mp3");
@@ -58,15 +58,14 @@ export default class cena4 extends Phaser.Scene {
     this.load.image("portal", "../assets/itens/portal1.png");
     this.load.image("acionarsom", "../assets/itens/acionarsom.png");
     this.load.image("poder", "../assets/itens/poder.png");
-  }
+ this.load.image("cut3", "../assets/cutfindbeto.png")
+ }
 
   create() {
     this.game.cena = "cena4";
     this.game.cenas = 5;
     this.game.salaCorrente = "cena4";
     this.input.addPointer(3);
-
-  
 
     //create mapa//
     this.tilemapUnico = this.make.tilemap({
@@ -175,7 +174,7 @@ export default class cena4 extends Phaser.Scene {
     });
 
     // portal//
-   this.portal1 = this.physics.add.image(1058, 5683, "portal");
+    this.portal1 = this.physics.add.image(1058, 5683, "portal");
     this.portal1.setImmovable(true);
     //som robo//
     this.acionarsomrobo = this.physics.add.image(786, 831, "acionarsom");
@@ -592,6 +591,20 @@ export default class cena4 extends Phaser.Scene {
           this
         );
       });
+    const cutscene = this.add.image(400, 225, "cut3").setScrollFactor(0, 0);
+
+    const botaox = this.add.image(400, 225, "portal").setScrollFactor(0, 0);
+    botaox.setDisplaySize(800, 450);
+    botaox.setInteractive();
+    botaox.on(
+      "pointerdown",
+      () => {
+        this.scale.startFullscreen();
+        cutscene.destroy();
+        botaox.destroy();
+      },
+      this
+    );
 
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220);
@@ -687,18 +700,17 @@ export default class cena4 extends Phaser.Scene {
   }
 
   trocafase() {
-    
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
-     
+      this.musicaambiente.stop();
     }
     this.somportal = this.sound.add("somportal");
     this.somportal.play();
 
     setTimeout(() => {
       this.game.scene.stop("cena4");
-      this.game.socket.emit("cena-publicar", this.game.cenasala, "cenamapas");
-      this.game.scene.start("cenamapas");
+      this.game.socket.emit("cena-publicar", this.game.cenasala, "cut4");
+      this.game.scene.start("cut4");
     }, 1);
   }
 
@@ -707,7 +719,6 @@ export default class cena4 extends Phaser.Scene {
       this.somderobo.stop();
     }
 
-   
     this.somgameover = this.sound.add("somdegameover");
     this.somgameover.play();
     setTimeout(() => {

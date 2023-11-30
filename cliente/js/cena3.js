@@ -9,6 +9,7 @@ export default class cena3 extends Phaser.Scene {
     this.load.image("tileset", "../assets/cenário/unico/tileset.png");
 
     //preload sons//
+
     this.load.audio("somportal", "../assets/som/somportal.mp3");
     this.load.audio("somroboo", "../assets/som/somrobo.mp3");
     this.load.audio("somexplosao", "../assets/som/somexplosao.mp3");
@@ -57,6 +58,7 @@ export default class cena3 extends Phaser.Scene {
     this.load.image("portal", "../assets/itens/portal1.png");
     this.load.image("acionarsom", "../assets/itens/acionarsom.png");
     this.load.image("poder", "../assets/itens/poder.png");
+   
   }
 
   create() {
@@ -64,8 +66,6 @@ export default class cena3 extends Phaser.Scene {
     this.game.cenas = 4;
     this.game.salaCorrente = "cena3";
     this.input.addPointer(3);
-
- 
 
     //create mapa//
     this.tilemapUnico = this.make.tilemap({
@@ -175,7 +175,7 @@ export default class cena3 extends Phaser.Scene {
 
     // portal//
     this.portalbaixo = this.physics.add.image(1644, 3923, "portal");
-    this.portal1.setImmovable(true);
+    this.portalbaixo.setImmovable(true);
     this.portal1 = this.physics.add.image(1075, 4780, "portal");
     this.portal1.setImmovable(true);
     //som robo//
@@ -599,6 +599,8 @@ export default class cena3 extends Phaser.Scene {
         );
       });
 
+    
+
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220);
     this.cameras.main.startFollow(this.eu);
@@ -671,6 +673,15 @@ export default class cena3 extends Phaser.Scene {
       this.bola.destroy();
     }, 2);
   }
+  tp() {
+    this.somportal = this.sound.add("somportal");
+    this.somportal.play();
+
+    setTimeout(() => {
+      this.eu.x = 425;
+      this.eu.y = 4786;
+    }, 1);
+  }
 
   matarmonster(bola, monster1) {
     const explosaoSprite = this.add.sprite(monster1.x, monster1.y, "explosao");
@@ -693,10 +704,8 @@ export default class cena3 extends Phaser.Scene {
   }
 
   trocafase() {
-    
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
-     
     }
     this.somportal = this.sound.add("somportal");
     this.somportal.play();
@@ -713,7 +722,6 @@ export default class cena3 extends Phaser.Scene {
       this.somderobo.stop();
     }
 
-   
     this.somgameover = this.sound.add("somdegameover");
     this.somgameover.play();
     setTimeout(() => {

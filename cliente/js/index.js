@@ -9,6 +9,7 @@ import cenafinal from './cenafinal.js'
 import gameover from './gameover.js'
 import cenastart from './cenastart.js'
 import cenasala from './cenasala.js'
+import cut4 from "./cut4.js";
 import win from './win.js'
 import cenamapas from './cenamapas.js'
 
@@ -68,6 +69,7 @@ class Game extends Phaser.Game {
     this.scene.add('cena2', cena2)
     this.scene.add('cena3', cena3)
     this.scene.add('cena4', cena4)
+       this.scene.add("cut4", cut4);
     this.scene.add('gameover', gameover)
     this.scene.add('win', win)
     this.scene.add('cenafinal', cenafinal)

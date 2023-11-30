@@ -9,6 +9,7 @@ export default class cena1 extends Phaser.Scene {
     this.load.image("tileset", "../assets/cenário/unico/tileset.png");
 
     //preload sons//
+  
     this.load.audio("somportal", "../assets/som/somportal.mp3");
     this.load.audio("somroboo", "../assets/som/somrobo.mp3");
     this.load.audio("somexplosao", "../assets/som/somexplosao.mp3");
@@ -31,13 +32,14 @@ export default class cena1 extends Phaser.Scene {
     });
 
     this.load.spritesheet(
-      "monster",
+      "monster-b",
       "../assets/personagem/monsters/monster_dog.png",
       {
         frameWidth: 143,
         frameHeight: 150,
       }
     );
+
     this.load.spritesheet("explosao", "../assets/itens/explosao.png", {
       frameWidth: 200,
       frameHeight: 208,
@@ -65,7 +67,7 @@ export default class cena1 extends Phaser.Scene {
     this.game.salaCorrente = "cena1";
     this.input.addPointer(3);
 
-    //acionar som ambiente//
+
 
     //create mapa//
     this.tilemapUnico = this.make.tilemap({
@@ -183,20 +185,20 @@ export default class cena1 extends Phaser.Scene {
     this.relatorio = this.physics.add.image(190, 225, "relatorio");
 
     // monster//
-    this.monstersGroup = this.physics.add.group();
-    this.monster1 = this.monstersGroup.create(1290, 1605, "monster");
-    this.physics.add.collider(this.monster1, this.layerfloor);
-    this.monster1.setVelocityX(-40);
+    this.monster2 = this.physics.add.sprite(1100, 1600, "monster-b");
+    
+    this.physics.add.collider(this.monster2, this.layerfloor);
+    this.monster2.setVelocityX(-60);
     this.anims.create({
       key: "monster-esquerda",
-      frames: this.anims.generateFrameNumbers("monster", {
+      frames: this.anims.generateFrameNumbers("monster-b", {
         start: 0,
-        end: 7,
+        end: 5,
       }),
       frameRate: 6,
       repeat: -1,
     });
-    this.monster1.anims.play("monster-esquerda", true);
+    this.monster2.anims.play("monster-esquerda", true);
 
     //colisões//
     this.layerfloor.setCollisionByProperty({ collides: true });
@@ -228,7 +230,7 @@ export default class cena1 extends Phaser.Scene {
     this.physics.add.collider(this.portal1, this.layerfloor);
     this.physics.add.collider(
       this.eu,
-      this.monster1,
+      this.monster2,
       this.gameOver,
       null,
       this
@@ -585,37 +587,40 @@ export default class cena1 extends Phaser.Scene {
         );
         this.physics.add.collider(
           this.bola,
-          this.monster1,
+          this.monster2,
           this.matarmonster,
           null,
           this
         );
       });
 
+
+
+    
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220);
     this.cameras.main.startFollow(this.eu);
 
     //artefato monstro//
-    this.game.socket.on("artefatos-notificar", (artefatos) => {
-      if (!artefatos.monster1) {
-        const explosaoSprite = this.add.sprite(
-          this.monster1.x,
-          this.monster1.y,
-          "explosao"
-        );
-        explosaoSprite.anims.play("explosao");
-        explosaoSprite.on("animationcomplete", () => {
-          explosaoSprite.destroy();
-        });
-        this.somdeexplosao = this.sound.add("somexplosao");
-        this.somdeexplosao.play();
-        this.monster1.destroy();
-        if (this.somderobo && this.somderobo.isPlaying) {
-          this.somderobo.stop();
-        }
-      }
-    });
+   this.game.socket.on("artefatos-notificar", (artefatos) => {
+     if (!artefatos.monster2) {
+       const explosaoSprite = this.add.sprite(
+         this.monster2.x,
+         this.monster2.y,
+         "explosao"
+       );
+       explosaoSprite.anims.play("explosao");
+       explosaoSprite.on("animationcomplete", () => {
+         explosaoSprite.destroy();
+       });
+       this.somdeexplosao = this.sound.add("somexplosao");
+       this.somdeexplosao.play();
+       this.monster2.destroy();
+       if (this.somderobo && this.somderobo.isPlaying) {
+         this.somderobo.stop();
+       }
+     }
+   });
   }
 
   update() {
@@ -639,17 +644,16 @@ export default class cena1 extends Phaser.Scene {
       console.error(error);
     }
 
-    this.monstersGroup.children.iterate((monster) => {
-      // Verifica se o monstro atingiu os limites e inverte a direção
-      if (monster.x > 1464) {
-        monster.setVelocityX(-40);
-        monster.flipX = false; // Inverte o sprite horizontalmente
-      } else if (monster.x < 950) {
-        monster.setVelocityX(40);
-        monster.flipX = true; // Reverte a orientação horizontal do sprite
-      }
-    });
-  }
+    if (this.monster2.x > 1450) {
+      this.monster2.setVelocityX(-60);
+      this.monster2.flipX = false; // Inverte o sprite horizontalmente
+    } else if (this.monster2.x < 1000) {
+      this.monster2.setVelocityX(60);
+      this.monster2.flipX = true; // Reverte a orientação horizontal do sprite
+    }
+     
+     }
+  
 
   somrobot(eu, acionarsomrobo) {
     this.acionarsomrobo.destroy();
@@ -665,8 +669,8 @@ export default class cena1 extends Phaser.Scene {
     }, 2);
   }
 
-  matarmonster(bola, monster1) {
-    const explosaoSprite = this.add.sprite(monster1.x, monster1.y, "explosao");
+  matarmonster(bola, monster2) {
+    const explosaoSprite = this.add.sprite(monster2.x, monster2.y, "explosao");
     explosaoSprite.anims.play("explosao");
     explosaoSprite.on("animationcomplete", () => {
       explosaoSprite.destroy();
@@ -675,9 +679,9 @@ export default class cena1 extends Phaser.Scene {
     this.somdeexplosao.play();
     // Destroi o monstro
     this.game.socket.emit("artefatos-publicar", this.game.cenasala, {
-      monster1: false,
+      monster2: false,
     });
-    monster1.destroy();
+    monster2.destroy();
     bola.destroy();
     this.soltarmala = true;
     if (this.somderobo && this.somderobo.isPlaying) {
@@ -688,7 +692,6 @@ export default class cena1 extends Phaser.Scene {
   trocafase() {
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
-     
     }
     this.somportal = this.sound.add("somportal");
     this.somportal.play();

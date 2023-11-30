@@ -3,7 +3,6 @@ export default class cena0 extends Phaser.Scene {
     super("cena0");
   }
 
-
   preload() {
     //preload mapa//
     this.load.tilemapTiledJSON("unico", "../assets/cenário/unico/unico.json");
@@ -33,13 +32,14 @@ export default class cena0 extends Phaser.Scene {
     });
 
     this.load.spritesheet(
-      "monster",
+      "monster-a",
       "../assets/personagem/monsters/monster_red.png",
       {
         frameWidth: 118,
         frameHeight: 160,
       }
     );
+
     this.load.spritesheet("explosao", "../assets/itens/explosao.png", {
       frameWidth: 200,
       frameHeight: 208,
@@ -59,14 +59,17 @@ export default class cena0 extends Phaser.Scene {
     this.load.image("portal", "../assets/itens/portal1.png");
     this.load.image("acionarsom", "../assets/itens/acionarsom.png");
     this.load.image("poder", "../assets/itens/poder.png");
+    this.load.image("cut1", "../assets/cutsegunda.png");
   }
 
-  create () {
+  create() {
     this.game.cena = "cena0";
     this.game.cenas = 1;
     this.game.salaCorrente = "cena0";
     this.input.addPointer(3);
 
+    
+    
     //acionar som ambiente//
     this.musicaambiente = this.sound.add("som1");
     this.musicaambiente.setLoop(true);
@@ -188,13 +191,13 @@ export default class cena0 extends Phaser.Scene {
     this.relatorio = this.physics.add.image(190, 225, "relatorio");
 
     // monster//
-    this.monstersGroup = this.physics.add.group();
-    this.monster1 = this.monstersGroup.create(1450, 750, "monster");
+    this.monster1 = this.physics.add.sprite(1450, 750, "monster-a");
+
     this.physics.add.collider(this.monster1, this.layerfloor);
     this.monster1.setVelocityX(-40);
     this.anims.create({
       key: "monster-esquerda",
-      frames: this.anims.generateFrameNumbers("monster", {
+      frames: this.anims.generateFrameNumbers("monster-a", {
         start: 0,
         end: 7,
       }),
@@ -391,7 +394,6 @@ export default class cena0 extends Phaser.Scene {
       .setScrollFactor(0)
       .setInteractive()
       .on("pointerover", () => {
-                this.scale.startFullscreen();
         this.direitaPressionado = true;
         this.direita.setFrame(1);
         this.eu.setVelocityX(150);
@@ -598,6 +600,16 @@ export default class cena0 extends Phaser.Scene {
         );
       });
 
+    const cutscene = this.add.image(400, 225, "cut1").setScrollFactor(0, 0);
+    
+    const botaox = this.add.image(400, 225, 'portal').setScrollFactor(0, 0); 
+    botaox.setDisplaySize(800, 450);
+    botaox.setInteractive() 
+    botaox.on('pointerdown', () => {
+      cutscene.destroy();
+      botaox.destroy()
+    }, this)
+
     /* camera */
     this.cameras.main.setBounds(0, 0, 100000, 100220);
     this.cameras.main.startFollow(this.eu);
@@ -622,6 +634,7 @@ export default class cena0 extends Phaser.Scene {
         }
       }
     });
+    
   }
 
   update() {
@@ -645,16 +658,13 @@ export default class cena0 extends Phaser.Scene {
       console.error(error);
     }
 
-    this.monstersGroup.children.iterate((monster) => {
-      // Verifica se o monstro atingiu os limites e inverte a direção
-      if (monster.x > 1464) {
-        monster.setVelocityX(-40);
-        monster.flipX = false; // Inverte o sprite horizontalmente
-      } else if (monster.x < 1214) {
-        monster.setVelocityX(40);
-        monster.flipX = true; // Reverte a orientação horizontal do sprite
-      }
-    });
+    if (this.monster1.x > 1464) {
+      this.monster1.setVelocityX(-40);
+      this.monster1.flipX = false; // Inverte o sprite horizontalmente
+    } else if (this.monster1.x < 1214) {
+      this.monster1.setVelocityX(40);
+      this.monster1.flipX = true; // Reverte a orientação horizontal do sprite
+    }
   }
 
   somrobot(eu, acionarsomrobo) {
@@ -662,6 +672,7 @@ export default class cena0 extends Phaser.Scene {
     this.somderobo = this.sound.add("somroboo");
     this.somderobo.play();
     this.somderobo.setLoop(true);
+   
   }
 
   bolaAtingeChao(bola, layerfloor) {
@@ -685,15 +696,13 @@ export default class cena0 extends Phaser.Scene {
     });
     monster1.destroy();
     bola.destroy();
-    this.acionarsomrobo.destroy()
     this.soltarmala = true;
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
     }
   }
 
-  trocafase () {
-
+  trocafase() {
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
     }

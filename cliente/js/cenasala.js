@@ -10,6 +10,11 @@ export default class cenasala extends Phaser.Scene {
       frameHeight: 45
     })
     this.load.image('texto', '../assets/salas/texto.png')
+  this.load.spritesheet("tela-cheia", "./assets/botão/telacheia.png", {
+    frameWidth: 64,
+    frameHeight: 64,
+  });
+  
   }
 
   create () {
@@ -80,7 +85,7 @@ export default class cenasala extends Phaser.Scene {
       if (jogadores.segundo) {
         this.game.jogadores = jogadores
         this.game.scene.stop('cenasala')
-        this.game.scene.start('cena1')
+        this.game.scene.start('cena2')
       } else if (jogadores.primeiro) {
         this.add.image(405, 200, 'texto')
           .setScale(0.5)
@@ -90,9 +95,23 @@ export default class cenasala extends Phaser.Scene {
             this.game.midias = stream
           })
           .catch((error) => console.error(error))
-      }
-    })
+        }
+      })
+      this.tela_cheia = this.add
+          .sprite(770, 30, 'tela-cheia', 0)
+          .setInteractive()
+          .on('pointerdown', () => {
+            if (this.scale.isFullscreen) {
+              this.tela_cheia.setFrame(0)
+              this.scale.stopFullscreen()
+            } else {
+              this.tela_cheia.setFrame(1)
+              this.scale.startFullscreen()
+            }
+          })
+          .setScrollFactor(0, 0)
   }
+
 
   update () {
 
