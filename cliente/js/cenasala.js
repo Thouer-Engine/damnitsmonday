@@ -85,7 +85,7 @@ export default class cenasala extends Phaser.Scene {
       if (jogadores.segundo) {
         this.game.jogadores = jogadores
         this.game.scene.stop('cenasala')
-        this.game.scene.start('cena2')
+        this.game.scene.start('cena0')
       } else if (jogadores.primeiro) {
         this.add.image(405, 200, 'texto')
           .setScale(0.5)

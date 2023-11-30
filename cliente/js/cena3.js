@@ -32,8 +32,8 @@ export default class cena3 extends Phaser.Scene {
     });
 
     this.load.spritesheet(
-      "monster",
-      "../assets/personagem/monsters/monster_red.png",
+      "monster-e",
+      "../assets/personagem/monsters/monster_blackgold.png",
       {
         frameWidth: 118,
         frameHeight: 160,
@@ -184,21 +184,21 @@ export default class cena3 extends Phaser.Scene {
 
     this.relatorio = this.physics.add.image(190, 225, "relatorio");
 
-    // monster//
-    this.monstersGroup = this.physics.add.group();
-    this.monster1 = this.monstersGroup.create(1450, 750, "monster");
-    this.physics.add.collider(this.monster1, this.layerfloor);
-    this.monster1.setVelocityX(-40);
-    this.anims.create({
-      key: "monster-esquerda",
-      frames: this.anims.generateFrameNumbers("monster", {
-        start: 0,
-        end: 7,
-      }),
-      frameRate: 6,
-      repeat: -1,
-    });
-    this.monster1.anims.play("monster-esquerda", true);
+   // monster//
+this.monster5 = this.physics.add.sprite(1100, 3900, "monster-e");
+
+this.physics.add.collider(this.monster5, this.layerfloor);
+this.monster5.setVelocityX(-40);
+this.anims.create({
+  key: "monster-esquerda",
+  frames: this.anims.generateFrameNumbers("monster-e", {
+    start: 0,
+    end: 4,
+  }),
+  frameRate: 6,
+  repeat: -1,
+});
+this.monster5.anims.play("monster-esquerda", true);
 
     //colisões//
 
@@ -235,7 +235,7 @@ export default class cena3 extends Phaser.Scene {
     this.physics.add.collider(this.portal1, this.layerfloor);
     this.physics.add.collider(
       this.eu,
-      this.monster1,
+      this.monster5,
       this.gameOver,
       null,
       this
@@ -592,7 +592,7 @@ export default class cena3 extends Phaser.Scene {
         );
         this.physics.add.collider(
           this.bola,
-          this.monster1,
+          this.monster5,
           this.matarmonster,
           null,
           this
@@ -607,10 +607,10 @@ export default class cena3 extends Phaser.Scene {
 
     //artefato monstro//
     this.game.socket.on("artefatos-notificar", (artefatos) => {
-      if (!artefatos.monster1) {
+      if (!artefatos.monster5) {
         const explosaoSprite = this.add.sprite(
-          this.monster1.x,
-          this.monster1.y,
+          this.monster5.x,
+          this.monster5.y,
           "explosao"
         );
         explosaoSprite.anims.play("explosao");
@@ -619,12 +619,12 @@ export default class cena3 extends Phaser.Scene {
         });
         this.somdeexplosao = this.sound.add("somexplosao");
         this.somdeexplosao.play();
-        this.monster1.destroy();
+        this.monster5.destroy();
         if (this.somderobo && this.somderobo.isPlaying) {
           this.somderobo.stop();
         }
       }
-    });
+    });   
   }
 
   update() {
@@ -647,17 +647,14 @@ export default class cena3 extends Phaser.Scene {
     } catch (error) {
       console.error(error);
     }
-
-    this.monstersGroup.children.iterate((monster) => {
-      // Verifica se o monstro atingiu os limites e inverte a direção
-      if (monster.x > 1464) {
-        monster.setVelocityX(-40);
-        monster.flipX = false; // Inverte o sprite horizontalmente
-      } else if (monster.x < 1214) {
-        monster.setVelocityX(40);
-        monster.flipX = true; // Reverte a orientação horizontal do sprite
-      }
-    });
+    if (this.monster5.x > 1280) {
+      this.monster5.setVelocityX(-40);
+      this.monster5.flipX = false; // Inverte o sprite horizontalmente
+    } else if (this.monster5.x < 850) {
+      this.monster5.setVelocityX(40);
+      this.monster5.flipX = true; // Reverte a orientação horizontal do sprite
+    }
+   
   }
 
   somrobot(eu, acionarsomrobo) {
@@ -682,9 +679,8 @@ export default class cena3 extends Phaser.Scene {
       this.eu.y = 4786;
     }, 1);
   }
-
-  matarmonster(bola, monster1) {
-    const explosaoSprite = this.add.sprite(monster1.x, monster1.y, "explosao");
+  matarmonster(bola, monster5) {
+    const explosaoSprite = this.add.sprite(monster5.x, monster5.y, "explosao");
     explosaoSprite.anims.play("explosao");
     explosaoSprite.on("animationcomplete", () => {
       explosaoSprite.destroy();
@@ -693,15 +689,16 @@ export default class cena3 extends Phaser.Scene {
     this.somdeexplosao.play();
     // Destroi o monstro
     this.game.socket.emit("artefatos-publicar", this.game.cenasala, {
-      monster1: false,
+      monster5: false,
     });
-    monster1.destroy();
+    monster5.destroy();
     bola.destroy();
     this.soltarmala = true;
     if (this.somderobo && this.somderobo.isPlaying) {
       this.somderobo.stop();
     }
   }
+ 
 
   trocafase() {
     if (this.somderobo && this.somderobo.isPlaying) {
