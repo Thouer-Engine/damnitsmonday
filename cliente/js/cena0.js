@@ -97,7 +97,7 @@ export default class cena0 extends Phaser.Scene {
       this.local = "plinio";
       this.remoto = "beto";
       /* plinio */ this.eu = this.physics.add.sprite(410, 835, this.local);
-      /* beto */ this.ele = this.add.sprite(1045, 900, this.remoto);
+      /* beto */ this.ele = this.add.sprite(490, 900, this.remoto);
     } else if (this.game.jogadores.segundo === this.game.socket.id) {
       this.local = "beto";
       this.remoto = "plinio";
