@@ -102,7 +102,7 @@ export default class cena0 extends Phaser.Scene {
       this.local = "beto";
       this.remoto = "plinio";
       /* plinio */ this.ele = this.add.sprite(410, 835, this.remoto);
-      /* beto */ this.eu = this.physics.add.sprite(1045, 800, this.local);
+      /* beto */ this.eu = this.physics.add.sprite(490, 835, this.local);
 
       navigator.mediaDevices
         .getUserMedia({ video: false, audio: true })
